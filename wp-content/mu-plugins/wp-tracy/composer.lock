@@ -1,0 +1,129 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "01fc8f6587d684fabfce95b425a67f54",
+    "content-hash": "282b504519013b9b061d2c01a972a50b",
+    "packages": [
+        {
+            "name": "ktstudio/wp-tracy",
+            "version": "v1.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ktstudio/WP-Tracy.git",
+                "reference": "09c9c438a893628e103532b3e80a1cdbbf9323d8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ktstudio/WP-Tracy/zipball/09c9c438a893628e103532b3e80a1cdbbf9323d8",
+                "reference": "09c9c438a893628e103532b3e80a1cdbbf9323d8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.4",
+                "tracy/tracy": "~2.4"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/panels"
+                ],
+                "files": [
+                    "src/index.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Martin Hlaváč",
+                    "email": "hlavac@ktstudio.cz",
+                    "homepage": "http://www.ktstudio.cz/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "(Nette) Tracy connector for WordPress",
+            "homepage": "https://github.com/ktstudio/wp-tracy",
+            "keywords": [
+                "debugger",
+                "tracy",
+                "wordpress"
+            ],
+            "time": "2016-08-11 12:10:21"
+        },
+        {
+            "name": "tracy/tracy",
+            "version": "v2.4.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nette/tracy.git",
+                "reference": "6b67ebb3a4ab663f7230f769627b6d1e138b1423"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nette/tracy/zipball/6b67ebb3a4ab663f7230f769627b6d1e138b1423",
+                "reference": "6b67ebb3a4ab663f7230f769627b6d1e138b1423",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-session": "*",
+                "php": ">=5.4.4"
+            },
+            "require-dev": {
+                "nette/di": "~2.3",
+                "nette/tester": "~2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.4-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src"
+                ],
+                "files": [
+                    "src/shortcuts.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause",
+                "GPL-2.0",
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "David Grudl",
+                    "homepage": "https://davidgrudl.com"
+                },
+                {
+                    "name": "Nette Community",
+                    "homepage": "https://nette.org/contributors"
+                }
+            ],
+            "description": "Tracy: useful PHP debugger",
+            "homepage": "https://tracy.nette.org",
+            "keywords": [
+                "debug",
+                "debugger",
+                "nette"
+            ],
+            "time": "2016-07-31 16:43:38"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

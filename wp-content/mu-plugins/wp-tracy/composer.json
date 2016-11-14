@@ -1,0 +1,5 @@
+{
+    "require": {
+        "ktstudio/wp-tracy": "^1.0"
+    }
+}
