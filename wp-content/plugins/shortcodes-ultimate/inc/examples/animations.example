@@ -1,0 +1,38 @@
+<h2>Different animation types</h2>
+
+[%su_animate type="bounceIn" delay="1"] [%su_note] Animated text [/%su_note] [/%su_animate]
+[%su_animate type="flipInX" delay="2"] [%su_note] Animated text [/%su_note] [/%su_animate]
+[%su_animate type="flipInY" delay="3"] [%su_note] Animated text [/%su_note] [/%su_animate]
+[%su_animate type="fadeInDown" delay="4"] [%su_note] Animated text [/%su_note] [/%su_animate]
+[%su_animate type="fadeInLeft" delay="5"] [%su_note] Animated text [/%su_note] [/%su_animate]
+[%su_animate type="fadeInRight" delay="6"] [%su_note] Animated text [/%su_note] [/%su_animate]
+[%su_animate type="fadeInUp" delay="7"] [%su_note] Animated text [/%su_note] [/%su_animate]
+
+-----
+
+<h2>Animated columns</h2>
+
+[%su_row]
+	[%su_column size="1/2"]
+		[%su_animate type="fadeInLeft" delay="1" duration="1.5"] [%su_box] Column content [/%su_box] [/%su_animate]
+	[/%su_column]
+	[%su_column size="1/2"]
+		[%su_animate type="fadeInRight" delay="1" duration="1.5"] [%su_box] Column content [/%su_box] [/%su_animate]
+	[/%su_column]
+[/%su_row]
+
+-----
+
+<h2>Animated buttons</h2>
+
+[%su_animate delay="1" inline="yes"] [%su_button] Click me [/%su_button] [/%su_animate] [%su_animate delay="2" inline="yes"] [%su_button] Click me [/%su_button] [/%su_animate] [%su_animate delay="3" inline="yes"] [%su_button] Click me [/%su_button] [/%su_animate]
+
+-----
+
+<h2>Animated tabs</h2>
+
+[%su_tabs]
+	[%su_tab title="Tab title"] [%su_animate type="fadeInUp"] Tab content [/%su_animate] [/%su_tab]
+	[%su_tab title="Tab title"] [%su_animate type="fadeInUp"] Tab content [/%su_animate] [/%su_tab]
+	[%su_tab title="Tab title"] [%su_animate type="fadeInUp"] Tab content [/%su_animate] [/%su_tab]
+[/%su_tabs]

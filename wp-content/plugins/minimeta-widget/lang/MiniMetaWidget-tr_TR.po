@@ -1,0 +1,618 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: MiniMetaWidget 4.0.0\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/minimeta-widget\n"
+"POT-Creation-Date: 2009-03-04 13:00+0000\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Omer Faruk - wordpress.info.tr <admin@wordpress.info.tr>\n"
+"Language-Team: Omer Faruk - wordpress.info.tr <admin@wordpress.info.tr>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Turkish\n"
+"X-Poedit-Country: TURKEY\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: C:\\webserver\\htdocs\\Devwp\\wp-content\\plugins\\minimeta-widget\n"
+"X-Poedit-SearchPath-0: C:\\webserver\\htdocs\\Devwp\\wp-content\\plugins\\minimeta-widget\n"
+"X-Poedit-SearchPath-1: C:\\webserver\\htdocs\\Devwp\\wp-content\\plugins\\minimeta-widget\\app\n"
+
+#: app/functions.php:31
+#, php-format
+msgid "Comments %s"
+msgstr "Yorumlar %s"
+
+#: app/functions.php:33
+#, php-format
+msgid "Plugins %s"
+msgstr "Eklentiler %s"
+
+#: app/functions.php:72
+#: app/options-form.php:24
+#: app/widgets-wp.php:19
+msgid "MiniMeta Widget"
+msgstr "MiniMeta Widget"
+
+#: app/functions.php:85
+msgid "Support Forums"
+msgstr "Destek Forumu"
+
+#: app/functions.php:86
+msgid "Plugin Homepage"
+msgstr "Eklenti Ana Sayfası"
+
+#: app/functions.php:87
+msgid "Plugin Home on WordPress.org"
+msgstr "Wordpress.org Eklenti Sayfası"
+
+#: app/functions.php:90
+msgid "Version:"
+msgstr "Versiyon:"
+
+#: app/functions.php:91
+msgid "Author:"
+msgstr "Yazar:"
+
+#: app/functions.php:128
+msgid "Uninstall MiniMeta Widget"
+msgstr "MiniMeta Widget'i Kaldır!"
+
+#: app/functions.php:129
+#, php-format
+msgid "<a href=\"%s\">Click Here</a> To Finish The Uninstallation And MiniMeta Widget Will Be Deactivated Automatically."
+msgstr "Kaldırma işlemini ve otomatik olarak MiniMeta Widget'i devre dışı bırakmayı bitir. <a href=\"%s\">Buraya tıkla!</a>."
+
+#: app/functions.php:142
+msgid "Edit"
+msgstr "Düzenle"
+
+#: app/functions.php:156
+#, php-format
+msgid "Setting Key '%s' has been deleted."
+msgstr "Ayar Anahtarı '%s' silindi."
+
+#: app/functions.php:160
+#, php-format
+msgid "Error deleting Setting Key '%s'."
+msgstr "Ayar Anahtarı silim hatası '%s'."
+
+#: app/functions.php:184
+msgid "Go to Settings Page"
+msgstr "Ayarlar Sayfasına Git"
+
+#: app/functions.php:184
+msgid "Settings"
+msgstr "Ayarlar"
+
+#: app/options-form.php:27
+msgid "Widget Config"
+msgstr "Widget Config"
+
+#: app/options-form.php:28
+msgid "Uninstall"
+msgstr "Kaldır"
+
+#: app/options-form.php:29
+msgid "Usage"
+msgstr "Kullanım"
+
+#: app/options-form.php:38
+msgid "adds a new MiniMeta widget config with default values"
+msgstr "Mevcut değerlerle birlikte yeni bir MiniMeta widget ayarı ekle."
+
+#: app/options-form.php:38
+msgid "Add New Config"
+msgstr "Yen Ayar Ekle"
+
+#: app/options-form.php:40
+msgid "clones the current MiniMeta widget config"
+msgstr "Mevcut MiniMeta widget ayarının kopyaları"
+
+#: app/options-form.php:40
+msgid "Duplicate This Config"
+msgstr "Bu Ayarı Kopyala"
+
+#: app/options-form.php:41
+msgid "This will delete the current MiniMeta widget config - no warning!"
+msgstr "Bu mevcut MiniMeta Widget Ayarını Silecektir - Uyarı Yok!"
+
+#: app/options-form.php:41
+msgid "This will delete the current MiniMeta widget config!"
+msgstr "Bu mevcut MiniMeta Widget Ayarını Silecektir!"
+
+#: app/options-form.php:41
+msgid "Delete This Config"
+msgstr "Bu Ayarı Sil"
+
+#: app/options-form.php:46
+msgid "Select the current MiniMeta widget config!"
+msgstr "Mevcut MiniMeta Widget Ayarını Seç!"
+
+#: app/options-form.php:54
+msgid "Go to MiniMeta widget config"
+msgstr "MiniMeta Widget Ayarına Git"
+
+#: app/options-form.php:54
+msgid "Go!"
+msgstr "Git!"
+
+#: app/options-form.php:56
+msgid "Make a New config first -->"
+msgstr "İlk olarak yeni bir ayar yap -->"
+
+#: app/options-form.php:71
+msgid "MiniMeta Widget Config"
+msgstr "MiniMeta Widget Ayarı"
+
+#: app/options-form.php:74
+msgid "Save Changes"
+msgstr "Değişiklikleri Kaydet"
+
+#: app/options-form.php:75
+msgid "Config Name:"
+msgstr "Ayar İsmi:"
+
+#: app/options-form.php:75
+msgid "Config Name"
+msgstr "Ayar İsmi"
+
+#: app/options-form.php:80
+msgid "Show when Loggt out:"
+msgstr "Çıkış yapıldığı zaman göster:"
+
+#: app/options-form.php:112
+msgid "Show when Loggt in:"
+msgstr "Giriş yapıldığı zaman göster:"
+
+#: app/options-form.php:144
+msgid "Generel Settings:"
+msgstr "Genel Ayarlar:"
+
+#: app/options-form.php:147
+msgid "Stylesheet"
+msgstr "Stylesheet"
+
+#: app/options-form.php:156
+msgid "Seidbar Widget Settings (PHP Function)"
+msgstr "Seidbar Widget Ayarları (PHP Fonksiyonu)"
+
+#: app/options-form.php:159
+#: app/widget-display.php:30
+#: app/widgets-wp.php:95
+msgid "Meta"
+msgstr "Meta"
+
+#: app/options-form.php:165
+#: app/widgets-wp.php:109
+msgid "Title:"
+msgstr "Başlık:"
+
+#: app/options-form.php:167
+msgid "Before Title:"
+msgstr "Başlıktan Önce:"
+
+#: app/options-form.php:169
+msgid "After Title:"
+msgstr "Başlıktan Sonra:"
+
+#: app/options-form.php:171
+msgid "Before Widget:"
+msgstr "Widgetten Önce:"
+
+#: app/options-form.php:173
+msgid "After Widget:"
+msgstr "Widgetten Sonra:"
+
+#: app/options-form.php:178
+msgid "Display on Pages"
+msgstr "Sayfalarda Göster"
+
+#: app/options-form.php:180
+msgid "Display on <b>not</b> selected Pages"
+msgstr "<b>Seçilmemiş</b> sayfalarda göster"
+
+#: app/options-form.php:181
+msgid "out"
+msgstr "dış"
+
+#: app/options-form.php:181
+msgid "in"
+msgstr "iç"
+
+#: app/options-form.php:181
+msgid "Pages"
+msgstr "Sayfalar"
+
+#: app/options-form.php:182
+msgid "Homepage"
+msgstr "Ana Sayfa"
+
+#: app/options-form.php:183
+msgid "Single Post"
+msgstr "Tekli Yazı"
+
+#: app/options-form.php:184
+msgid "Search Page"
+msgstr "Arama Sayfası"
+
+#: app/options-form.php:185
+msgid "Error Page"
+msgstr "Hata Sayfası"
+
+#: app/options-form.php:204
+msgid "Please Select a MiniMeta Widget Config to begin!"
+msgstr "Başlamak için lütfen bir MiniMeta Widget Ayarı Seç!"
+
+#: app/options-form.php:211
+msgid "1. Create a Widget Config."
+msgstr "1. Bir Widget Ayarı Oluştur."
+
+#: app/options-form.php:212
+msgid "2. Configure your Widget Config as you wont."
+msgstr "2. Alışmış olarak Widget Ayarını Ayarla."
+
+#: app/options-form.php:213
+msgid "3. Place a Widget from WordPress Widgets or in Theme via PHP and select a Widget Config."
+msgstr "3. Wordpress bileşenlerinden bir bileşeni yerleştir veya PHP vasıtasıyla tema içine bir Widget Ayarı seç yerleştir."
+
+#: app/options-form.php:214
+msgid "4. Ready."
+msgstr "4. Hazır."
+
+#: app/options-form.php:216
+msgid "Code too place a Widget via PHP:"
+msgstr "PHP vasıtasıyla bir Widget yerini de kodla:"
+
+#: app/options-form.php:217
+msgid "Name of Widget Config"
+msgstr "Widget Config İsmi"
+
+#: app/options-form.php:227
+msgid "Deactivating MiniMeta Widget plugin does not remove any data that may have been created. To completely remove this plugin, you can uninstall it here."
+msgstr "MiniMeta eklentisinin etkinsizleştirilmesi bundan önce oluşturulmuş hiç bir veriyi silmeyecektir. Bu eklentiyi tamamen kaldırmak için, buradan eklentiyi -uninstall-kaldırma- yapabilirsiniz."
+
+#: app/options-form.php:230
+msgid "WARNING:"
+msgstr "UYARI:"
+
+#: app/options-form.php:231
+msgid "Once uninstalled, this cannot be undone. You should use a Database Backup plugin of WordPress to back up all the data first."
+msgstr "Kaldırıldıktan sonra, bu işlem geri alınamaz. İlk olarak tüm veritabanını yedeklemek için bir Vertabanı Yedekleme eklentisi kullanmalısınız."
+
+#: app/options-form.php:234
+msgid "The following WordPress Options will be DELETED:"
+msgstr "Takipteki WordPress Ayarları SİLİNECEKTİR:"
+
+#: app/options-form.php:239
+msgid "WordPress Options"
+msgstr "WordPress Ayarları"
+
+#: app/options-form.php:256
+msgid "Yes"
+msgstr "Evet"
+
+#: app/options-form.php:257
+msgid "UNINSTALL MiniMeta Widget"
+msgstr "MiniMeta Widget'i KALDIR!"
+
+#: app/options-form.php:257
+msgid ""
+"You Are About To Uninstall MiniMeta Widget From WordPress.\\n"
+"This Action Is Not Reversible.\\n"
+"\\n"
+" Choose [Cancel] To Stop, [OK] To Uninstall."
+msgstr ""
+"MiniMeta Widget'i WordPress'inizden kaldırmaya çok az kaldı.\\n"
+"Bu işlem geri döndürülemez..\\n"
+"\\n"
+" İptal etmek için: [İptal] - Kaldırmak için: [OK]"
+
+#: app/options-save.php:17
+msgid "New"
+msgstr "Yeni"
+
+#: app/options-save.php:35
+msgid "New Config Created"
+msgstr "Yeni Ayar Oluşturuldu"
+
+#: app/options-save.php:37
+msgid "New Config NOT Created"
+msgstr "Yeni Ayar Oluşturulamadı"
+
+#: app/options-save.php:54
+msgid "Copy of"
+msgstr "Kopyası:"
+
+#: app/options-save.php:57
+#, php-format
+msgid "Copy of \"%s\" Config Created"
+msgstr "\"%s\" Ayar Kopyası Oluşturuldu"
+
+#: app/options-save.php:59
+#, php-format
+msgid "Copy of \"%s\" Config NOT Created"
+msgstr "\"%s\" Ayar Kopyası Oluşturulamadı"
+
+#: app/options-save.php:80
+#: app/options-save.php:87
+#, php-format
+msgid "Config \"%s\" Deleted"
+msgstr "Ayar \"%s\" Silindi"
+
+#: app/options-save.php:83
+#: app/options-save.php:90
+#, php-format
+msgid "Config \"%s\" NOT Deleted"
+msgstr "Ayar \"%s\" Silinmedi"
+
+#: app/options-save.php:142
+#, php-format
+msgid "Config \"%s\" Updated"
+msgstr "Ayar \"%s\" Güncellendi"
+
+#: app/options-save.php:144
+#, php-format
+msgid "Config \"%s\" NOT Updated"
+msgstr "Ayar\"%s\" Güncellenmedi"
+
+#: app/widget-display.php:164
+msgid "Select a Widget Config"
+msgstr "Bir Widget Ayarı Seç"
+
+#: app/widget-display.php:164
+msgid "Widget Config:"
+msgstr "Widget Ayarları:"
+
+#: app/widget-display.php:170
+#: app/widget-display.php:176
+msgid "default"
+msgstr "standart"
+
+#: app/widget-display.php:179
+msgid "To make/change a Widget Config go to <a href=\"admin.php?page=minimeta-widget\">MiniMeta Widget</a>"
+msgstr "Bir Widget Ayarı yapmak/düzenlemek için, Git: <a href=\"admin.php?page=minimeta-widget\">MiniMeta Widget</a>"
+
+#: app/widget-parts.php:12
+msgid "Your Profile"
+msgstr "Profilin"
+
+#: app/widget-parts.php:26
+msgid "Disply user Identity as title"
+msgstr "Başlık olarak Kullanıcı Kimliğini Göster"
+
+#: app/widget-parts.php:27
+msgid "Link to Your Profile in title"
+msgstr "Başlıkta Profiline Link Ver"
+
+#: app/widget-parts.php:52
+msgid "Gravatar Size:"
+msgstr "Gravatar Boyutu:"
+
+#: app/widget-parts.php:56
+#: app/widget-parts.php:99
+#: app/widget-parts.php:120
+#: app/widget-parts.php:145
+#: app/widget-parts.php:206
+#: app/widget-parts.php:273
+#: app/widget-parts.php:295
+#: app/widget-parts.php:312
+#: app/widget-parts.php:377
+#: app/widget-parts.php:393
+#: app/widget-parts.php:409
+msgid "Stylesheet:"
+msgstr "Stylesheet:"
+
+#: app/widget-parts.php:72
+#: app/widget-parts.php:100
+msgid "Username"
+msgstr "Kullanıcı İsmi"
+
+#: app/widget-parts.php:76
+#: app/widget-parts.php:102
+msgid "Password"
+msgstr "Şifre"
+
+#: app/widget-parts.php:80
+#: app/widget-parts.php:94
+#: app/widget-parts.php:104
+msgid "Remember Me"
+msgstr "Beni Hatırla"
+
+#: app/widget-parts.php:82
+#: app/widget-parts.php:134
+msgid "Log in"
+msgstr "Giriş"
+
+#: app/widget-parts.php:95
+#: app/widget-parts.php:142
+msgid "Enable WordPress redirect function"
+msgstr "WordPress yeniden yönlendirme fonksiyonunu aktif et"
+
+#: app/widget-parts.php:96
+msgid "Enable WordPress Cookie Test for login Form"
+msgstr "Giriş Formu için WordPres Çerezlerini Aktif Et"
+
+#: app/widget-parts.php:114
+#: app/widget-parts.php:426
+msgid "Site Admin"
+msgstr "Site Admini"
+
+#: app/widget-parts.php:132
+msgid "Log out"
+msgstr "Çıkış"
+
+#: app/widget-parts.php:182
+#: app/widget-parts.php:251
+msgid "Do not show Admin Links Topics"
+msgstr "Admin Link Konularını Gösterme"
+
+#: app/widget-parts.php:183
+#: app/widget-parts.php:252
+msgid "Display <b>not</b> selected Admin Links"
+msgstr "<b>Seçilmemiş</b> ADmin Linklerini Göster"
+
+#: app/widget-parts.php:184
+#: app/widget-parts.php:253
+msgid "Select Admin Links:"
+msgstr "Admin linklerini seç:"
+
+#: app/widget-parts.php:184
+#: app/widget-parts.php:253
+#: app/widget-parts.php:329
+#: app/widget-parts.php:353
+msgid "All"
+msgstr "Hepsi"
+
+#: app/widget-parts.php:184
+#: app/widget-parts.php:253
+#: app/widget-parts.php:329
+#: app/widget-parts.php:353
+msgid "None"
+msgstr "Hiçbiri"
+
+#: app/widget-parts.php:207
+msgid "topic"
+msgstr "konu"
+
+#: app/widget-parts.php:228
+msgid "Please select:"
+msgstr "Lütfen seç:"
+
+#: app/widget-parts.php:289
+msgid "Password Lost and Found"
+msgstr "Şifre Kayboldu ve Bulundu"
+
+#: app/widget-parts.php:289
+#: app/widget-parts.php:431
+msgid "Lost your password?"
+msgstr "Şifreni mi unuttun?"
+
+#: app/widget-parts.php:306
+#: app/widget-parts.php:427
+msgid "Register"
+msgstr "Kayıt ol"
+
+#: app/widget-parts.php:329
+#: app/widget-parts.php:353
+msgid "Select Links to Display:"
+msgstr "Göstermek için Linkleri Seç:"
+
+#: app/widget-parts.php:371
+msgid "Syndicate this site using RSS 2.0"
+msgstr "Bu siteyi RSS 2.0 kullanımı olarak ayarla"
+
+#: app/widget-parts.php:371
+#: app/widget-parts.php:434
+msgid "Entries <abbr title=\"Really Simple Syndication\">RSS</abbr>"
+msgstr "Giriş <abbr title=\"Really Simple Syndication\">RSS</abbr>"
+
+#: app/widget-parts.php:387
+msgid "The latest comments to all posts in RSS"
+msgstr "RSS'de ki tüm postalara en son yorumlar"
+
+#: app/widget-parts.php:387
+#: app/widget-parts.php:435
+msgid "Comments <abbr title=\"Really Simple Syndication\">RSS</abbr>"
+msgstr "Yorumlar<abbr title=\"Really Simple Syndication\">RSS</abbr>"
+
+#: app/widget-parts.php:403
+msgid "Powered by WordPress, state-of-the-art semantic personal publishing platform."
+msgstr "Powered by WordPress, state-of-the-art semantic personal publishing platform."
+
+#: app/widget-parts.php:422
+#: app/widget-parts.php:424
+msgid "Gravatar"
+msgstr "Gravatar"
+
+#: app/widget-parts.php:423
+msgid "Title"
+msgstr "Başlık"
+
+#: app/widget-parts.php:425
+msgid "Login Form"
+msgstr "Giriş Formu"
+
+#: app/widget-parts.php:426
+#: app/widget-parts.php:427
+#: app/widget-parts.php:431
+#: app/widget-parts.php:434
+#: app/widget-parts.php:435
+#: app/widget-parts.php:436
+msgid "Link:"
+msgstr "Link:"
+
+#: app/widget-parts.php:428
+msgid "Link: Login/Logout"
+msgstr "Link: Giriş/Çıkış"
+
+#: app/widget-parts.php:429
+msgid "Adminlinks as Links"
+msgstr "Linkler olarak Adminlinkleri"
+
+#: app/widget-parts.php:430
+msgid "Adminlinks as Selectbox"
+msgstr "Selectbox olarak Adminlinkleri"
+
+#: app/widget-parts.php:432
+msgid "Blog Links by category"
+msgstr "Kategorilere göre blog linkleri"
+
+#: app/widget-parts.php:433
+msgid "Blog Links"
+msgstr "Blog Linkleri"
+
+#: app/widget-parts.php:437
+msgid "Do Action:"
+msgstr "Hareket yap:"
+
+#: app/widgets-wp.php:17
+msgid "Displaying Meta links, Login Form and Admin Links"
+msgstr "Meta linklerinin, Giriş formunun ve Admin linklerinin görünümü"
+
+#: minimeta-widget.php:124
+msgid "Sorry, MiniMeta Widget works only under WordPress 2.5 or higher"
+msgstr "Üzgünüz, MiniMeta Widget sadece WordPress 2.5 ve üzeri versiyonlarda çalışır."
+
+#~ msgid "New Widget Option:"
+#~ msgstr "Neue Widget Einstellung:"
+#~ msgid "Delete Widget Option:"
+#~ msgstr "Widget Einstellung Löschen:"
+#~ msgid "none"
+#~ msgstr "keine"
+#~ msgid "Remove"
+#~ msgstr "Löschen"
+#~ msgid "About"
+#~ msgstr "Über"
+#~ msgid "Name:"
+#~ msgstr "Name:"
+#~ msgid "Author Webseite:"
+#~ msgstr "Author Webseite:"
+#~ msgid "Plugin Webseite:"
+#~ msgstr "Plugin Webseite:"
+#~ msgid "Description:"
+#~ msgstr "Beschreibung:"
+#~ msgid ""
+#~ "If you find this plugin helpful, please consider donating a few Euros to "
+#~ "help support this plugin's development. Thanks!"
+#~ msgstr ""
+#~ "Wenn du dieses Plugin hilfreich findest, bitte überlege dir ein paar euro "
+#~ "zu spenden um die Entwiklung und den Support zu unterstützen. Danke!"
+#~ msgid "Amount:"
+#~ msgstr "Spende:"
+#~ msgid "Updated"
+#~ msgstr "Aktualisiert"
+#~ msgid "No MiniMeta Widget Option Updated"
+#~ msgstr "Keine  MiniMeta Widget Einstellungen aktualisiert"
+#~ msgid "To make a Widget Option go to MiniMeta Widget tab"
+#~ msgstr "Um Widget Einstellungen zu erstellen gehe unter MiniMeta Widget"
+#~ msgid "If you find it useful, please consider donating."
+#~ msgstr "Wenn du es hilfreich findest, bitte unterstütze mich."
+#~ msgid "Plugin Name:"
+#~ msgstr "Plugin Name:"
+#~ msgid "Delete:"
+#~ msgstr "Löschen:"
+#~ msgid "Option:"
+#~ msgstr "Einstellung:"
+#~ msgid "Remember me"
+#~ msgstr "Erinnere dich an mich"
+

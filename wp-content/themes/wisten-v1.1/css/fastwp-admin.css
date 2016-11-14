@@ -1,0 +1,106 @@
+/* Custom admin changes */
+.column-post_id { width:10%;}
+.fwp-slider-meta { padding-top:10px; }
+.fwp-slider-meta .fwp-slider-ui { margin-top:5px; }
+/*-------------------------------------------------------------------------------------------*/
+/*	Shortcode generator
+/*-------------------------------------------------------------------------------------------*/
+#fwp_shortcode_form { width:600px; } 
+.sc_builder * {
+ padding:0;
+  margin:0
+}
+dl.sc_builder {
+ width:510px;;
+ overflow:hidden;
+
+}
+.sc_builder dt {
+ float:left;
+ width:150px;
+ padding-top: 5px;
+ padding-right:10px; text-align:right;
+}
+.sc_builder dd {
+ float:left;
+ width:350px; 
+}
+
+.sc_builder dd input,
+.sc_builder dd textarea,
+#fwp_available_shortcodes { width:100%; }
+
+.sc_builder dd textarea { resize:none; height:150px; padding:0 10px; }
+
+.sc_builder dd input,
+#fwp_available_shortcodes { height: 28px; margin-bottom: 5px; line-height: 28px; padding:0 10px; }
+
+/*-------------------------------------------------------------------------------------------*/
+/*	Switch
+/*-------------------------------------------------------------------------------------------*/
+p.switch-options{ margin: 0; }
+.cb-enable, .cb-disable, .cb-enable span, .cb-disable span { background: url(../admin/assets/images/switch.gif) repeat-x; display: block; float: left; }
+	.cb-enable span, .cb-disable span { line-height: 30px; display: block; background-repeat: no-repeat; font-weight: bold; }
+	.cb-enable span { background-position: left -90px; padding: 0 10px; }
+	.cb-disable span { background-position: right -180px;padding: 0 10px; }
+	.cb-disable.selected { background-position: 0 -30px; }
+	.cb-disable.selected span { background-position: right -210px; color: #fff; }
+	.cb-enable.selected { background-position: 0 -60px; }
+	.cb-enable.selected span { background-position: left -150px; color: #fff; }
+	.switch-options label { cursor: pointer; }
+	.switch-options input { display: none; }
+	.cb-enable span, .cb-disable span{
+		-webkit-user-select: none;
+		-khtml-user-select: none;
+		-moz-user-select: none;
+		-o-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}/*disable text selection*/
+
+.group:after { content:"."; line-height:0; height:0; display:block; width:100%; visibility:hidden; clear:both;}
+
+.fwp-icons { width:100%; height: 150px; overflow:auto; margin-top:10px; }
+.fwp-icons span .aligner { width:1px; height:100%;}
+.fwp-icons span > i {margin-right:1px;}
+.fwp-icons span > * { vertical-align:middle; }
+.fwp-icons span { padding:5px; display:inline-block; width:40px; height:40px; text-align:center; cursor:pointer; }
+.fwp-icons span.selected,
+.fwp-icons span:hover { background:#eee; }
+
+
+/* Metabox */
+.fwp.heading {
+	margin: 10px 0 10px 0;
+	padding: 7px 0px;
+	border-bottom: 1px solid #e7e7e7;
+	color:#222;
+	font-size: 1.3em;
+}
+.fwp-margin-top { margin-top:10px; }
+#fastwp_settings a, .fastwp-add-slide { text-decoration:none; }
+#fastwp_settings .submitdelete ,
+.with-preview .submitdelete { color:#a00;}
+.with-preview { width:220px; position:relative; display:inline-block; margin-right:10px; margin-bottom:10px;}
+.single-image.with-preview { width:100%; }
+.with-preview input[type="text"] { width:175px; }
+.single-image-metabox.with-preview .fwp-preview { width:250px;}
+.single-image-metabox.with-preview { width:100%;}
+
+.fwp-input-meta .icon { display:inline-block; width:30px; text-align:center; }
+.fwp-input-meta .label { text-transform:capitalize; color:#777;  font-style:italic; }
+
+.fwp-input-meta .fwp-slider-ui {display:inline-block; width:190px; }
+.fwp-input-meta .wp-picker-container { min-width:222px; }
+
+.top10 { margin-top:10px;} 
+
+#of_container .controls .wp-editor-container .ed_button { width:auto; }
+
+.fastwp-tabs .ui-tabs-nav { border-bottom:1px solid #eee; margin-bottom:10px;}
+
+.fastwp-tabs .ui-tabs-nav > li { display:inline-block; margin:0 5px;}
+.fastwp-tabs .ui-tabs-nav > li a { display:block;  padding:5px 10px; color:#000; text-decoration:none; outline:none;}
+.fastwp-tabs .ui-tabs-nav > li.ui-state-active a,
+.fastwp-tabs .ui-tabs-nav > li.ui-state-hover a{ background:#eee; }
+

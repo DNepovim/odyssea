@@ -1,0 +1,357 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: statpress-pl\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-10-28 14:48+0100\n"
+"PO-Revision-Date: 2009-10-28 14:55+0100\n"
+"Last-Translator: Barbara Muszko <e-wsparcie@e-wsparcie.com.pl>\n"
+"Language-Team: e-wsparcie Barbara Muszko <e-wsparcie@e-wsparcie.com.pl>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Generator: KBabel 1.11.4\n"
+"X-Poedit-Country: POLAND\n"
+"X-Poedit-Language: Polish\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Basepath: E:\\statpress\n"
+"X-Poedit-SearchPath-0: E:\\statpress\n"
+"X-Poedit-SearchPath-1: E:\\statpress\\includes\n"
+"X-Poedit-SearchPath-2: E:\\statpress\\includes\\googchart\n"
+
+#: E:\statpress/statpress.php:35
+#: E:\statpress/statpress.php:186
+msgid "Overview"
+msgstr "Przegląd"
+
+#: E:\statpress/statpress.php:36
+msgid "Details"
+msgstr "Detale"
+
+#: E:\statpress/statpress.php:37
+#: E:\statpress/statpress.php:705
+msgid "Spy"
+msgstr "Szpieg"
+
+#: E:\statpress/statpress.php:38
+#: E:\statpress/statpress.php:774
+#: E:\statpress/statpress.php:813
+#: E:\statpress/statpress.php:906
+msgid "Search"
+msgstr "Wyszukiwanie"
+
+#: E:\statpress/statpress.php:39
+#: E:\statpress/statpress.php:146
+msgid "Export"
+msgstr "Eksport"
+
+#: E:\statpress/statpress.php:40
+#: E:\statpress/statpress.php:82
+msgid "Options"
+msgstr "Opcje"
+
+#: E:\statpress/statpress.php:41
+msgid "StatPressUpdate"
+msgstr "Aktualizacja StatPress"
+
+#: E:\statpress/statpress.php:43
+msgid "Donate"
+msgstr "Prezent"
+
+#: E:\statpress/statpress.php:79
+msgid "Saved"
+msgstr "Zapisano"
+
+#: E:\statpress/statpress.php:85
+msgid "Collect data about logged users, too."
+msgstr "Zbierać dane także o zalogowanych użytkownikach."
+
+#: E:\statpress/statpress.php:86
+msgid "Do not collect spiders visits"
+msgstr "Nie zapisuj wizyt pająków wyszukiwarek"
+
+#: E:\statpress/statpress.php:87
+msgid "Crypt IP addresses"
+msgstr "Szyfrowanie adresów IP"
+
+#: E:\statpress/statpress.php:90
+msgid "Automatically delete visits older than"
+msgstr "Automatycznie usuwaj wizyty starsze niż"
+
+#: E:\statpress/statpress.php:92
+msgid "Never delete!"
+msgstr "Nigdy nie usuwaj!"
+
+#: E:\statpress/statpress.php:93
+msgid "month"
+msgstr "miesiąc"
+
+#: E:\statpress/statpress.php:94
+#: E:\statpress/statpress.php:95
+msgid "months"
+msgstr "miesiące/miesięcy"
+
+#: E:\statpress/statpress.php:96
+msgid "year"
+msgstr "rok"
+
+#: E:\statpress/statpress.php:99
+msgid "Days in Overview graph"
+msgstr "Dni na raporcie graficznym"
+
+#: E:\statpress/statpress.php:108
+msgid "Minimum capability to view stats"
+msgstr "Minimalna zdolność do widzenia statystyki"
+
+#: E:\statpress/statpress.php:112
+#: E:\statpress/statpress.php:724
+msgid "more info"
+msgstr "więcej informacji"
+
+#: E:\statpress/statpress.php:115
+msgid "Save options"
+msgstr "Zapisz opcje"
+
+#: E:\statpress/statpress.php:141
+msgid "Export stats to text file"
+msgstr "Eksportuj statystyki do pliku tekstowego"
+
+#: E:\statpress/statpress.php:143
+msgid "From"
+msgstr "Od"
+
+#: E:\statpress/statpress.php:144
+msgid "To"
+msgstr "Do"
+
+#: E:\statpress/statpress.php:145
+msgid "Fields delimiter"
+msgstr "Ogranicznik pola"
+
+#: E:\statpress/statpress.php:189
+msgid "Total"
+msgstr "Razem"
+
+#: E:\statpress/statpress.php:190
+msgid "Last month"
+msgstr "Ostatni miesiąc"
+
+#: E:\statpress/statpress.php:191
+#: E:\statpress/statpress.php:192
+msgid "This month"
+msgstr "Aktualny miesiąc"
+
+#: E:\statpress/statpress.php:193
+msgid "Yesterday"
+msgstr "Wczoraj"
+
+#: E:\statpress/statpress.php:194
+msgid "Today"
+msgstr "Dzisiaj"
+
+#: E:\statpress/statpress.php:200
+msgid "Visitors"
+msgstr "Odwiedzający"
+
+#: E:\statpress/statpress.php:268
+msgid "Pageviews"
+msgstr "Odsłony"
+
+#: E:\statpress/statpress.php:554
+msgid "Last hits"
+msgstr "Ostatnie odsłony"
+
+#: E:\statpress/statpress.php:554
+#: E:\statpress/statpress.php:574
+#: E:\statpress/statpress.php:583
+#: E:\statpress/statpress.php:618
+#: E:\statpress/statpress.php:627
+msgid "Date"
+msgstr "Data"
+
+#: E:\statpress/statpress.php:554
+#: E:\statpress/statpress.php:574
+#: E:\statpress/statpress.php:583
+#: E:\statpress/statpress.php:618
+#: E:\statpress/statpress.php:627
+msgid "Time"
+msgstr "Czas"
+
+#: E:\statpress/statpress.php:554
+msgid "Language"
+msgstr "Język"
+
+#: E:\statpress/statpress.php:554
+#: E:\statpress/statpress.php:618
+#: E:\statpress/statpress.php:903
+#: E:\statpress/statpress.php:913
+msgid "Page"
+msgstr "Strona"
+
+#: E:\statpress/statpress.php:574
+msgid "Last search terms"
+msgstr "Ostatnio wyszukiwane słowa kluczowe"
+
+#: E:\statpress/statpress.php:574
+msgid "Terms"
+msgstr "Słowa kluczowe"
+
+#: E:\statpress/statpress.php:574
+msgid "Engine"
+msgstr "Maszyna"
+
+#: E:\statpress/statpress.php:574
+#: E:\statpress/statpress.php:583
+msgid "Result"
+msgstr "Rezultat"
+
+#: E:\statpress/statpress.php:578
+#: E:\statpress/statpress.php:587
+msgid "page viewed"
+msgstr "przeglądana strona"
+
+#: E:\statpress/statpress.php:583
+msgid "Last referrers"
+msgstr "Ostatnie strony odsyłające"
+
+#: E:\statpress/statpress.php:583
+msgid "URL"
+msgstr "Adres URL"
+
+#: E:\statpress/statpress.php:603
+msgid "Last agents"
+msgstr "Agent"
+
+#: E:\statpress/statpress.php:603
+#: E:\statpress/statpress.php:627
+#: E:\statpress/statpress.php:765
+msgid "Agent"
+msgstr "Agent"
+
+#: E:\statpress/statpress.php:618
+msgid "Last pages"
+msgstr "Ostatnie strony "
+
+#: E:\statpress/statpress.php:618
+msgid "What"
+msgstr "Co"
+
+#: E:\statpress/statpress.php:627
+msgid "Last spiders"
+msgstr "Wyszukiwarki/boty"
+
+#: E:\statpress/statpress.php:627
+msgid "Spider"
+msgstr "Spider"
+
+#: E:\statpress/statpress.php:740
+#: E:\statpress/statpress.php:742
+msgid "arrived from"
+msgstr "przybył z"
+
+#: E:\statpress/statpress.php:740
+msgid "searching"
+msgstr "wyszukiwanie"
+
+#: E:\statpress/statpress.php:764
+msgid "URL Requested"
+msgstr "żądany adres URL"
+
+#: E:\statpress/statpress.php:766
+msgid "Referrer"
+msgstr "Odsyłający"
+
+#: E:\statpress/statpress.php:767
+msgid "Search terms"
+msgstr "Wyszukiwane"
+
+#: E:\statpress/statpress.php:768
+msgid "Search engine"
+msgstr "Wyszukiwarka"
+
+#: E:\statpress/statpress.php:769
+msgid "Operative system"
+msgstr "System operacyjny"
+
+#: E:\statpress/statpress.php:779
+msgid "Field"
+msgstr "Pole"
+
+#: E:\statpress/statpress.php:786
+msgid "Group by"
+msgstr "Grupowanie wg"
+
+#: E:\statpress/statpress.php:787
+msgid "Sort by"
+msgstr "Sortowanie wg"
+
+#: E:\statpress/statpress.php:788
+msgid "if contains"
+msgstr "jeżeli zawiera"
+
+#: E:\statpress/statpress.php:798
+msgid "sort by count if grouped"
+msgstr "sortowanie wg liczby, jeśli pogrupowane"
+
+#: E:\statpress/statpress.php:799
+msgid "include spiders/crawlers/bot"
+msgstr "włączając wyszukiwarki/roboty/boty"
+
+#: E:\statpress/statpress.php:800
+msgid "include feed"
+msgstr "włączając czytniki RSS "
+
+#: E:\statpress/statpress.php:807
+#: E:\statpress/statpress.php:1439
+msgid "Limit results to"
+msgstr "Ograniczenie wyników do"
+
+#: E:\statpress/statpress.php:870
+msgid "Results"
+msgstr "Rezultaty"
+
+#: E:\statpress/statpress.php:877
+msgid "Count"
+msgstr "Ilość"
+
+#: E:\statpress/statpress.php:904
+msgid "Category"
+msgstr "kategoria"
+
+#: E:\statpress/statpress.php:905
+msgid "Calendar"
+msgstr "kalendarz"
+
+#: E:\statpress/statpress.php:952
+#: E:\statpress/statpress.php:1440
+msgid "Visits"
+msgstr "wizyty"
+
+#: E:\statpress/statpress.php:1210
+#: E:\statpress/statpress.php:1245
+#: E:\statpress/statpress.php:1256
+#: E:\statpress/statpress.php:1267
+#: E:\statpress/statpress.php:1278
+#: E:\statpress/statpress.php:1299
+msgid "done"
+msgstr "gotowe"
+
+#: E:\statpress/statpress.php:1303
+msgid "Updated"
+msgstr "Zaktualizowano"
+
+#: E:\statpress/statpress.php:1404
+msgid "Title:"
+msgstr "Tytuł:"
+
+#: E:\statpress/statpress.php:1405
+msgid "Body:"
+msgstr "Body:"
+
+#: E:\statpress/statpress.php:1438
+msgid "Title"
+msgstr "Tytuł"
+
+#~ msgid "Domain"
+#~ msgstr "Domena"
+

@@ -1,0 +1,105 @@
+.widget-login-title, .widget-logout-title , .widget-general-title {
+	background-color: #2583ad;
+	margin: 0;
+	padding: 3px;
+	color: white;
+	font-size: 11px;
+	vertical-align: middle;
+	height: 13px; /* for IE */
+	-moz-border-radius: 3px 3px 0px 0px;
+	-webkit-border-top-left-radius: 3px;
+	-webkit-border-top-right-radius: 3px;
+	-khtml-border-top-left-radius: 3px;
+	-khtml-border-top-right-radius: 3px;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+}
+
+.closed .widget-login-title, .closed  .widget-logout-title, .closed  .widget-general-title {
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.widget-login-control, .widget-logout-control , .widget-general-control {
+	display: block;
+	padding-left: 10px;
+	padding-top: 5px;
+	background-color: #c3c3c3;
+	margin: 0;
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+	-khtml-border-bottom-right-radius: 3px;
+	-khtml-border-bottom-left-radius: 3px;
+	-webkit-border-bottom-right-radius: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	-moz-border-radius: 0px 0px 3px 3px;
+}
+
+.closed .widget-login-control, .closed .widget-logout-control, .closed .widget-general-control {
+	display: none;
+}
+
+.widget-login-title span, .widget-logout-title  span, .widget-general-title span {
+	float: left;
+}
+
+.widget-edit-item, .widget-general-edit-item {
+	color: white;
+	font-size: 10px;
+	float: right;
+	text-decoration: underline;
+	margin-left: 1em;
+	cursor: pointer;
+}
+
+.widget-login-item, .widget-logout-item, .widget-general-item {
+	font-size: 11px;
+	margin-bottom: 5px; 
+}
+
+.widget-login {
+	width: 45%;
+	float: right;
+	margin-right: 20px;
+}
+
+.widget-logout {
+	width: 45%;
+	float: left;
+	margin-left: 20px;
+}
+
+.widget-general {
+	width: 45%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.widget-logout-control .textinput, .widget-login-control .textinput, .widget-general-control .textinput {
+	font-size: 9px;
+	width: 110px;
+	height: 20px;
+	
+}
+
+.widget-logout-control select, .widget-login-control select , .widget-general-control select{
+	font-size:9px;
+	width: 90%;
+}
+
+.widget-logout-control hr, .widget-login-control hr , .widget-general-control hr{
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.checkbox-active, .checkbox {
+	vertical-align: text-top;
+	border: none;
+	margin: 0;
+	width: 13px; /* for IE */
+	height: 13px; /* for IE */
+	padding: 0;
+}

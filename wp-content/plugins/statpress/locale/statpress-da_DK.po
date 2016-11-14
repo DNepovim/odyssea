@@ -1,0 +1,359 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: StatPress v1.3\n"
+"PO-Revision-Date: 2009-02-04 22:38+0100\n"
+"Last-Translator: admin <gsa@blogos.dk>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-Language: Danish\n"
+"X-Poedit-Country: DENMARK\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;__ngettext_noop:1,2;_c\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-SearchPath-0: ."
+
+#: statpress.php:35
+#: statpress.php:35
+#: statpress.php:181
+msgid "Overview"
+msgstr "Oversigt"
+
+#: statpress.php:36
+#: statpress.php:36
+msgid "Details"
+msgstr "Detaljer"
+
+#: statpress.php:37
+#: statpress.php:37
+#: statpress.php:700
+msgid "Spy"
+msgstr "Spionere"
+
+#: statpress.php:38
+#: statpress.php:38
+#: statpress.php:764
+#: statpress.php:803
+#: statpress.php:907
+msgid "Search"
+msgstr "Søgning"
+
+#: statpress.php:39
+#: statpress.php:39
+#: statpress.php:141
+msgid "Export"
+msgstr "Eksport"
+
+#: statpress.php:40
+#: statpress.php:40
+#: statpress.php:79
+msgid "Options"
+msgstr "Indstillinger"
+
+#: statpress.php:41
+#: statpress.php:41
+msgid "StatPressUpdate"
+msgstr "StatPressOpdatering"
+
+#: statpress.php:42
+#: statpress.php:42
+msgid "Support"
+msgstr "Support"
+
+#: statpress.php:76
+msgid "Saved"
+msgstr "Gemt"
+
+#: statpress.php:82
+msgid "Collect data about logged users, too."
+msgstr "Indsaml også data om brugere, der er logget på."
+
+#: statpress.php:83
+msgid "Do not collect spiders visits"
+msgstr "Indsaml ikke data om søgerobotbesøg"
+
+#: statpress.php:85
+msgid "Automatically delete visits older than"
+msgstr "Automatisk slet besøg ældre end"
+
+#: statpress.php:87
+msgid "Never delete!"
+msgstr "Slet aldrig!"
+
+#: statpress.php:88
+msgid "month"
+msgstr "måned"
+
+#: statpress.php:89
+#: statpress.php:90
+msgid "months"
+msgstr "måneder"
+
+#: statpress.php:91
+msgid "year"
+msgstr "år"
+
+#: statpress.php:94
+msgid "Days in Overview graph"
+msgstr "Dage i Oversigtsgraf"
+
+#: statpress.php:103
+msgid "Minimum capability to view stats"
+msgstr "Minimumskrav for at se statistikker"
+
+#: statpress.php:107
+#: statpress.php:719
+msgid "more info"
+msgstr "mere info"
+
+#: statpress.php:110
+msgid "Save options"
+msgstr "Gem indstillinger"
+
+#: statpress.php:136
+msgid "Export stats to text file"
+msgstr "Eksportér statistik til tekstfil"
+
+#: statpress.php:138
+msgid "From"
+msgstr "Fra"
+
+#: statpress.php:139
+msgid "To"
+msgstr "Til"
+
+#: statpress.php:140
+msgid "Fields delimiter"
+msgstr "Adskillelsestegn for felter"
+
+#: statpress.php:184
+msgid "Total"
+msgstr "Total"
+
+#: statpress.php:185
+msgid "Last month"
+msgstr "Sidste måned"
+
+#: statpress.php:186
+#: statpress.php:187
+msgid "This month"
+msgstr "Denne måned"
+
+#: statpress.php:188
+msgid "Yesterday"
+msgstr "I går"
+
+#: statpress.php:189
+msgid "Today"
+msgstr "I dag"
+
+#: statpress.php:195
+msgid "Visitors"
+msgstr "Besøgende"
+
+#: statpress.php:263
+msgid "Pageviews"
+msgstr "Sidevisninger"
+
+#: statpress.php:549
+msgid "Last hits"
+msgstr "Seneste hits"
+
+#: statpress.php:549
+#: statpress.php:569
+#: statpress.php:578
+#: statpress.php:588
+#: statpress.php:613
+#: statpress.php:622
+msgid "Date"
+msgstr "Dato"
+
+#: statpress.php:549
+#: statpress.php:569
+#: statpress.php:578
+#: statpress.php:588
+#: statpress.php:613
+#: statpress.php:622
+msgid "Time"
+msgstr "Tid"
+
+#: statpress.php:549
+msgid "Domain"
+msgstr "Domæne"
+
+#: statpress.php:549
+#: statpress.php:613
+#: statpress.php:904
+#: statpress.php:914
+msgid "Page"
+msgstr "Side"
+
+#: statpress.php:569
+msgid "Last search terms"
+msgstr "Seneste søgetermer"
+
+#: statpress.php:569
+msgid "Terms"
+msgstr "termer"
+
+#: statpress.php:569
+msgid "Engine"
+msgstr "Maskine"
+
+#: statpress.php:569
+#: statpress.php:578
+msgid "Result"
+msgstr "Resultat"
+
+#: statpress.php:573
+#: statpress.php:582
+msgid "page viewed"
+msgstr "viste side"
+
+#: statpress.php:578
+msgid "Last referrers"
+msgstr "Seneste henvisningssteder"
+
+#: statpress.php:578
+msgid "URL"
+msgstr "URL"
+
+#: statpress.php:588
+#: statpress.php:598
+msgid "Last agents"
+msgstr "Seneste softwareagenter"
+
+#: statpress.php:588
+#: statpress.php:598
+#: statpress.php:622
+#: statpress.php:755
+msgid "Agent"
+msgstr "Softwareagent"
+
+#: statpress.php:588
+#: statpress.php:613
+msgid "What"
+msgstr "Hvad"
+
+#: statpress.php:613
+msgid "Last pages"
+msgstr "Seneste sider"
+
+#: statpress.php:622
+msgid "Last spiders"
+msgstr "Seneste søgerobotter"
+
+#: statpress.php:622
+msgid "Spider"
+msgstr "Søgerobot"
+
+#: statpress.php:735
+#: statpress.php:737
+msgid "arrived from"
+msgstr "kommet fra"
+
+#: statpress.php:735
+msgid "searching"
+msgstr "søger"
+
+#: statpress.php:754
+msgid "URL Requested"
+msgstr "Rekvireret URL"
+
+#: statpress.php:756
+msgid "Referrer"
+msgstr "Henvisningssted"
+
+#: statpress.php:757
+msgid "Search terms"
+msgstr "Søgetermer"
+
+#: statpress.php:758
+msgid "Search engine"
+msgstr "Søgemaskine"
+
+#: statpress.php:759
+msgid "Operative system"
+msgstr "Operativsystem"
+
+#: statpress.php:769
+msgid "Field"
+msgstr "Felt"
+
+#: statpress.php:776
+msgid "Group by"
+msgstr "Gruppér efter"
+
+#: statpress.php:777
+msgid "Sort by"
+msgstr "Sortér efter"
+
+#: statpress.php:778
+msgid "if contains"
+msgstr "hvis det indeholder"
+
+#: statpress.php:788
+msgid "sort by count if grouped"
+msgstr "sortér efter tæller hvis grupperet"
+
+#: statpress.php:789
+msgid "include spiders/crawlers/bot"
+msgstr "Medtag søgerobotter/webcrawlere/bot"
+
+#: statpress.php:790
+msgid "include feed"
+msgstr "Medtag feed"
+
+#: statpress.php:797
+#: statpress.php:1492
+msgid "Limit results to"
+msgstr "Begræns resultater til"
+
+#: statpress.php:860
+msgid "Results"
+msgstr "Resultater"
+
+#: statpress.php:867
+msgid "Count"
+msgstr "Tæller"
+
+#: statpress.php:905
+msgid "Category"
+msgstr "Kategori"
+
+#: statpress.php:906
+msgid "Calendar"
+msgstr "Kalender"
+
+#: statpress.php:962
+#: statpress.php:1000
+#: statpress.php:1493
+msgid "Visits"
+msgstr "Besøg"
+
+#: statpress.php:1263
+#: statpress.php:1298
+#: statpress.php:1309
+#: statpress.php:1320
+#: statpress.php:1331
+#: statpress.php:1352
+msgid "done"
+msgstr "udført"
+
+#: statpress.php:1356
+msgid "Updated"
+msgstr "Opdateret"
+
+#: statpress.php:1457
+msgid "Title:"
+msgstr "Titel:"
+
+#: statpress.php:1458
+msgid "Body:"
+msgstr "Body:"
+
+#: statpress.php:1491
+msgid "Title"
+msgstr "Titel"
+

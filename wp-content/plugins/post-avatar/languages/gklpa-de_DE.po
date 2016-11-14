@@ -1,0 +1,166 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Post Avatar\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-03-28 15:52+0800\n"
+"PO-Revision-Date: 2015-03-28 15:53+0800\n"
+"Last-Translator: Vicky Arulsingam <vix@garinungkadol.com>\n"
+"Language-Team: Dominik Menke <dominik.menke@gmail.com>\n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 1.7.5\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+
+#: ../deprecated.php:38
+#, fuzzy
+msgid "Use <code>remove_filter</code> to override the automatic theme display"
+msgstr "Use <code>remove_filter</code> to override the automatic theme display"
+
+#: ../deprecated.php:54
+#, fuzzy
+msgid ""
+"Using <code>esc_html()</code> to convert html for display in input boxes/"
+"text area"
+msgstr ""
+"Use <code>esc_html()</code> to convert html for display in input boxes/text "
+"area"
+
+#: ../deprecated.php:73
+#, fuzzy
+msgid "Use load-{file-name.php} to control where metabox is displayed"
+msgstr "Use load-{file-name.php} to control where metabox is displayed"
+
+#: ../deprecated.php:95
+#, fuzzy
+msgid "Use absint() instead"
+msgstr "Use absint() instead"
+
+#: ../gkl-postavatar.php:258
+#, fuzzy, php-format
+msgid ""
+"<p>Whoops! The folder \"<strong>%1$s</strong>\" does not exist. Please go to "
+"Settings >> Post Avatar to set the correct location.</p>"
+msgstr ""
+"<p>Whoops! The folder \"<strong>%1$s</strong>\" does not exist. Please go to "
+"Settings >> Post Avatar to set the correct location.</p>"
+
+#: ../gkl-postavatar.php:293
+msgid "Select an avatar"
+msgstr "W&auml;hle einen Avatar f&uuml;r diesen Beitrag"
+
+#: ../gkl-postavatar.php:299 ../gkl-postavatar.php:333
+#: ../gkl-postavatar.php:569
+msgid "No Avatar selected"
+msgstr "Es wurde kein Avatar ausgew&auml;hlt."
+
+#: ../gkl-postavatar.php:320
+msgid "Preview"
+msgstr "Vorschau"
+
+#: ../gkl-postavatar.php:326
+msgid "Avatar"
+msgstr "Post-Avatar"
+
+#: ../gkl-postavatar.php:329
+msgid "Avatar Does Not Exist"
+msgstr "existiert nicht."
+
+#: ../gkl-postavatar.php:443
+#, fuzzy
+msgid "This plugin requires WordPress version 3.9 or higher."
+msgstr "This plugin requires WordPress version 3.9 or higher."
+
+#: ../gkl-postavatar.php:495 ../settings.php:13
+msgid "Post Avatar"
+msgstr "Post-Avatar"
+
+#: ../settings.php:13
+msgid "Post Avatar Options"
+msgstr "Post-Avatar-Optionen"
+
+#: ../settings.php:26
+#, fuzzy
+msgid "Default Options"
+msgstr "Default options"
+
+#: ../settings.php:27
+msgid "Customize HTML/CSS"
+msgstr "Customize HTML/CSS"
+
+#: ../settings.php:32
+msgid "Path to Images Folder:"
+msgstr "Pfad zu den Avatar-Bildchen"
+
+#: ../settings.php:34
+msgid "Display:"
+msgstr "Display"
+
+#: ../settings.php:36
+msgid "Others:"
+msgstr "Others"
+
+#: ../settings.php:41
+msgid "HTML:"
+msgstr "HTML"
+
+#: ../settings.php:43
+msgid "CSS:"
+msgstr "CSS"
+
+#: ../settings.php:59
+#, fuzzy
+msgid "You must not leave this field blank. The directory also must exist."
+msgstr "You must not leave this field blank. The directory also must exist."
+
+#: ../settings.php:76
+#, fuzzy
+msgid "Show avatar in post? Disable to use template tag"
+msgstr "Show avatar in post? Disable to use template tag"
+
+#: ../settings.php:94
+#, fuzzy
+msgid "Scan the images directory and its sub-directories?"
+msgstr "Scan the images directory and its sub-directories?"
+
+#: ../settings.php:97
+#, fuzzy
+msgid ""
+"Get image dimensions? Disable this feature if you encounter getimagesize "
+"errors"
+msgstr ""
+"Get image dimensions. Disable this feature if you encounter getimagesize "
+"errors"
+
+#: ../settings.php:100
+#, fuzzy
+msgid "Show post avatars in RSS feeds?"
+msgstr "Check here to display post avatars in your rss feeds"
+
+#: ../settings.php:119
+#, fuzzy
+msgid "Use this HTML before/after the post avatar image"
+msgstr "Use this HTML before/after the post avatar image"
+
+#: ../settings.php:122 ../settings.php:140
+#, fuzzy
+msgid "You can leave this field blank."
+msgstr "You can leave this field blank."
+
+#: ../settings.php:138
+#, fuzzy
+msgid "Use this CSS class for the post avatar image"
+msgstr "Use this CSS class for the post avatar image"
+
+#: ../settings.php:179
+msgid "Post Avatar Settings"
+msgstr "Post-Avatar-Optionen"
+
+#: ../settings.php:184
+#, fuzzy
+msgid "Save Changes"
+msgstr "Save Changes"

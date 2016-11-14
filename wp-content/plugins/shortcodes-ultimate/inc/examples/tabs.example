@@ -1,0 +1,78 @@
+<h2>Default tabs</h2>
+
+[%su_tabs]
+	[%su_tab title="Tab 1"] Tab 1 content [/%su_tab]
+	[%su_tab title="Tab 2"] Tab 2 content [/%su_tab]
+	[%su_tab title="Tab 3"] Tab 3 content [/%su_tab]
+[/%su_tabs]
+
+-----
+
+<h2>Custom active tab</h2>
+
+[%su_tabs active="2"]
+	[%su_tab title="Tab 1"] Tab 1 content [/%su_tab]
+	[%su_tab title="Tab 2"] Tab 2 content [/%su_tab]
+	[%su_tab title="Tab 3"] Tab 3 content [/%su_tab]
+[/%su_tabs]
+
+-----
+
+<h2>Vertical tabs</h2>
+
+[%su_tabs vertical="yes"]
+	[%su_tab title="Tab 1"] Tab 1 content [/%su_tab]
+	[%su_tab title="Tab 2"] Tab 2 content [/%su_tab]
+	[%su_tab title="Tab 3"] Tab 3 content [/%su_tab]
+[/%su_tabs]
+
+-----
+
+<h2>Disabled tabs</h2>
+
+[%su_tabs]
+	[%su_tab title="Tab 1"] Tab 1 content [/%su_tab]
+	[%su_tab title="Tab 2"] Tab 2 content [/%su_tab]
+	[%su_tab title="Tab 3"] Tab 3 content [/%su_tab]
+	[%su_tab title="Tab 4 (disabled)" disabled="yes"] Tab 4 content [/%su_tab]
+	[%su_tab title="Tab 5 (disabled)" disabled="yes"] Tab 5 content [/%su_tab]
+[/%su_tabs]
+
+-----
+
+<h2>Tabs anchors</h2>
+
+[%su_tabs]
+	[%su_tab title="Tab 1" anchor="First"] Tab 1 content [/%su_tab]
+	[%su_tab title="Tab 2" anchor="Second"] Tab 2 content [/%su_tab]
+	[%su_tab title="Tab 3" anchor="Third"] Tab 3 content [/%su_tab]
+[/%su_tabs]
+
+Use next links to switch this tabs
+
+<a href="#First">Open tab 1</a> | <a href="#Second">Open tab 2</a> | <a href="#Third">Open tab 3</a>
+
+-----
+
+<h2>Custom styles</h2>
+
+[%su_tabs class="my-custom-tabs"]
+	[%su_tab title="Tab 1"] Tab 1 content [/%su_tab]
+	[%su_tab title="Tab 2"] Tab 2 content [/%su_tab]
+	[%su_tab title="Tab 3"] Tab 3 content [/%su_tab]
+[/%su_tabs]
+
+<!--
+	IMPORTANT
+	You need to add this CSS code to the custom CSS editor at plugin settings page
+-->
+<style>
+	.su-tabs.my-custom-tabs { background-color: #84ADEA }
+	.su-tabs.my-custom-tabs .su-tabs-nav span { font-size: 1.3em }
+	.su-tabs.my-custom-tabs .su-tabs-nav span.su-tabs-current { background-color: #EDFAFF }
+	.su-tabs.my-custom-tabs .su-tabs-pane {
+		padding: 1em;
+		font-size: 1.3em;
+		background-color: #EDFAFF;
+	}
+</style>

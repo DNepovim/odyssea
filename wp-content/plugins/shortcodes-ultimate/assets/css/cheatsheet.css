@@ -1,0 +1,88 @@
+#su-cheatsheet-screen table {
+	margin: 30px 0;
+	margin-bottom: 1.11111rem;
+	border: solid 1px #ddd;
+	background: #fff;
+}
+#su-cheatsheet-screen table thead {
+	background: #f5f5f5;
+}
+#su-cheatsheet-screen table thead tr th,
+#su-cheatsheet-screen table thead tr td {
+	padding: 0.44444rem 0.55556rem 0.55556rem;
+	color: #222;
+	font-weight: bold;
+}
+#su-cheatsheet-screen table tfoot {
+	background: #f5f5f5;
+}
+#su-cheatsheet-screen table tfoot tr th,
+#su-cheatsheet-screen table tfoot tr td {
+	padding: 0.44444rem 0.55556rem 0.55556rem;
+	color: #222;
+	font-weight: bold;
+}
+#su-cheatsheet-screen table tr th,
+#su-cheatsheet-screen table tr td {
+	padding: 0.5rem 0.55556rem;
+	color: #222;
+	text-align: left;
+}
+#su-cheatsheet-screen table tr.even,
+#su-cheatsheet-screen table tr.alt,
+#su-cheatsheet-screen table tr:nth-of-type(even) {
+	background: #f9f9f9;
+}
+#su-cheatsheet-screen table thead tr th,
+#su-cheatsheet-screen table tfoot tr th,
+#su-cheatsheet-screen table tfoot tr td,
+#su-cheatsheet-screen table tbody tr th,
+#su-cheatsheet-screen table tbody tr td,
+#su-cheatsheet-screen table tr td {
+	display: table-cell;
+	vertical-align: top;
+}
+
+#su-cheatsheet-screen table .su-shortcode-icon {
+	display: inline-block;
+	width: 24px;
+	opacity: 0.5;
+	filter: alpha(opacity=50);
+}
+#su-cheatsheet-screen table .su-shortcode-desc {
+	font-size: 0.8em;
+	color: #777;
+	margin: 5px 0 0 0;
+	font-style: normal;
+}
+
+#su-cheatsheet-screen table .su-shortcode-attribute {
+	margin-top: 1.5em;
+	color: #666;
+}
+#su-cheatsheet-screen table .su-shortcode-attribute:first-child { margin-top: 0; }
+#su-cheatsheet-screen table .su-shortcode-attribute p { margin: 5px; }
+#su-cheatsheet-screen table .su-shortcode-attribute strong,
+#su-cheatsheet-screen table .su-shortcode-attribute em {
+	color: #000;
+	font-style: normal;
+}
+#su-cheatsheet-screen table .su-shortcode-attribute strong em {
+	color: #666;
+	font-weight: normal;
+	font-style: normal;
+}
+#su-cheatsheet-screen table code {
+	display: block;
+	white-space: pre-wrap;
+	font-family: monospace;
+}
+
+body.su-print-cheatsheet #wpadminbar,
+body.su-print-cheatsheet #adminmenuback,
+body.su-print-cheatsheet #adminmenuwrap,
+body.su-print-cheatsheet #wpfooter { display: none; }
+body.su-print-cheatsheet #wpcontent { margin: 0 0 0 30px; }
+#su-cheatsheet-print-head { display: none; }
+body.su-print-cheatsheet #su-cheatsheet-print-head { display: inline-block; }
+body.su-print-cheatsheet #su-cheatsheet-print { display: none; }

@@ -1,0 +1,165 @@
+#code_area_wrapper
+{
+	height: 60px;
+	margin-bottom: 20px;
+}
+
+#code_area
+{
+	font-family: monospace;
+	padding: 10px;
+	font-size: 14px;
+	background: rgb(252, 252, 197);
+	border: 1px rgb(208, 208, 208) dashed;
+}
+
+#code_area { display: none; }
+#dfads_build_qs { display: none; }
+#code_middle { display: none; }
+#dfads_order_field { display: none; }
+#code_begin.sc { color: #000; }
+#code_middle.sc { color: #000; }
+#code_end.sc { color: #000; }
+#code_begin.php { color: #0000BB; }
+#code_begin.php .dfads_echo { color: #007700; }
+#code_begin.php .dfads_paren, #code_end.php .dfads_paren { color: #007700; }
+#code_begin.php .dfads_quote, #code_end.php .dfads_quote { color: #DD0000; }
+#code_middle.php { color: #DD0000; }
+#code_end.php { color: #0000BB; }
+
+#icon-dfads
+{
+	background-color: transparent;
+	background-image: url('../img/screen-icon.png');
+	background-repeat: no-repeat;
+}
+
+.js .postbox h3.dfads_admin { cursor: auto; }
+
+hr.dfads
+{
+	border: 0;
+	height: 0;
+	border-top: 1px solid rgba(0, 0, 0, 0.1);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.dfads_form_css fieldset
+{
+	margin: 0 0 20px 0;
+	font-size: 14px;
+}
+
+.dfads_form_css fieldset.form-actions { margin: 0; }
+
+.dfads_form_css fieldset label
+{
+	display: block;
+	margin: 0 0 5px 0;
+	font-weight: bold;
+}
+
+.dfads_form_css fieldset.check label
+{
+	display: inline;
+	font-weight: normal;
+}
+
+.dfads_form_css fieldset.radio ul li label
+{
+	display: inline;
+	font-weight: normal;
+}
+
+.dfads_form_css fieldset.radio ul li label span
+{
+	font-size: 12px;
+	color: #999;
+}
+
+.dfads_form_css fieldset input.form-text,
+.dfads_form_css fieldset textarea
+{
+	display: block;
+	width: 35%;
+	padding: 5px;
+	font-size: 14px;
+	border: 1px solid #ddd;
+	background: #f5f5f5;
+	-moz-box-shadow: inset 0 1px 2px rgba(0,0,0,.05);
+	-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.05);
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+
+.dfads_form_css fieldset input.form-text:focus
+{
+	border: 1px solid #ccc;
+	background: #fff;
+}
+
+.dfads_form_css fieldset textarea { height: 150px; }
+
+.dfads_form_css fieldset select
+{
+	min-width: 25%;
+	margin: 0;
+}
+
+.dfads_form_css fieldset.radio ul { margin-top: 5px; }
+.dfads_form_css fieldset.radio ul li { margin: 0 0 5px 0; }
+.dfads_form_css fieldset.radio ul li:last-child { margin: 0; }
+
+.dfads_form_css fieldset p.form-help
+{
+	margin: 5px 0 0 0;
+	font-size: 12px;
+	color: #999;
+}
+
+a#datafeedr-avatar
+{
+	border: 0;
+	text-decoration: none;
+}
+
+#datafeedr-avatar img
+{
+	text-align: left;
+	float: left;
+	margin: 0px 10px 40px 0px;
+	background-color: #FFFFFF;
+	box-shadow: 0 1px 2px rgba(34, 25, 25, 0.4);
+	padding: 8px;
+}
+
+a#datafeedr-logo
+{
+	border: 0;
+	text-decoration: none;
+}
+
+#datafeedr-logo img
+{
+	margin: 0px;
+	background-color: #FFFFFF;
+	box-shadow: 0 1px 2px rgba(34, 25, 25, 0.4);
+	padding: 8px;
+}
+
+a.datafeedr-link
+{
+	text-decoration: none;
+	border: 0;
+	background-image: url('../img/new-window.gif');
+	background-repeat: no-repeat;
+	background-position: right center;
+	padding-right: 14px;
+}
+
+a.datafeedr-link:hover
+{
+	color: #C00;
+	border: 0;
+}

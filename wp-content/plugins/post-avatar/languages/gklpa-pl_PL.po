@@ -1,0 +1,155 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Post Avatar\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-03-28 15:57+0800\n"
+"PO-Revision-Date: 2015-03-28 15:57+0800\n"
+"Last-Translator: Vicky Arulsingam <vix@garinungkadol.com>\n"
+"Language-Team: MELONIQ.NET <biuro@meloniq.net>\n"
+"Language: pl_PL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 1.7.5\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+
+#: ../deprecated.php:38
+#, fuzzy
+msgid "Use <code>remove_filter</code> to override the automatic theme display"
+msgstr "Use <code>remove_filter</code> to override the automatic theme display"
+
+#: ../deprecated.php:54
+#, fuzzy
+msgid ""
+"Using <code>esc_html()</code> to convert html for display in input boxes/"
+"text area"
+msgstr ""
+"Use <code>esc_html()</code> to convert html for display in input boxes/text "
+"area"
+
+#: ../deprecated.php:73
+#, fuzzy
+msgid "Use load-{file-name.php} to control where metabox is displayed"
+msgstr "Use load-{file-name.php} to control where metabox is displayed"
+
+#: ../deprecated.php:95
+#, fuzzy
+msgid "Use absint() instead"
+msgstr "Use absint() instead"
+
+#: ../gkl-postavatar.php:258
+#, fuzzy, php-format
+msgid ""
+"<p>Whoops! The folder \"<strong>%1$s</strong>\" does not exist. Please go to "
+"Settings >> Post Avatar to set the correct location.</p>"
+msgstr ""
+"<p>Whoops! The folder \"<strong>%1$s</strong>\" does not exist. Please go to "
+"Settings >> Post Avatar to set the correct location.</p>"
+
+#: ../gkl-postavatar.php:293
+msgid "Select an avatar"
+msgstr "Wybierz awatar"
+
+#: ../gkl-postavatar.php:299 ../gkl-postavatar.php:333
+#: ../gkl-postavatar.php:569
+msgid "No Avatar selected"
+msgstr "Nie wybrano awatara"
+
+#: ../gkl-postavatar.php:320
+msgid "Preview"
+msgstr "Podgląd"
+
+#: ../gkl-postavatar.php:326
+msgid "Avatar"
+msgstr "Awatar wpisu"
+
+#: ../gkl-postavatar.php:329
+msgid "Avatar Does Not Exist"
+msgstr "Awatar nie istnieje"
+
+#: ../gkl-postavatar.php:443
+#, fuzzy
+msgid "This plugin requires WordPress version 3.9 or higher."
+msgstr "This plugin requires WordPress version 3.9 or higher."
+
+#: ../gkl-postavatar.php:495 ../settings.php:13
+msgid "Post Avatar"
+msgstr "Awatar wpisu"
+
+#: ../settings.php:13
+msgid "Post Avatar Options"
+msgstr "Opcje Awataru wpisu"
+
+#: ../settings.php:26
+msgid "Default Options"
+msgstr "Domyślne opcje"
+
+#: ../settings.php:27
+msgid "Customize HTML/CSS"
+msgstr "Dostosuj HTML/CSS"
+
+#: ../settings.php:32
+msgid "Path to Images Folder:"
+msgstr "Ścieżka do folderu zdjęć:"
+
+#: ../settings.php:34
+msgid "Display:"
+msgstr "Wyświetl"
+
+#: ../settings.php:36
+msgid "Others:"
+msgstr "Inne:"
+
+#: ../settings.php:41
+msgid "HTML:"
+msgstr "HTML"
+
+#: ../settings.php:43
+msgid "CSS:"
+msgstr "CSS"
+
+#: ../settings.php:59
+msgid "You must not leave this field blank. The directory also must exist."
+msgstr "Nie możesz pozostawić tego pola pustego. Katalog musi także istnieć."
+
+#: ../settings.php:76
+msgid "Show avatar in post? Disable to use template tag"
+msgstr "Pokazać awatar w wpisie? Wyłącz by używać tagu szablonu"
+
+#: ../settings.php:94
+msgid "Scan the images directory and its sub-directories?"
+msgstr "Skanować katalog zdjęć i jego podkatalogi?"
+
+#: ../settings.php:97
+msgid ""
+"Get image dimensions? Disable this feature if you encounter getimagesize "
+"errors"
+msgstr ""
+"Pobierz rozmiar zdjęcia. Wyłącz tą opcję jeśli występują błędy getimagesize"
+
+#: ../settings.php:100
+msgid "Show post avatars in RSS feeds?"
+msgstr "Zaznacz tutaj aby wyświetlać awatary wpisów w kanałach rss"
+
+#: ../settings.php:119
+msgid "Use this HTML before/after the post avatar image"
+msgstr "Użyj tego HTML przed/po zdjęciu awataru wpisu"
+
+#: ../settings.php:122 ../settings.php:140
+msgid "You can leave this field blank."
+msgstr "Możesz pozostawić to pole puste."
+
+#: ../settings.php:138
+msgid "Use this CSS class for the post avatar image"
+msgstr "Użyj tej klasy CSS dla zdjęcia awataru wpisu"
+
+#: ../settings.php:179
+msgid "Post Avatar Settings"
+msgstr "Ustawienia Awataru wpisu"
+
+#: ../settings.php:184
+msgid "Save Changes"
+msgstr "Zapisz zmiany"

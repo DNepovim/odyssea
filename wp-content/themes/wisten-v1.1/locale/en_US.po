@@ -1,0 +1,787 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Wisten 1.0\n"
+"POT-Creation-Date: 2014-04-29 00:41+0200\n"
+"PO-Revision-Date: 2014-04-29 00:41+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.5\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: _;__;_e\n"
+"X-Poedit-SearchPath-0: C:\\Users\\Ionut\\Desktop\\FastWP\\staging\n"
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/plugins/fastwp-shortcodes-v1.0/inc/fastwp.item.order.class.php:38
+msgid "Change items order"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/plugins/fastwp-shortcodes-v1.0/inc/fastwp.item.order.class.php:65
+msgid "Order updated"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/plugins/fastwp-shortcodes-v1.0/inc/fastwp.shortcode.class.php:181
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/admin.functions.php:808
+msgid "Your email address"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/plugins/fastwp-shortcodes-v1.0/inc/fastwp.shortcode.class.php:182
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/admin.functions.php:809
+msgid "Subscribe"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/plugins/fastwp-shortcodes-v1.0/inc/fastwp.shortcode.class.php:312
+msgid "Purchase"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/plugins/fastwp-shortcodes-v1.0/inc/fastwp.shortcode.class.php:314
+msgid "Read More"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/plugins/fastwp-shortcodes-v1.0/inc/fastwp.shortcode.class.php:404
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/admin.functions.php:709
+msgid "per month"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/404.php:17
+msgid "This is somewhat embarrassing, isn&rsquo;t it?"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/404.php:21
+msgid ""
+"It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps "
+"searching can help."
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/admin/classes/class.options_machine.php:576
+msgid "Last Backup : "
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/admin/front-end/options.php:43
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/admin/front-end/options.php:67
+msgid "Save All Changes"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/admin/front-end/options.php:68
+msgid "Options Reset"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/admin/functions/functions.mediauploader.php:20
+msgid "Options"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/admin/functions/functions.mediauploader.php:210
+msgid "Gallery"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/admin/functions/functions.mediauploader.php:210
+msgid "Previously Uploaded"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/archive.php:32
+#, php-format
+msgid "Archive for %s"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/archive.php:35
+msgid "Archives"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/comments.php:42
+msgid "Comment navigation"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/comments.php:43
+msgid "&larr; Older Comments"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/comments.php:44
+msgid "Newer Comments &rarr;"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/comments.php:53
+msgid "Comments are closed."
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/comments.php:65
+msgid "Leave a Comment"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/comments.php:66
+#, php-format
+msgid "Leave a Comment to %s"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/comments.php:67
+msgid "Cancel Reply"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/comments.php:68
+msgid "Post Comment"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/comments.php:70
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/comments.php:71
+msgid "Comment"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/comments.php:76
+#, php-format
+msgid "You must be <a href=\"%s\">logged in</a> to post a comment."
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/comments.php:82
+#, php-format
+msgid ""
+"Logged in as <a href=\"%1$s\">%2$s</a>. <a href=\"%3$s\" title=\"Log out of "
+"this account\">Log out?</a>"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/comments.php:89
+msgid "Your email address will not be published."
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/comments.php:98
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/comments.php:100
+msgid "Name"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/comments.php:104
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/comments.php:106
+msgid "Email"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/comments.php:111
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/comments.php:112
+msgid "Website"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/content-common.php:15
+msgid "Posted by"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/content-common.php:39
+msgid "0 Comments"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/content-common.php:56
+msgid "Continue Reading"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/content-search-404.php:10
+msgid ""
+"Sorry, but nothing matched your search criteria. Please try again with some "
+"different keywords."
+msgstr ""
+
+#. translators: %s: title of menu item which is invalid
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/admin.functions.php:143
+#, php-format
+msgid "%s (Invalid)"
+msgstr ""
+
+#. translators: %s: title of menu item in draft status
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/admin.functions.php:147
+#, php-format
+msgid "%s (Pending)"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/admin.functions.php:188
+msgid "Edit Menu Item"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/admin.functions.php:197
+msgid "URL"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/admin.functions.php:204
+msgid "Navigation Label"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/admin.functions.php:210
+msgid "Title Attribute"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/admin.functions.php:217
+msgid "Open link in a new window/tab"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/admin.functions.php:222
+msgid "CSS Classes (optional)"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/admin.functions.php:228
+msgid "Link Relationship (XFN)"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/admin.functions.php:234
+msgid "Description"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/admin.functions.php:236
+msgid ""
+"The description will be displayed in the menu if the current theme supports "
+"it."
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/admin.functions.php:243
+msgid "Menu Type"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/admin.functions.php:246
+msgid "Onepage Section"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/admin.functions.php:247
+msgid "Page separator"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/admin.functions.php:248
+msgid "Normal Page"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/admin.functions.php:256
+msgid "Section style"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/admin.functions.php:259
+msgid "No icon"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/admin.functions.php:260
+msgid "Icon"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/admin.functions.php:261
+msgid "Icon with border"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/admin.functions.php:278
+#, php-format
+msgid "Original: %s"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/admin.functions.php:291
+msgid "Remove"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/admin.functions.php:292
+msgid "Cancel"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/admin.functions.php:382
+msgid "Select shortcode to insert"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/admin.functions.php:391
+msgid "Select shortcode to generate..."
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:196
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/functions.php:465
+msgid "Install Required Plugins"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:197
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/functions.php:466
+msgid "Install Plugins"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:198
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/functions.php:467
+#, php-format
+msgid "Installing Plugin: %s"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:199
+msgid "Something went wrong."
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:210
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/functions.php:479
+msgid "Return to Required Plugins Installer"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:211
+msgid "Return to the dashboard"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:212
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:1951
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/functions.php:480
+msgid "Plugin activated successfully."
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:213
+msgid "The following plugin was activated successfully:"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:214
+#, php-format
+msgid "All plugins installed and activated successfully. %1$s"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:215
+msgid "Dismiss this notice"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:544
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:2168
+msgid "Return to the Dashboard"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:1174
+msgid "Private Repository"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:1177
+msgid "Pre-Packaged"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:1182
+msgid "WordPress Repository"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:1185
+msgid "Required"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:1185
+msgid "Recommended"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:1188
+msgid "Not Installed"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:1190
+msgid "Installed But Not Activated"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:1290
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:1398
+msgid "Install"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:1312
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:1399
+msgid "Activate"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:1361
+#, php-format
+msgid ""
+"No plugins to install or activate. <a href=\"%1$s\" title=\"Return to the "
+"Dashboard\">Return to the Dashboard</a>"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:1377
+msgid "Plugin"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:1378
+msgid "Source"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:1379
+msgid "Type"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:1380
+msgid "Status"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:1508
+msgid "No plugins are available to be installed at this time."
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:1616
+msgid "No plugins are available to be activated at this time."
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:1934
+msgid "Install package not available."
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:1935
+#, php-format
+msgid "Downloading install package from <span class=\"code\">%s</span>&#8230;"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:1936
+msgid "Unpacking the package&#8230;"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:1937
+msgid "Installing the plugin&#8230;"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:1938
+msgid "Plugin install failed."
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:1939
+msgid "Plugin installed successfully."
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:1950
+msgid "Plugin activation failed."
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:2064
+msgid ""
+"The installation and activation process is starting. This process may take a "
+"while on some hosts, so please be patient."
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:2065
+#, php-format
+msgid "%1$s installed and activated successfully."
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:2065
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:2074
+msgid "Show Details"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:2065
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:2074
+msgid "Hide Details"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:2066
+msgid "All installations and activations have been completed."
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:2067
+#, php-format
+msgid "Installing and Activating Plugin %1$s (%2$d/%3$d)"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:2071
+msgid ""
+"The installation process is starting. This process may take a while on some "
+"hosts, so please be patient."
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:2072
+#, php-format
+msgid "An error occurred while installing %1$s: <strong>%2$s</strong>."
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:2073
+#, php-format
+msgid "The installation of %1$s failed."
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:2074
+#, php-format
+msgid "%1$s installed successfully."
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:2075
+msgid "All installations have been completed."
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/class-tgm-plugin-activation.php:2076
+#, php-format
+msgid "Installing Plugin %1$s (%2$d/%3$d)"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/custom.posts.php:13
+msgid "Testimonials"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/custom.posts.php:14
+msgid "Testimonial"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/custom.posts.php:26
+msgid "Services"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/custom.posts.php:27
+msgid "Service"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/custom.posts.php:40
+msgid "Members"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/custom.posts.php:41
+msgid "Member"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/custom.posts.php:55
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/custom.posts.php:56
+msgid "Timeline"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/custom.posts.php:82
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/custom.posts.php:83
+msgid "Portfolio"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/custom.posts.php:107
+msgid "Search Categories"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/custom.posts.php:108
+msgid "All Categories"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/custom.posts.php:109
+msgid "Parent Category"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/custom.posts.php:110
+msgid "Parent Category:"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/custom.posts.php:111
+msgid "Edit Category"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/custom.posts.php:112
+msgid "Update Category"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/custom.posts.php:113
+msgid "Add New Category"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/custom.posts.php:114
+msgid "New Category"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/custom.posts.php:115
+msgid "Categories"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/metabox.functions.php:15
+msgid "Setup post options"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/metabox.functions.php:22
+msgid "Service settings"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/metabox.functions.php:29
+msgid "Timeline target"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/metabox.functions.php:36
+msgid "Member options"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/metabox.functions.php:43
+msgid "Project settings"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/metabox.functions.php:56
+msgid "Page/Separator options"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/metabox.functions.php:91
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/metabox.functions.php:119
+msgid "Yes"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/metabox.functions.php:91
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/metabox.functions.php:119
+msgid "No"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/metabox.functions.php:95
+msgid "OUR FEATURED WORKS"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/metabox.functions.php:156
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/metabox.functions.php:304
+msgid "No slides to show. Click above button to add a slide."
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/metabox.functions.php:168
+msgid "Wide (16:9)"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/metabox.functions.php:168
+msgid "Normal (4:3)"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/metabox.functions.php:253
+msgid "16:9"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/metabox.functions.php:253
+msgid "4:3"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/shortcodes.functions.php:49
+msgid "All projects"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/user.interface.php:19
+msgid "Home"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/user.interface.php:274
+msgid "&laquo;"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/user.interface.php:275
+msgid "&raquo;"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/user.interface.php:306
+msgid "On"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/user.interface.php:306
+msgid "Off"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/widgets.functions.php:145
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/widgets.functions.php:229
+msgid "Title:"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/widgets.functions.php:149
+msgid "Username or RSS:"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/widgets.functions.php:153
+msgid "Tags:"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/widgets.functions.php:157
+msgid "Count:"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/widgets.functions.php:187
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/widgets.functions.php:192
+msgid "Search"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/fastwp/widgets.functions.php:234
+msgid "Submit button type:"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/functions.php:26
+msgid "Primary Menu"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/functions.php:166
+#, php-format
+msgid "Page %s"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/functions.php:195
+msgid "Default Sidebar"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/functions.php:197
+msgid "Appears on blog pages"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/functions.php:205
+msgid "Sidebar "
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/functions.php:207
+msgid "Appears on blog pages. Those are selectable on admin panel"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/functions.php:249
+msgid "Pingback:"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/functions.php:249
+msgid "(Edit)"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/functions.php:264
+msgid "Author"
+msgstr ""
+
+#. translators: 1: date, 2: time
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/functions.php:272
+#, php-format
+msgid "%1$s at %2$s"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/functions.php:276
+msgid "Reply"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/functions.php:277
+msgid "Edit"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/functions.php:282
+msgid "Your comment is awaiting moderation."
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/functions.php:307
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/functions.php:310
+msgid ", "
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/functions.php:321
+#, php-format
+msgid "View all posts by %s"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/functions.php:327
+#, php-format
+msgid ""
+"This entry was posted in %1$s and tagged %2$s on %3$s<span class=\"by-author"
+"\"> by %4$s</span>."
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/functions.php:329
+#, php-format
+msgid ""
+"This entry was posted in %1$s on %3$s<span class=\"by-author\"> by %4$s</"
+"span>."
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/functions.php:331
+#, php-format
+msgid "This entry was posted on %3$s<span class=\"by-author\"> by %4$s</span>."
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/functions.php:468
+msgid "Something went wrong with the plugin API."
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/functions.php:481
+#, php-format
+msgid "All plugins installed and activated successfully. %s"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/functions.php:601
+msgid "Item ID"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/index.php:33
+msgid "No posts to display"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/index.php:37
+#, php-format
+msgid "Ready to publish your first post? <a href=\"%s\">Get started here</a>."
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/index.php:44
+msgid "Nothing Found"
+msgstr ""
+
+#: C:\Users\Ionut\Desktop\FastWP\staging/themes/wisten-v1.0/index.php:48
+msgid ""
+"Apologies, but no results were found. Perhaps searching will help find a "
+"related post."
+msgstr ""

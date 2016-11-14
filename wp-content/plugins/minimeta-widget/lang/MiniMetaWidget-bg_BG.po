@@ -1,0 +1,488 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP-MiniMeta Widget\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2009-03-03 17:24+0200\n"
+"Last-Translator: Alexander Dichev <http://dichev.com/contact/>\n"
+"Language-Team: Alexander Dichev <http://dichev.com/contact/english/>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Bulgarian\n"
+"X-Poedit-Country: BULGARIA\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: app/functions.php:31
+#, php-format
+msgid "Comments %s"
+msgstr "Коментари %s"
+
+#: app/functions.php:33
+#, php-format
+msgid "Plugins %s"
+msgstr "Плъгини %s"
+
+#: app/functions.php:72
+#: app/options-form.php:185
+#: app/widgets-wp.php:19
+msgid "MiniMeta Widget"
+msgstr "MiniMeta Widget"
+
+#: app/functions.php:94
+msgid "Uninstall MiniMeta Widget"
+msgstr "Деинсталиране на MiniMeta Widget"
+
+#: app/functions.php:95
+#, php-format
+msgid "<a href=\"%s\">Click Here</a> To Finish The Uninstallation And MiniMeta Widget Will Be Deactivated Automatically."
+msgstr "<a href=\"%s\">Натиснете Тук</a> за да завършите деинсталирането и MiniMeta Widget ще бъде автоматично деактивиран."
+
+#: app/functions.php:110
+msgid "Edit"
+msgstr "Редактиране"
+
+#: app/functions.php:124
+#, php-format
+msgid "Setting Key '%s' has been deleted."
+msgstr "Ключа за Настройка '%s' беше изтрит."
+
+#: app/functions.php:128
+#, php-format
+msgid "Error deleting Setting Key '%s'."
+msgstr "Грешка при изтриването на Ключа за Настройка '%s'."
+
+#: app/functions.php:152
+msgid "Go to Settings Page"
+msgstr "Към Страницата за Настройки"
+
+#: app/functions.php:152
+msgid "Settings"
+msgstr "Настройки"
+
+#: app/options-form.php:23
+#: app/options-save.php:78
+msgid "MiniMeta Widget Options"
+msgstr "Настройки на MiniMeta Widget"
+
+#: app/options-form.php:27
+msgid "New Widget Option:"
+msgstr "Нова Опция:"
+
+#: app/options-form.php:28
+msgid "Delete Widget Option:"
+msgstr "Изтриване на Опция"
+
+#: app/options-form.php:29
+msgid "none"
+msgstr "няма"
+
+#: app/options-form.php:38
+#: app/options-form.php:175
+msgid "Save Changes"
+msgstr "Запазване на Промените"
+
+#: app/options-form.php:50
+#: app/widget-display.php:138
+msgid "Widget Option:"
+msgstr "Опция:"
+
+#: app/options-form.php:57
+msgid "Show when Loggt out:"
+msgstr "Показване след Изход:"
+
+#: app/options-form.php:89
+msgid "Show when Loggt in:"
+msgstr "Показване след Вход:"
+
+#: app/options-form.php:121
+msgid "Generel Settings:"
+msgstr "Основни Настройки"
+
+#: app/options-form.php:124
+msgid "Stylesheet"
+msgstr "Stylesheet"
+
+#: app/options-form.php:133
+msgid "Seidbar Widget Settings (PHP Function)"
+msgstr "Настройка на Sidеbar Widget (PHP Функция)"
+
+#: app/options-form.php:136
+#: app/widget-display.php:20
+#: app/widgets-wp.php:95
+msgid "Meta"
+msgstr "Мета"
+
+#: app/options-form.php:142
+#: app/widgets-wp.php:109
+msgid "Title:"
+msgstr "Заглавие:"
+
+#: app/options-form.php:144
+msgid "Before Title:"
+msgstr "Преди Заглавието:"
+
+#: app/options-form.php:146
+msgid "After Title:"
+msgstr "След Заглавието:"
+
+#: app/options-form.php:148
+msgid "Before Widget:"
+msgstr "Преди Уидгета:"
+
+#: app/options-form.php:150
+msgid "After Widget:"
+msgstr "След Уидгета:"
+
+#: app/options-form.php:155
+msgid "Display on Pages"
+msgstr "Показване на Страниците"
+
+#: app/options-form.php:157
+msgid "Display on <b>not</b> selected Pages"
+msgstr "Показване на <b>не</b>-избраните Страници"
+
+#: app/options-form.php:158
+msgid "out"
+msgstr "вън"
+
+#: app/options-form.php:158
+msgid "in"
+msgstr "в"
+
+#: app/options-form.php:158
+msgid "Pages"
+msgstr "Страници"
+
+#: app/options-form.php:159
+msgid "Homepage"
+msgstr "Начална Страница"
+
+#: app/options-form.php:160
+msgid "Single Post"
+msgstr "Статия"
+
+#: app/options-form.php:161
+msgid "Search Page"
+msgstr "Страница за Търсене"
+
+#: app/options-form.php:162
+msgid "Error Page"
+msgstr "Страница за Грешка"
+
+#: app/options-form.php:174
+msgid "Remove"
+msgstr "Премахване"
+
+#: app/options-form.php:187
+msgid "Usage"
+msgstr "Приложение"
+
+#: app/options-form.php:190
+msgid "1. Create a Widget Option above."
+msgstr "1. Създаване на Опция по-горе."
+
+#: app/options-form.php:191
+msgid "2. Place a Widget from WordPress Wigets, K2 Seidbar Modules or in Theme via PHP and select a Widget Option."
+msgstr "2.Поставяне на Уидгета през WordPress Wigets, K2 Seidbar Modules или в Темата през PHP и избор на Опция."
+
+#: app/options-form.php:192
+msgid "3. Redy."
+msgstr "3. Готово."
+
+#: app/options-form.php:194
+msgid "Code too place a Widget via PHP:"
+msgstr "Код за поставяне на Уидгета през PHP:"
+
+#: app/options-form.php:198
+msgid "= Name of Widget Setting above"
+msgstr "= Името на Настройките на Уидгета по-горе"
+
+#: app/options-form.php:203
+msgid "About"
+msgstr "Информация"
+
+#: app/options-form.php:207
+msgid "Name:"
+msgstr "Име:"
+
+#: app/options-form.php:208
+msgid "Version:"
+msgstr "Версия:"
+
+#: app/options-form.php:209
+msgid "Author:"
+msgstr "Автор:"
+
+#: app/options-form.php:210
+msgid "Author Webseite:"
+msgstr "Уебсайт на Автора:"
+
+#: app/options-form.php:211
+msgid "Plugin Webseite:"
+msgstr "Уебсайт на Плъгина:"
+
+#: app/options-form.php:212
+msgid "Plugin on WordPress:"
+msgstr "Плъгин за WordPress:"
+
+#: app/options-form.php:213
+msgid "Description:"
+msgstr "Описание:"
+
+#: app/options-form.php:215
+msgid "If you find this plugin helpful, please consider donating a few Euros to help support this plugin's development. Thanks!"
+msgstr "Ако намирате този плъгин за полезен, моля помислете за дарение от няколко Евро за да подпомогнете разработването му. Благодаря!"
+
+#: app/options-form.php:228
+msgid "Amount:"
+msgstr "Сума:"
+
+#: app/options-form.php:238
+msgid "Uninstall"
+msgstr "Деинсталиране"
+
+#: app/options-form.php:243
+msgid "Deactivating MiniMeta Widget plugin does not remove any data that may have been created. To completely remove this plugin, you can uninstall it here."
+msgstr "Деактивирането на MiniMeta Widget пллъгина не изтрива никакви данни, които вероятно са били създадени. За да премахнете този плъгин напълно, можете да го деинсталирате от тук."
+
+#: app/options-form.php:246
+msgid "WARNING:"
+msgstr "ВНИМАНИЕ:"
+
+#: app/options-form.php:247
+msgid "Once uninstalled, this cannot be undone. You should use a Database Backup plugin of WordPress to back up all the data first."
+msgstr "Веднъж деинсталиран, не може да бъде върнат назад. Трябва да използвате плъгин за Резервно Копие на Базата Данни за WordPress за да архивирате преди това всички данни."
+
+#: app/options-form.php:250
+msgid "The following WordPress Options will be DELETED:"
+msgstr "Следните Настройки на WordPress ще бъдат ИЗТРИТИ:"
+
+#: app/options-form.php:255
+msgid "WordPress Options"
+msgstr "WordPress Настройки"
+
+#: app/options-form.php:272
+msgid "Yes"
+msgstr "Да"
+
+#: app/options-form.php:273
+msgid "UNINSTALL MiniMeta Widget"
+msgstr "ДЕИНСТАЛИРАНЕ на MiniMeta Widget"
+
+#: app/options-form.php:273
+msgid ""
+"You Are About To Uninstall MiniMeta Widget From WordPress.\\n"
+"This Action Is Not Reversible.\\n"
+"\\n"
+" Choose [Cancel] To Stop, [OK] To Uninstall."
+msgstr ""
+"Вие сте на път да деинсталирате MiniMeta Widget от WordPress.\\n"
+"Това действие е необратимо.\\n"
+"\\n"
+"Избери [Cancel] за Прекратяване или [OK] за Деинсталиране."
+
+#: app/options-save.php:85
+msgid "Updated"
+msgstr "Обновен"
+
+#: app/options-save.php:90
+msgid "No MiniMeta Widget Option Updated"
+msgstr "Не бяха обновени Опции на MiniMeta Widget"
+
+#: app/widget-display.php:138
+msgid "Select a Widget Option"
+msgstr "Избор на Опция"
+
+#: app/widget-display.php:143
+#: app/widget-parts.php:150
+#: app/widget-parts.php:217
+#: app/widget-parts.php:286
+msgid "None"
+msgstr "Няма"
+
+#: app/widget-display.php:150
+msgid "To make a Widget Option go to MiniMeta Widget tab"
+msgstr "За да създадете Опция, придвижете се до таба MiniMeta Widget"
+
+#: app/widget-parts.php:11
+msgid "Your Profile"
+msgstr "Профил"
+
+#: app/widget-parts.php:24
+msgid "Disply user Identity as title"
+msgstr "Показване на потребителската Самоличност като заглавие"
+
+#: app/widget-parts.php:25
+msgid "Link to Your Profile in title"
+msgstr "Линк към Профила Ви в заглавието"
+
+#: app/widget-parts.php:39
+#: app/widget-parts.php:66
+msgid "Username"
+msgstr "Потребителско име"
+
+#: app/widget-parts.php:43
+#: app/widget-parts.php:68
+msgid "Password"
+msgstr "Парола"
+
+#: app/widget-parts.php:47
+#: app/widget-parts.php:60
+#: app/widget-parts.php:70
+msgid "Remember Me"
+msgstr "Помни ме"
+
+#: app/widget-parts.php:49
+#: app/widget-parts.php:100
+#: app/widget-parts.php:102
+msgid "Log in"
+msgstr "Вход"
+
+#: app/widget-parts.php:61
+#: app/widget-parts.php:110
+msgid "Enable WordPress redirect function"
+msgstr "Активиране на функцията на WordPress за пренасочване."
+
+#: app/widget-parts.php:62
+msgid "Enable WordPress Cookie Test for login Form"
+msgstr "Активиране на WordPress Cookie Test на формуляра за вход"
+
+#: app/widget-parts.php:65
+#: app/widget-parts.php:84
+#: app/widget-parts.php:113
+#: app/widget-parts.php:172
+#: app/widget-parts.php:237
+#: app/widget-parts.php:257
+#: app/widget-parts.php:272
+#: app/widget-parts.php:308
+#: app/widget-parts.php:322
+#: app/widget-parts.php:336
+msgid "Stylesheet:"
+msgstr "Stylesheet:"
+
+#: app/widget-parts.php:79
+#: app/widget-parts.php:351
+msgid "Site Admin"
+msgstr "Админ на сайта"
+
+#: app/widget-parts.php:95
+#: app/widget-parts.php:97
+msgid "Log out"
+msgstr "Изход"
+
+#: app/widget-parts.php:148
+#: app/widget-parts.php:215
+msgid "Do not show Admin Links Topics"
+msgstr "Не показвай подсказки за Админ Връзки"
+
+#: app/widget-parts.php:149
+#: app/widget-parts.php:216
+msgid "Display <b>not</b> selected Admin Links"
+msgstr "Показване на <b>не</b>-избраните Админ Връзки"
+
+#: app/widget-parts.php:150
+#: app/widget-parts.php:217
+msgid "Select Admin Links:"
+msgstr "Избор на Админ Връзки:"
+
+#: app/widget-parts.php:150
+#: app/widget-parts.php:217
+#: app/widget-parts.php:286
+msgid "All"
+msgstr "Всички"
+
+#: app/widget-parts.php:173
+msgid "topic"
+msgstr "подсказка"
+
+#: app/widget-parts.php:193
+msgid "Please select:"
+msgstr "Моля, изберете:"
+
+#: app/widget-parts.php:252
+msgid "Password Lost and Found"
+msgstr "Загубена и Намерена Парола"
+
+#: app/widget-parts.php:252
+#: app/widget-parts.php:356
+msgid "Lost your password?"
+msgstr "Забравена парола?"
+
+#: app/widget-parts.php:267
+#: app/widget-parts.php:352
+msgid "Register"
+msgstr "Регистрация"
+
+#: app/widget-parts.php:286
+msgid "Select Links to Display:"
+msgstr "Избор на Връзки за показване:"
+
+#: app/widget-parts.php:303
+msgid "Syndicate this site using RSS 2.0"
+msgstr "Абонирай се за този сайт чрез RSS 2.0"
+
+#: app/widget-parts.php:303
+#: app/widget-parts.php:358
+msgid "Entries <abbr title=\"Really Simple Syndication\">RSS</abbr>"
+msgstr "Статии <abbr title=\"Really Simple Syndication\">RSS</abbr>"
+
+#: app/widget-parts.php:317
+msgid "The latest comments to all posts in RSS"
+msgstr "Последните коментари към всички стати в RSS"
+
+#: app/widget-parts.php:317
+#: app/widget-parts.php:359
+msgid "Comments <abbr title=\"Really Simple Syndication\">RSS</abbr>"
+msgstr "Коментари <abbr title=\"Really Simple Syndication\">RSS</abbr>"
+
+#: app/widget-parts.php:331
+msgid "Powered by WordPress, state-of-the-art semantic personal publishing platform."
+msgstr "Powered by WordPress, state-of-the-art semantic personal publishing platform."
+
+#: app/widget-parts.php:349
+msgid "Title"
+msgstr "Заглавие"
+
+#: app/widget-parts.php:350
+msgid "Login Form"
+msgstr "Формуляр за Вход"
+
+#: app/widget-parts.php:351
+#: app/widget-parts.php:352
+#: app/widget-parts.php:356
+#: app/widget-parts.php:358
+#: app/widget-parts.php:359
+#: app/widget-parts.php:360
+msgid "Link:"
+msgstr "Връзка:"
+
+#: app/widget-parts.php:353
+msgid "Link: Login/Logout"
+msgstr "Връзка: Вход/Изход"
+
+#: app/widget-parts.php:354
+msgid "Adminlinks as Links"
+msgstr "Админ Връзки като Връзки:"
+
+#: app/widget-parts.php:355
+msgid "Adminlinks as Selectbox"
+msgstr "Админ Връзки като Падащо меню:"
+
+#: app/widget-parts.php:357
+msgid "Blog Links"
+msgstr "Връзки"
+
+#: app/widget-parts.php:361
+msgid "Do Action:"
+msgstr "Изпълни:"
+
+#: app/widgets-wp.php:17
+msgid "Displaying Meta links, Login Form and Admin Links"
+msgstr "Показване на Мета връзки, Формуляр за Вход и Админ Връзки"
+
+#: minimeta-widget.php:112
+msgid "Sorry, MiniMeta Widget works only under WordPress 2.5 or higher"
+msgstr "За съжаление, MiniMeta Widget функционира само под WordPress 2.5 или по-нов"
+

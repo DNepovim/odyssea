@@ -1,0 +1,42 @@
+/*  For the comment forms */
+.trackbackToggle,
+li.comment,
+#comments,
+.post-title,
+.post {
+	zoom:1;
+}
+
+#comments .switch {
+	position:static;
+	float:right;
+}
+
+/*  Removes the extra space created at the bottom by IEs idiotic mechanisms. */
+#trackbackList li,
+#trackbacklist ul,
+#header #links a,
+.widget_archives ul li a,
+.widget_links ul li a,
+.widget_catgories ul li a,
+.widget_categories ul li a,
+.widget_pages ul li a {
+	height: 1em;
+}
+
+/* fix center alignment problems in ie5. */
+#background-layer-3 {text-align:center}
+#container {text-align:left}
+
+/* Fix a few problems with IE5 and 5.5. Why, just for the hell of it. :D*/
+.ie-quirk-mode #header #links{
+	width:180px;
+}
+.ie-quirk-mode .widget_archives ul li,
+.ie-quirk-mode .widget_links ul li,
+.ie-quirk-mode .widget_catgories ul li,
+.ie-quirk-mode .widget_categories ul li,
+.ie-quirk-mode .widget_pages ul li {
+	margin-bottom: 3px;
+}
+

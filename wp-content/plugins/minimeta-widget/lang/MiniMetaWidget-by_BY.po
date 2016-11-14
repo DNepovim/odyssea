@@ -1,0 +1,221 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: MiniMeta 3.5.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-07-13 16:34+0300\n"
+"PO-Revision-Date: 2009-07-04 21:20+0300\n"
+"Last-Translator: Fat Cow <zhr@tut.by>\n"
+"Language-Team: fat cow <fatcow@tut.by>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Belarusian\n"
+"X-Poedit-Country: BELARUS\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: minimeta-widget.php:122
+msgid "Your Profile"
+msgstr "Ваш профіль"
+
+#: minimeta-widget.php:127
+#: minimeta-widget.php:399
+msgid "Site Admin"
+msgstr "Адміністратар"
+
+#: minimeta-widget.php:128
+#: minimeta-widget.php:129
+msgid "Log out"
+msgstr "Выйсці"
+
+#: minimeta-widget.php:133
+msgid "Please select:"
+msgstr "Вылучыце:"
+
+#: minimeta-widget.php:164
+msgid "Username"
+msgstr "Лагін"
+
+#: minimeta-widget.php:168
+msgid "Password"
+msgstr "Пароль"
+
+#: minimeta-widget.php:172
+msgid "Remember Me"
+msgstr "памятаць мяне"
+
+#: minimeta-widget.php:174
+#: minimeta-widget.php:185
+#: minimeta-widget.php:186
+msgid "Log in"
+msgstr "Увайсці"
+
+#: minimeta-widget.php:187
+msgid "Password Lost and Found"
+msgstr "Аднаўленне пароля"
+
+#: minimeta-widget.php:187
+#: minimeta-widget.php:387
+msgid "Lost your password?"
+msgstr "Забылі пароль?"
+
+#: minimeta-widget.php:188
+#: minimeta-widget.php:388
+msgid "Register"
+msgstr "Зарэгістравацца"
+
+#: minimeta-widget.php:191
+msgid "Syndicate this site using RSS 2.0"
+msgstr "RSS 2.0"
+
+#: minimeta-widget.php:191
+#: minimeta-widget.php:392
+msgid "Entries <abbr title=\"Really Simple Syndication\">RSS</abbr>"
+msgstr "<abbr title=\"Really Simple Syndication\">RSS</abbr> запісаў"
+
+#: minimeta-widget.php:192
+msgid "The latest comments to all posts in RSS"
+msgstr "RSS (новыя каментары)"
+
+#: minimeta-widget.php:192
+#: minimeta-widget.php:393
+msgid "Comments <abbr title=\"Really Simple Syndication\">RSS</abbr>"
+msgstr "<abbr title=\"Really Simple Syndication\">RSS</abbr> каментароў"
+
+#: minimeta-widget.php:193
+msgid "Powered by WordPress, state-of-the-art semantic personal publishing platform."
+msgstr "працуе на  WordPress"
+
+#: minimeta-widget.php:335
+msgid "Meta"
+msgstr "Мета"
+
+#: minimeta-widget.php:380
+msgid "Title:"
+msgstr "Загаловак:"
+
+#: minimeta-widget.php:382
+msgid "Show when logged out:"
+msgstr "Паказваць, калі выконваецца ўваход:"
+
+#: minimeta-widget.php:383
+msgid "Login Link"
+msgstr "Спасылка на ўваход"
+
+#: minimeta-widget.php:384
+msgid "Login Form"
+msgstr "Форма ўваходу"
+
+#: minimeta-widget.php:385
+msgid "Enable WordPress Cookie Test for login Form"
+msgstr "Уключыць Cookie для ўваходу"
+
+#: minimeta-widget.php:385
+msgid "Enable Cookie Test"
+msgstr "Уключыць Cookie"
+
+#: minimeta-widget.php:386
+msgid "Remember me"
+msgstr "запомніць мяне"
+
+#: minimeta-widget.php:390
+msgid "Show allways:"
+msgstr "Паказваць заўсёды:"
+
+#: minimeta-widget.php:391
+msgid "Enable WordPress redirect function on Login/out"
+msgstr "Уключыць рэдырэкт на бягучую старонку пасля ўваходу/выхаду"
+
+#: minimeta-widget.php:391
+msgid "Enable Login/out Redirect"
+msgstr "Уключыць рэдырэкт"
+
+#: minimeta-widget.php:394
+msgid "Link to WordPress.org"
+msgstr "Спасылка на WordPress.org"
+
+#: minimeta-widget.php:395
+msgid "wp_meta Plugin hooks"
+msgstr "wp_meta Plugin hooks"
+
+#: minimeta-widget.php:397
+msgid "Show when logged in:"
+msgstr "Паказваць, калі ўваход выкананы:"
+
+#: minimeta-widget.php:398
+msgid "Logout"
+msgstr "Выйсці"
+
+#: minimeta-widget.php:400
+msgid "Disply user Identity as title"
+msgstr "Паказваць лагін як загаловак"
+
+#: minimeta-widget.php:401
+msgid "Link to Your Profile in title"
+msgstr "Спасылка на профіль у загалоўку"
+
+#: minimeta-widget.php:402
+msgid "Admin links:"
+msgstr "Адміністраванне:"
+
+#: minimeta-widget.php:403
+msgid "Use Select Box for Admin Links"
+msgstr "Выкарыстаць выпадальнае  меню для адміністрацыйных спасылак"
+
+#: minimeta-widget.php:403
+msgid "Use Select Box"
+msgstr "выпадальнае  меню"
+
+#: minimeta-widget.php:404
+msgid "Do not show Admin Links topics"
+msgstr "Не паказваць спасылкі на пункты кіравання"
+
+#: minimeta-widget.php:404
+msgid "No Topics"
+msgstr "Пуста"
+
+#: minimeta-widget.php:405
+msgid "Admin Links Selection"
+msgstr "Выбар адміністрацыйных спасылак"
+
+#: minimeta-widget.php:405
+msgid "Select Admin Links:"
+msgstr "Вылучыце пункты кіравання:"
+
+#: minimeta-widget.php:405
+msgid "All"
+msgstr "Усё"
+
+#: minimeta-widget.php:405
+msgid "None"
+msgstr "Нічога"
+
+#: minimeta-widget.php:475
+msgid "Comments"
+msgstr "Каментары"
+
+#: minimeta-widget.php:477
+msgid "Plugins"
+msgstr "Убудовы"
+
+#: minimeta-widget.php:507
+msgid "Akismet Spam"
+msgstr "Akismet"
+
+#: minimeta-widget.php:524
+msgid "Displaying Meta links, Login Form and Admin Links"
+msgstr "Паказвае Мяту, спасылкі з адмін. панэлі і форму ўваходу."
+
+#: minimeta-widget.php:526
+msgid "MiniMeta Widget"
+msgstr "MiniMeta віджэт"
+
+#: minimeta-widget.php:563
+msgid "Sorry, MiniMeta Widget works only under WordPress 2.5 or higher"
+msgstr "Гэтая версія MiniMeta віджэт працуе толькі ў WordPress 2.5 і вышэй, вам патрэбна версія ўбудовы ніжэй, чым гэтая."
+
+#~ msgid "No Admin Links"
+#~ msgstr "Няма адміністрацыйных спасылак"
+

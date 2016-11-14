@@ -1,0 +1,500 @@
+# Translation of the WordPress plugin MiniMeta Widget 4.5.0 by Daniel H&uuml;sken.
+# Copyright (C) 2010 Daniel H&uuml;sken
+# This file is distributed under the same license as the MiniMeta Widget package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: MiniMeta Widget 4.5.0\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/minimeta-widget\n"
+"POT-Creation-Date: 2010-06-26 10:54+0000\n"
+"PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: app/functions.php:40
+#, php-format
+msgid "Comments %s"
+msgstr ""
+
+#: app/functions.php:42
+#, php-format
+msgid "Plugins %s"
+msgstr ""
+
+#: app/functions.php:65
+#, php-format
+msgid "Updates %s"
+msgstr ""
+
+#. #-#-#-#-#  plugin.pot (MiniMeta Widget 4.5.0)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: app/functions.php:92 app/options-form.php:27 app/widgets-wp.php:16
+msgid "MiniMeta Widget"
+msgstr ""
+
+#: app/functions.php:95
+msgid "ID"
+msgstr ""
+
+#: app/functions.php:95
+msgid "Konfig"
+msgstr ""
+
+#: app/functions.php:105 app/functions.php:162
+msgid "Support"
+msgstr ""
+
+#: app/functions.php:106 app/functions.php:161
+msgid "FAQ"
+msgstr ""
+
+#: app/functions.php:107
+msgid "Plugin Homepage"
+msgstr ""
+
+#: app/functions.php:108
+msgid "Plugin Home on WordPress.org"
+msgstr ""
+
+#: app/functions.php:109 app/functions.php:163
+msgid "Donate"
+msgstr ""
+
+#: app/functions.php:112
+msgid "Version:"
+msgstr ""
+
+#: app/functions.php:113
+msgid "Author:"
+msgstr ""
+
+#: app/functions.php:130 app/options-form.php:77
+msgid "Edit"
+msgstr ""
+
+#: app/functions.php:153
+msgid "Go to Settings Page"
+msgstr ""
+
+#: app/functions.php:153
+msgid "Settings"
+msgstr ""
+
+#: app/options-form.php:75
+msgid "Edit:"
+msgstr ""
+
+#: app/options-form.php:78
+msgid "Copy"
+msgstr ""
+
+#: app/options-form.php:79
+msgid ""
+"You are about to delete this config. \n"
+"  'Cancel' to stop, 'OK' to delete."
+msgstr ""
+
+#: app/options-form.php:79
+msgid "Delete"
+msgstr ""
+
+#: app/options-form.php:102
+msgid "Usage"
+msgstr ""
+
+#: app/options-form.php:104
+msgid "1. Create a Widget Config."
+msgstr ""
+
+#: app/options-form.php:105
+msgid "2. Configure your Widget Config as you wont."
+msgstr ""
+
+#: app/options-form.php:106
+msgid ""
+"3. Place a Widget from WordPress Widgets or in Theme via PHP and select a "
+"Widget Config."
+msgstr ""
+
+#: app/options-form.php:107
+msgid "4. Ready."
+msgstr ""
+
+#: app/options-form.php:109
+msgid "Code too place a Widget via PHP:"
+msgstr ""
+
+#: app/options-form.php:110
+msgid "Name of Widget Config"
+msgstr ""
+
+#: app/options-form.php:121
+msgid "Config Settings"
+msgstr ""
+
+#: app/options-form.php:133
+msgid "New"
+msgstr ""
+
+#: app/options-form.php:156
+msgid "Save Changes"
+msgstr ""
+
+#: app/options-form.php:158
+msgid "Config Name:"
+msgstr ""
+
+#: app/options-form.php:158
+msgid "Config Name"
+msgstr ""
+
+#: app/options-form.php:167
+msgid "Show when Logged in:"
+msgstr ""
+
+#: app/options-form.php:172
+msgid "Show when Logged out:"
+msgstr ""
+
+#: app/options-form.php:218
+msgid "General Settings:"
+msgstr ""
+
+#: app/options-form.php:221
+msgid "Stylesheet"
+msgstr ""
+
+#: app/options-form.php:234
+msgid "Sidebar Widget Settings (PHP Function)"
+msgstr ""
+
+#: app/options-form.php:237 app/widget-display.php:32 app/widgets-wp.php:21
+msgid "Meta"
+msgstr ""
+
+#: app/options-form.php:243 app/widgets-wp.php:40
+msgid "Title:"
+msgstr ""
+
+#: app/options-form.php:245
+msgid "Before Title:"
+msgstr ""
+
+#: app/options-form.php:247
+msgid "After Title:"
+msgstr ""
+
+#: app/options-form.php:249
+msgid "Before Widget:"
+msgstr ""
+
+#: app/options-form.php:251
+msgid "After Widget:"
+msgstr ""
+
+#: app/options-form.php:256
+msgid "Display on Pages"
+msgstr ""
+
+#: app/options-form.php:258
+msgid "Display on <b>not</b> selected Pages"
+msgstr ""
+
+#: app/options-form.php:259
+msgid "out"
+msgstr ""
+
+#: app/options-form.php:259
+msgid "in"
+msgstr ""
+
+#: app/options-form.php:259
+msgid "Pages"
+msgstr ""
+
+#: app/options-form.php:260
+msgid "Homepage"
+msgstr ""
+
+#: app/options-form.php:261
+msgid "Single Post"
+msgstr ""
+
+#: app/options-form.php:262
+msgid "Search Page"
+msgstr ""
+
+#: app/options-form.php:263
+msgid "Error Page"
+msgstr ""
+
+#: app/options-save.php:21
+msgid "Copy of"
+msgstr ""
+
+#: app/options-save.php:24
+#, php-format
+msgid "Copy of \"%s\" Config Created"
+msgstr ""
+
+#: app/options-save.php:26
+#, php-format
+msgid "Copy of \"%s\" Config NOT Created"
+msgstr ""
+
+#: app/options-save.php:48 app/options-save.php:55
+#, php-format
+msgid "Config \"%s\" Deleted"
+msgstr ""
+
+#: app/options-save.php:51 app/options-save.php:58
+#, php-format
+msgid "Config \"%s\" NOT Deleted"
+msgstr ""
+
+#: app/options-save.php:130
+#, php-format
+msgid "Config \"%s\" Updated"
+msgstr ""
+
+#: app/options-save.php:133
+#, php-format
+msgid "Config \"%s\" NOT Updated"
+msgstr ""
+
+#: app/widget-parts.php:41
+msgid "Your Profile"
+msgstr ""
+
+#: app/widget-parts.php:55
+msgid "Display user Identity as title"
+msgstr ""
+
+#: app/widget-parts.php:56
+msgid "Text bevore user Identity"
+msgstr ""
+
+#: app/widget-parts.php:57
+msgid "Text after user Identity"
+msgstr ""
+
+#: app/widget-parts.php:58
+msgid "Link to Your Profile in title"
+msgstr ""
+
+#: app/widget-parts.php:81
+msgid "Gravatar Size:"
+msgstr ""
+
+#: app/widget-parts.php:85 app/widget-parts.php:138 app/widget-parts.php:175
+#: app/widget-parts.php:204 app/widget-parts.php:263 app/widget-parts.php:334
+#: app/widget-parts.php:362 app/widget-parts.php:389 app/widget-parts.php:459
+#: app/widget-parts.php:478 app/widget-parts.php:498
+msgid "Stylesheet:"
+msgstr ""
+
+#: app/widget-parts.php:106
+msgid "Username"
+msgstr ""
+
+#: app/widget-parts.php:110
+msgid "Password"
+msgstr ""
+
+#: app/widget-parts.php:114 app/widget-parts.php:130
+msgid "Remember Me"
+msgstr ""
+
+#: app/widget-parts.php:116 app/widget-parts.php:192
+msgid "Log in"
+msgstr ""
+
+#: app/widget-parts.php:131 app/widget-parts.php:200
+msgid "Enable WordPress redirect function"
+msgstr ""
+
+#: app/widget-parts.php:132
+msgid "Enable WordPress Cookie Test for login Form"
+msgstr ""
+
+#: app/widget-parts.php:133
+msgid "Form in &lt;ul&gt; &lt;il&gt; tag"
+msgstr ""
+
+#: app/widget-parts.php:163 app/widget-parts.php:520
+msgid "Site Admin"
+msgstr ""
+
+#: app/widget-parts.php:164
+msgid "Dashboard"
+msgstr ""
+
+#: app/widget-parts.php:172
+msgid ""
+"Show Link Name as &quot;Dashboard&quot; <b>not</b> &quot;Site Admin&quot;"
+msgstr ""
+
+#: app/widget-parts.php:190
+msgid "Log out"
+msgstr ""
+
+#: app/widget-parts.php:240 app/widget-parts.php:313
+msgid "Do not show Admin Links Topics"
+msgstr ""
+
+#: app/widget-parts.php:241 app/widget-parts.php:314
+msgid "Display <b>not</b> selected Admin Links"
+msgstr ""
+
+#: app/widget-parts.php:242 app/widget-parts.php:315
+msgid "Select Admin Links:"
+msgstr ""
+
+#: app/widget-parts.php:242 app/widget-parts.php:315 app/widget-parts.php:411
+#: app/widget-parts.php:436
+msgid "All"
+msgstr ""
+
+#: app/widget-parts.php:242 app/widget-parts.php:315 app/widget-parts.php:411
+#: app/widget-parts.php:436
+msgid "None"
+msgstr ""
+
+#: app/widget-parts.php:264
+msgid "topic"
+msgstr ""
+
+#: app/widget-parts.php:290
+msgid "Please select:"
+msgstr ""
+
+#: app/widget-parts.php:356
+msgid "Password Lost and Found"
+msgstr ""
+
+#: app/widget-parts.php:356 app/widget-parts.php:525
+msgid "Lost your password?"
+msgstr ""
+
+#: app/widget-parts.php:376 app/widget-parts.php:521
+msgid "Register"
+msgstr ""
+
+#: app/widget-parts.php:385
+msgid "Register is not allowed in this Blog! Activate it to use this Link."
+msgstr ""
+
+#: app/widget-parts.php:411 app/widget-parts.php:436
+msgid "Select Links to Display:"
+msgstr ""
+
+#: app/widget-parts.php:453
+msgid "Syndicate this site using RSS 2.0"
+msgstr ""
+
+#: app/widget-parts.php:453 app/widget-parts.php:528
+msgid "Entries <abbr title=\"Really Simple Syndication\">RSS</abbr>"
+msgstr ""
+
+#: app/widget-parts.php:472
+msgid "The latest comments to all posts in RSS"
+msgstr ""
+
+#: app/widget-parts.php:472 app/widget-parts.php:529
+msgid "Comments <abbr title=\"Really Simple Syndication\">RSS</abbr>"
+msgstr ""
+
+#: app/widget-parts.php:492
+msgid ""
+"Powered by WordPress, state-of-the-art semantic personal publishing platform."
+msgstr ""
+
+#: app/widget-parts.php:516 app/widget-parts.php:518
+msgid "Gravatar"
+msgstr ""
+
+#: app/widget-parts.php:517
+msgid "Title"
+msgstr ""
+
+#: app/widget-parts.php:519
+msgid "Login Form"
+msgstr ""
+
+#: app/widget-parts.php:520 app/widget-parts.php:521 app/widget-parts.php:525
+#: app/widget-parts.php:528 app/widget-parts.php:529 app/widget-parts.php:530
+msgid "Link:"
+msgstr ""
+
+#: app/widget-parts.php:522
+msgid "Link: Login/Logout"
+msgstr ""
+
+#: app/widget-parts.php:523
+msgid "Adminlinks as Links"
+msgstr ""
+
+#: app/widget-parts.php:524
+msgid "Adminlinks as Selectbox"
+msgstr ""
+
+#: app/widget-parts.php:526
+msgid "Blog Links by category"
+msgstr ""
+
+#: app/widget-parts.php:527
+msgid "Blog Links"
+msgstr ""
+
+#: app/widget-parts.php:531
+msgid "Do Action:"
+msgstr ""
+
+#: app/widgets-wp.php:15
+msgid "Displaying Meta links, Login Form and Admin Links"
+msgstr ""
+
+#: app/widgets-wp.php:41
+msgid "Select a Widget Config"
+msgstr ""
+
+#: app/widgets-wp.php:41
+msgid "Widget Config:"
+msgstr ""
+
+#: app/widgets-wp.php:47 app/widgets-wp.php:53
+msgid "default"
+msgstr ""
+
+#: app/widgets-wp.php:56
+msgid ""
+"To make/change a Widget Config go to <a href=\"admin.php?page=minimeta-widget"
+"\">MiniMeta Widget</a>"
+msgstr ""
+
+#: minimeta-widget.php:52
+msgid "Sorry, MiniMeta Widget works only under WordPress 2.5 or higher"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://danielhuesken.de/portfolio/minimeta/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"WordPress (Mini)Meta Widget with different logon types (form,link) and "
+"additional admin links. All links can enabeld/disabeld."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Daniel H&uuml;sken"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://danielhuesken.de"
+msgstr ""

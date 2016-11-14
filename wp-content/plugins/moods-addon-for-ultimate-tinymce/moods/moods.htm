@@ -1,0 +1,301 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>{#moods_dlg.title}</title>
+	<script type="text/javascript" src="../../../../wp-includes/js/tinymce/tiny_mce_popup.js"></script>
+	<script type="text/javascript" src="../../../../wp-includes/js/tinymce/utils/mctabs.js"></script>
+	<script type="text/javascript" src="../../../../wp-includes/js/tinymce/utils/form_utils.js"></script>
+	<script type="text/javascript" src="../../../../wp-includes/js/tinymce/utils/validate.js"></script>
+	<script type="text/javascript" src="../../../../wp-includes/js/tinymce/utils/editable_selects.js"></script>
+	<script type="text/javascript" src="js/moods.js"></script>
+	
+</head>
+<body id="moods" style="display: none" role="application" aria-labelledby="app_title">
+	<span id="app_title" style="display:none">{#moods_dlg.title}</span>
+	
+		<div class="tabs">
+			<ul>
+				<li id="action_tab" class="current" aria-controls="action_panel"><span><a href="javascript:mcTabs.displayTab('action_tab','action_panel');" onmousedown="return false;">Action</a></span></li>
+				<li id="angry_tab" aria-controls="angry_panel"><span><a href="javascript:mcTabs.displayTab('angry_tab','angry_panel');" onmousedown="return false;">Angry</a></span></li>
+				<li id="bored_tab" aria-controls="advanced_panel"><span><a href="javascript:mcTabs.displayTab('bored_tab','bored_panel');" onmousedown="return false;">Bored</a></span></li>
+                <li id="communicate_tab" aria-controls="communicate_panel"><span><a href="javascript:mcTabs.displayTab('communicate_tab','communicate_panel');" onmousedown="return false;">Communicate</a></span></li>
+                <li id="crazy_tab" aria-controls="crazy_panel"><span><a href="javascript:mcTabs.displayTab('crazy_tab','crazy_panel');" onmousedown="return false;">Crazy</a></span></li>
+                <li id="crying_tab" aria-controls="crying_panel"><span><a href="javascript:mcTabs.displayTab('crying_tab','crying_panel');" onmousedown="return false;">Crying</a></span></li>
+			
+            <li id="fear_tab" aria-controls="fear_panel"><span><a href="javascript:mcTabs.displayTab('fear_tab','fear_panel');" onmousedown="return false;">Fear</a></span></li>
+            <li id="festival_tab" aria-controls="festival_panel"><span><a href="javascript:mcTabs.displayTab('festival_tab','festival_panel');" onmousedown="return false;">Festival</a></span></li>
+            <li id="happy_tab" aria-controls="happy_panel"><span><a href="javascript:mcTabs.displayTab('happy_tab','happy_panel');" onmousedown="return false;">Happy</a></span></li>
+            <li id="love_tab" aria-controls="love_panel"><span><a href="javascript:mcTabs.displayTab('love_tab','love_panel');" onmousedown="return false;">Love</a></span></li>
+            <li id="naughty_tab" aria-controls="naughty_panel"><span><a href="javascript:mcTabs.displayTab('naughty_tab','naughty_panel');" onmousedown="return false;">Naughty</a></span></li>
+            <li id="profession_tab" aria-controls="profession_panel"><span><a href="javascript:mcTabs.displayTab('profession_tab','profession_panel');" onmousedown="return false;">Profession</a></span></li>
+            
+            <li id="shy_tab" aria-controls="shy_panel"><span><a href="javascript:mcTabs.displayTab('shy_tab','shy_panel');" onmousedown="return false;">Shy</a></span></li>
+            <li id="sick_tab" aria-controls="sick_panel"><span><a href="javascript:mcTabs.displayTab('sick_tab','sick_panel');" onmousedown="return false;">Sick</a></span></li>
+            <li id="sports_tab" aria-controls="sports_panel"><span><a href="javascript:mcTabs.displayTab('sports_tab','sports_panel');" onmousedown="return false;">Sports</a></span></li>
+            <li id="tired_tab" aria-controls="tired_panel"><span><a href="javascript:mcTabs.displayTab('tired_tab','tired_panel');" onmousedown="return false;">Tired</a></span></li>
+            <li id="unhappy_tab" aria-controls="unhappy_panel"><span><a href="javascript:mcTabs.displayTab('unhappy_tab','unhappy_panel');" onmousedown="return false;">Unhappy</a></span></li>
+            <li id="weather_tab" aria-controls="weather_panel"><span><a href="javascript:mcTabs.displayTab('weather_tab','weather_panel');" onmousedown="return false;">Weather</a></span></li>
+            </ul>
+		</div>
+
+		<div class="panel_wrapper">
+			<div id="action_panel" class="panel current">
+				<fieldset>
+				<table id="moods_table" role="presentation" border="0" cellspacing="0" cellpadding="4">
+    			<th colspan="3">Action Moods:</th>
+        		<tr>
+            	<td><a class="moods_link" role="button" title="{#moods_dlg.GreatIdea}" href="javascript:MoodsDialog.insert('/action/GreatIdea.gif','moods_dlg.GreatIdea');"><img src="img/action/GreatIdea.gif" width="90" height="90" border="0" alt="{#moods_dlg.GreatIdea}" /></a></td>
+            	<td><a class="moods_link" role="button" title="{#moods_dlg.Sorry}" href="javascript:MoodsDialog.insert('/action/Sorry.gif','moods_dlg.Sorry');"><img src="img/action/Sorry.gif" width="90" height="90" border="0" alt="{#moods_dlg.Sorry}" /></a></td>
+           	 	<td><a class="moods_link" role="button" title="{#moods_dlg.Whistling}" href="javascript:MoodsDialog.insert('/action/Whistling.gif','moods_dlg.Whistling');"><img src="img/action/Whistling.gif" width="90" height="90" border="0" alt="{#moods_dlg.Whistling}" /></a></td>
+       			 </tr>
+        		</table>
+				</fieldset>
+			</div>
+
+			<div id="angry_panel" class="panel">
+				<fieldset>
+				<table id="moods_table" role="presentation" border="0" cellspacing="0" cellpadding="4">
+				<th colspan="3">Angry Moods:</th>
+        		<tr><!--
+            	<td><a class="moods_link" role="button" title="{#moods_dlg.boxerrage}" href="javascript:MoodsDialog.insert('angry/BoxerRage.gif','moods_dlg.boxerrage');"><img src="img/angry/BoxerRage.gif" width="90" height="90" border="0" alt="{#moods_dlg.boxerrage}" /></a></td>
+           	 	<td><a class="moods_link" role="button" title="{#moods_dlg.crushletter}" href="javascript:MoodsDialog.insert('angry/CrushLetter.gif','moods_dlg.crushletter');"><img src="img/angry/CrushLetter.gif" width="90" height="90" border="0" alt="{#moods_dlg.crushletter}" /></a></td>
+            	<td><a class="moods_link" role="button" title="{#moods_dlg.furious1}" href="javascript:MoodsDialog.insert('angry/Furious1.gif','moods_dlg.furious1');"><img src="img/angry/Furious1.gif" width="90" height="90" border="0" alt="{#moods_dlg.furious1}"  /></a></td>-->
+            	<td><a class="moods_link" role="button" title="{#moods_dlg.outraged}" href="javascript:MoodsDialog.insert('/angry/outraged.gif','moods_dlg.outraged');"><img src="img/angry/Outraged.gif" width="90" height="90" border="0" alt="{#moods_dlg.outraged}" /></a></td>
+            	<td><a class="moods_link" role="button" title="{#moods_dlg.TossingLaptop1}" href="javascript:MoodsDialog.insert('/angry/TossingLaptop1.gif','moods_dlg.TossingLaptop1');"><img src="img/angry/TossingLaptop1.gif" width="90" height="90" border="0" alt="{#moods_dlg.TossingLaptop1}" /></a></td>
+            	<td><a class="moods_link" role="button" title="{#moods_dlg.TossingPhone1}" href="javascript:MoodsDialog.insert('/angry/TossingPhone1.gif','moods_dlg.TossingPhone1');"><img src="img/angry/TossingPhone1.gif" width="90" height="90" border="0" alt="{#moods_dlg.TossingPhone1}" /></a></td>
+        		</tr>
+         		</table>              
+				</fieldset>
+			</div>
+			<div id="bored_panel" class="panel">
+				<fieldset>
+				<table id="moods_table" role="presentation" border="0" cellspacing="0" cellpadding="4">
+				<th colspan="3">Bored Moods:</th>
+        		<tr>
+            	<td><a class="moods_link" role="button" title="{#moods_dlg.BlahBlahBlah1}" href="javascript:MoodsDialog.insert('/bored/BlahBlahBlah1.gif','moods_dlg.BlahBlahBlah1');"><img src="img/bored/BlahBlahBlah1.gif" width="90" height="90" border="0" alt="{#moods_dlg.BlahBlahBlah1}" /></a></td>
+            	<!--<td><a class="moods_link" role="button" title="{#moods_dlg.Clockwise}" href="javascript:MoodsDialog.insert('/bored/Clockwise.gif','moods_dlg.Clockwise');"><img src="img/bored/Clockwise.gif" width="90" height="90" border="0" alt="{#moods_dlg.Clockwise}" /></a></td>-->
+            	<td><a class="moods_link" role="button" title="{#moods_dlg.ColdSweat}" href="javascript:MoodsDialog.insert('/bored/ColdSweat.gif','moods_dlg.ColdSweat');"><img src="img/bored/ColdSweat.gif" width="90" height="90" border="0" alt="{#moods_dlg.ColdSweat}" /></a></td>
+            <!--<td><a class="moods_link" role="button" title="{#moods_dlg.LookingAround}" href="javascript:MoodsDialog.insert('/bored/LookingAround.gif','moods_dlg.LookingAround');"><img src="img/bored/LookingAround.gif" width="90" height="90" border="0" alt="{#moods_dlg.LookingAround}" /></a></td>
+            	<td><a class="moods_link" role="button" title="{#moods_dlg.Roll1}" href="javascript:MoodsDialog.insert('/bored/Roll1.gif','moods_dlg.Roll1');"><img src="img/bored/Roll1.gif" width="90" height="90" border="0" alt="{#moods_dlg.Roll1}" /></a></td>-->
+            	<td><a class="moods_link" role="button" title="{#moods_dlg.Flip}" href="javascript:MoodsDialog.insert('/bored/Flip.gif','moods_dlg.Flip');"><img src="img/bored/Flip.gif" width="90" height="90" border="0" alt="{#moods_dlg.Flip}" /></a></td>
+        		</tr>
+        		</table>
+				</fieldset>
+			</div>
+            
+            
+            <div id="communicate_panel" class="panel">
+				<fieldset>
+				<table id="moods_table" role="presentation" border="0" cellspacing="0" cellpadding="4">
+				<th colspan="3">Communicate Moods:</th>
+        		<tr>
+            	<td><a class="moods_link" role="button" title="{#moods_dlg.BeQuiet2}" href="javascript:MoodsDialog.insert('/communicate/BeQuiet2.gif','moods_dlg.BeQuiet2');"><img src="img/communicate/BeQuiet2.gif" width="90" height="90" border="0" alt="{#moods_dlg.BeQuiet2}" /></a></td>
+            <!--<td><a class="moods_link" role="button" title="{#moods_dlg.Call}" href="javascript:MoodsDialog.insert('/communicate/Call.gif','moods_dlg.Call');"><img src="img/communicate/Call.gif" width="90" height="90" border="0" alt="{#moods_dlg.Call}" /></a></td>-->
+            <td><a class="moods_link" role="button" title="{#moods_dlg.DontKnow21}" href="javascript:MoodsDialog.insert('/communicate/DontKnow21.gif','moods_dlg.DontKnow21');"><img src="img/communicate/DontKnow21.gif" width="90" height="90" border="0" alt="{#moods_dlg.DontKnow21}" /></a></td>
+            <td><a class="moods_link" role="button" title="{#moods_dlg.Secret21}" href="javascript:MoodsDialog.insert('/communicate/Secret21.gif','moods_dlg.Secret21');"><img src="img/communicate/Secret21.gif" width="90" height="90" border="0" alt="{#moods_dlg.Secret21}" /></a></td>
+            <!--<td><a class="moods_link" role="button" title="{#moods_dlg.Talk}" href="javascript:MoodsDialog.insert('/communicate/Talk.gif','moods_dlg.Talk');"><img src="img/communicate/Talk.gif" width="90" height="90" border="0" alt="{#moods_dlg.Talk}" /></a></td>
+            <td><a class="moods_link" role="button" title="{#moods_dlg.Write11}" href="javascript:MoodsDialog.insert('/communicate/Write11.gif','moods_dlg.Write11');"><img src="img/communicate/Write11.gif" width="90" height="90" border="0" alt="{#moods_dlg.Write11}" /></a></td>-->
+        		</tr>
+        		</table>
+				</fieldset>
+			</div>
+            
+            
+            <div id="crazy_panel" class="panel">
+				<fieldset>
+				<table id="moods_table" role="presentation" border="0" cellspacing="0" cellpadding="4">
+				<th colspan="3">Crazy Moods:</th>
+        		<tr>
+            	<td><a class="moods_link" role="button" title="{#moods_dlg.Grimace1}" href="javascript:MoodsDialog.insert('/crazy/Grimace1.gif','moods_dlg.Grimace1');"><img src="img/crazy/Grimace1.gif" width="90" height="90" border="0" alt="{#moods_dlg.Grimace1}" /></a></td>
+            <td><a class="moods_link" role="button" title="{#moods_dlg.Hypnotize}" href="javascript:MoodsDialog.insert('/crazy/Hypnotize.gif','moods_dlg.Hypnotize');"><img src="img/crazy/Hypnotize.gif" width="90" height="90" border="0" alt="{#moods_dlg.Hypnotize}" /></a></td>
+            <!--<td><a class="moods_link" role="button" title="{#moods_dlg.Insane}" href="javascript:MoodsDialog.insert('/crazy/Insane.gif','moods_dlg.Insane');"><img src="img/crazy/Insane.gif" width="90" height="90" border="0" alt="{#moods_dlg.Insane}" /></a></td>
+            <td><a class="moods_link" role="button" title="{#moods_dlg.LightBulb}" href="javascript:MoodsDialog.insert('/crazy/LightBulb.gif','moods_dlg.LightBulb');"><img src="img/crazy/LightBulb.gif" width="90" height="90" border="0" alt="{#moods_dlg.LightBulb}" /></a></td>-->
+            <td><a class="moods_link" role="button" title="{#moods_dlg.MouthWatering}" href="javascript:MoodsDialog.insert('/crazy/MouthWatering.gif','moods_dlg.MouthWatering');"><img src="img/crazy/MouthWatering.gif" width="90" height="90" border="0" alt="{#moods_dlg.MouthWatering}" /></a></td>
+            <!--<td><a class="moods_link" role="button" title="{#moods_dlg.Lunatic}" href="javascript:MoodsDialog.insert('/crazy/Lunatic.gif','moods_dlg.Lunatic');"><img src="img/crazy/Lunatic.gif" width="90" height="90" border="0" alt="{#moods_dlg.Lunatic}" /></a></td>-->
+        		</tr>
+        		</table>
+				</fieldset>
+			</div>
+            
+            
+            <div id="crying_panel" class="panel">
+				<fieldset>
+				<table id="moods_table" role="presentation" border="0" cellspacing="0" cellpadding="4">
+				<th colspan="3">Crying Moods:</th>
+        		<tr>
+            	<td><a class="moods_link" role="button" title="{#moods_dlg.CryOutLoud}" href="javascript:MoodsDialog.insert('/crying/CryOutLoud.gif','moods_dlg.CryOutLoud');"><img src="img/crying/CryOutLoud.gif" width="90" height="90" border="0" alt="{#moods_dlg.CryOutLoud}" /></a></td>
+            <td><a class="moods_link" role="button" title="{#moods_dlg.Disappointed}" href="javascript:MoodsDialog.insert('/crying/Disappointed.gif','moods_dlg.Disappointed');"><img src="img/crying/Disappointed.gif" width="90" height="90" border="0" alt="{#moods_dlg.Disappointed}" /></a></td>
+            <td><a class="moods_link" role="button" title="{#moods_dlg.Sad}" href="javascript:MoodsDialog.insert('/crying/Sad.gif','moods_dlg.Sad');"><img src="img/crying/Sad.gif" width="90" height="90" border="0" alt="{#moods_dlg.Sad}" /></a></td>
+        		</tr>
+        		</table>
+				</fieldset>
+			</div>
+            
+            
+            <div id="fear_panel" class="panel">
+				<fieldset>
+				<table id="moods_table" role="presentation" border="0" cellspacing="0" cellpadding="4">
+				<th colspan="3">Fear Moods:</th>
+        		<tr>
+            	<td><a class="moods_link" role="button" title="{#moods_dlg.Astonished}" href="javascript:MoodsDialog.insert('/fear/Astonished.gif','moods_dlg.Astonished');"><img src="img/fear/Astonished.gif" width="90" height="90" border="0" alt="{#moods_dlg.Astonished}" /></a></td>
+            <td><a class="moods_link" role="button" title="{#moods_dlg.Shocking}" href="javascript:MoodsDialog.insert('/fear/Shocking.gif','moods_dlg.Shocking');"><img src="img/fear/Shocking.gif" width="90" height="90" border="0" alt="{#moods_dlg.Shocking}" /></a></td>
+            <td><a class="moods_link" role="button" title="{#moods_dlg.Unbelievable}" href="javascript:MoodsDialog.insert('/fear/Unbelievable.gif','moods_dlg.Unbelievable');"><img src="img/fear/Unbelievable.gif" width="90" height="90" border="0" alt="{#moods_dlg.Unbelievable}" /></a></td>
+        		</tr>
+        		</table>
+				</fieldset>
+			</div>
+            
+            
+            <div id="festival_panel" class="panel">
+				<fieldset>
+				<table id="moods_table" role="presentation" border="0" cellspacing="0" cellpadding="4">
+				<th colspan="3">Festival Moods:</th>
+        		<tr>
+            	<td><a class="moods_link" role="button" title="{#moods_dlg.LoveKisses}" href="javascript:MoodsDialog.insert('/festival/LoveKisses.gif','moods_dlg.LoveKisses');"><img src="img/festival/LoveKisses.gif" width="90" height="90" border="0" alt="{#moods_dlg.LoveKisses}" /></a></td>
+            <td><a class="moods_link" role="button" title="{#moods_dlg.SantaClaus}" href="javascript:MoodsDialog.insert('/festival/SantaClaus.gif','moods_dlg.SantaClaus');"><img src="img/festival/SantaClaus.gif" width="90" height="90" border="0" alt="{#moods_dlg.SantaClaus}" /></a></td>
+            <td><a class="moods_link" role="button" title="{#moods_dlg.UAreMyLove}" href="javascript:MoodsDialog.insert('/festival/UAreMyLove.gif','moods_dlg.UAreMyLove');"><img src="img/festival/UAreMyLove.gif" width="90" height="90" border="0" alt="{#moods_dlg.UAreMyLove}" /></a></td>
+        		</tr>
+        		</table>
+				</fieldset>
+			</div>
+            
+            
+            <div id="happy_panel" class="panel">
+				<fieldset>
+				<table id="moods_table" role="presentation" border="0" cellspacing="0" cellpadding="4">
+				<th colspan="3">Happy Moods:</th>
+        		<tr>
+            	<td><a class="moods_link" role="button" title="{#moods_dlg.Cheeze}" href="javascript:MoodsDialog.insert('/happy/Cheeze.gif','moods_dlg.Cheeze');"><img src="img/happy/Cheeze.gif" width="90" height="90" border="0" alt="{#moods_dlg.Cheeze}" /></a></td>
+            <td><a class="moods_link" role="button" title="{#moods_dlg.WellDone}" href="javascript:MoodsDialog.insert('/happy/WellDone.gif','moods_dlg.WellDone');"><img src="img/happy/WellDone.gif" width="90" height="90" border="0" alt="{#moods_dlg.WellDone}" /></a></td>
+            <td><a class="moods_link" role="button" title="{#moods_dlg.Wonderful}" href="javascript:MoodsDialog.insert('/happy/Wonderful.gif','moods_dlg.Wonderful');"><img src="img/happy/Wonderful.gif" width="90" height="90" border="0" alt="{#moods_dlg.Wonderful}" /></a></td>
+        		</tr>
+        		</table>
+				</fieldset>
+			</div>
+            
+            
+            <div id="love_panel" class="panel">
+				<fieldset>
+				<table id="moods_table" role="presentation" border="0" cellspacing="0" cellpadding="4">
+				<th colspan="3">Love Moods:</th>
+        		<tr>
+            	<td><a class="moods_link" role="button" title="{#moods_dlg.HeartBeating}" href="javascript:MoodsDialog.insert('/love/HeartBeating.gif','moods_dlg.HeartBeating');"><img src="img/love/HeartBeating.gif" width="90" height="90" border="0" alt="{#moods_dlg.HeartBeating}" /></a></td>
+            <td><a class="moods_link" role="button" title="{#moods_dlg.WoodenGuiter}" href="javascript:MoodsDialog.insert('/love/WoodenGuiter.gif','moods_dlg.WoodenGuiter');"><img src="img/love/WoodenGuiter.gif" width="90" height="90" border="0" alt="{#moods_dlg.WoodenGuiter}" /></a></td>
+            <td><a class="moods_link" role="button" title="{#moods_dlg.Propose}" href="javascript:MoodsDialog.insert('/love/Propose.gif','moods_dlg.Propose');"><img src="img/love/Propose.gif" width="90" height="90" border="0" alt="{#moods_dlg.Propose}" /></a></td>
+        		</tr>
+        		</table>
+				</fieldset>
+			</div>
+            
+            
+            <div id="naughty_panel" class="panel">
+				<fieldset>
+				<table id="moods_table" role="presentation" border="0" cellspacing="0" cellpadding="4">
+				<th colspan="3">Naughty Moods:</th>
+        		<tr>
+            	<td><a class="moods_link" role="button" title="{#moods_dlg.EvilFace}" href="javascript:MoodsDialog.insert('/naughty/EvilFace.gif','moods_dlg.EvilFace');"><img src="img/naughty/EvilFace.gif" width="90" height="90" border="0" alt="{#moods_dlg.EvilFace}" /></a></td>
+            <td><a class="moods_link" role="button" title="{#moods_dlg.EvilIdea}" href="javascript:MoodsDialog.insert('/naughty/EvilIdea.gif','moods_dlg.EvilIdea');"><img src="img/naughty/EvilIdea.gif" width="90" height="90" border="0" alt="{#moods_dlg.EvilIdea}" /></a></td>
+            <td><a class="moods_link" role="button" title="{#moods_dlg.Grimace}" href="javascript:MoodsDialog.insert('/naughty/Grimace.gif','moods_dlg.Grimace');"><img src="img/naughty/Grimace.gif" width="90" height="90" border="0" alt="{#moods_dlg.Grimace}" /></a></td>
+        		</tr>
+        		</table>
+				</fieldset>
+			</div>
+            
+            
+            <div id="profession_panel" class="panel">
+				<fieldset>
+				<table id="moods_table" role="presentation" border="0" cellspacing="0" cellpadding="4">
+				<th colspan="3">Profession Moods:</th>
+        		<tr>
+            	<td><a class="moods_link" role="button" title="{#moods_dlg.DozingOff}" href="javascript:MoodsDialog.insert('/profession/DozingOff.gif','moods_dlg.DozingOff');"><img src="img/profession/DozingOff.gif" width="90" height="90" border="0" alt="{#moods_dlg.DozingOff}" /></a></td>
+            <td><a class="moods_link" role="button" title="{#moods_dlg.Composer}" href="javascript:MoodsDialog.insert('/profession/Composer.gif','moods_dlg.Composer');"><img src="img/profession/Composer.gif" width="90" height="90" border="0" alt="{#moods_dlg.Composer}" /></a></td>
+            <td><a class="moods_link" role="button" title="{#moods_dlg.IAmPolice}" href="javascript:MoodsDialog.insert('/profession/IAmPolice.gif','moods_dlg.IAmPolice');"><img src="img/profession/IAmPolice.gif" width="90" height="90" border="0" alt="{#moods_dlg.IAmPolice}" /></a></td>
+        		</tr>
+        		</table>
+				</fieldset>
+			</div>
+            
+            
+            <div id="shy_panel" class="panel">
+				<fieldset>
+				<table id="moods_table" role="presentation" border="0" cellspacing="0" cellpadding="4">
+				<th colspan="3">Shy Moods:</th>
+        		<tr>
+            	<td><a class="moods_link" role="button" title="{#moods_dlg.Blush}" href="javascript:MoodsDialog.insert('/shy/Blush.gif','moods_dlg.Blush');"><img src="img/shy/Blush.gif" width="90" height="90" border="0" alt="{#moods_dlg.Blush}" /></a></td>
+            <td><a class="moods_link" role="button" title="{#moods_dlg.Shy}" href="javascript:MoodsDialog.insert('/shy/Shy.gif','moods_dlg.Shy');"><img src="img/shy/Shy.gif" width="90" height="90" border="0" alt="{#moods_dlg.Shy}" /></a></td>
+            <td><a class="moods_link" role="button" title="{#moods_dlg.Uncertain}" href="javascript:MoodsDialog.insert('/shy/Uncertain.gif','moods_dlg.Uncertain');"><img src="img/shy/Uncertain.gif" width="90" height="90" border="0" alt="{#moods_dlg.Uncertain}" /></a></td>
+        		</tr>
+        		</table>
+				</fieldset>
+			</div>
+            
+            
+            <div id="sick_panel" class="panel">
+				<fieldset>
+				<table id="moods_table" role="presentation" border="0" cellspacing="0" cellpadding="4">
+				<th colspan="3">Sick Moods:</th>
+        		<tr>
+            	<td><a class="moods_link" role="button" title="{#moods_dlg.HighTemperature}" href="javascript:MoodsDialog.insert('/sick/HighTemperature.gif','moods_dlg.HighTemperature');"><img src="img/sick/HighTemperature.gif" width="90" height="90" border="0" alt="{#moods_dlg.HighTemperature}" /></a></td>
+            <td><a class="moods_link" role="button" title="{#moods_dlg.Exhausted}" href="javascript:MoodsDialog.insert('/sick/Exhausted.gif','moods_dlg.Exhausted');"><img src="img/sick/Exhausted.gif" width="90" height="90" border="0" alt="{#moods_dlg.Exhausted}" /></a></td>
+            <td><a class="moods_link" role="button" title="{#moods_dlg.Flu}" href="javascript:MoodsDialog.insert('/sick/Flu.gif','moods_dlg.Flu');"><img src="img/sick/Flu.gif" width="90" height="90" border="0" alt="{#moods_dlg.Flu}" /></a></td>
+        		</tr>
+        		</table>
+				</fieldset>
+			</div>
+            
+            <div id="sports_panel" class="panel">
+				<fieldset>
+				<table id="moods_table" role="presentation" border="0" cellspacing="0" cellpadding="4">
+				<th colspan="3">Sports Moods:</th>
+        		<tr>
+            	<td><a class="moods_link" role="button" title="{#moods_dlg.WeightLifting}" href="javascript:MoodsDialog.insert('/sports/WeightLifting.gif','moods_dlg.WeightLifting');"><img src="img/sports/WeightLifting.gif" width="90" height="90" border="0" alt="{#moods_dlg.WeightLifting}" /></a></td>
+            <td><a class="moods_link" role="button" title="{#moods_dlg.Sandbag}" href="javascript:MoodsDialog.insert('/sports/Sandbag.gif','moods_dlg.Sandbag');"><img src="img/sports/Sandbag.gif" width="90" height="90" border="0" alt="{#moods_dlg.Sandbag}" /></a></td>
+            <td><a class="moods_link" role="button" title="{#moods_dlg.Practice}" href="javascript:MoodsDialog.insert('/sports/Practice.gif','moods_dlg.Practice');"><img src="img/sports/Practice.gif" width="90" height="90" border="0" alt="{#moods_dlg.Practice}" /></a></td>
+        		</tr>
+        		</table>
+				</fieldset>
+			</div>
+            
+            <div id="tired_panel" class="panel">
+				<fieldset>
+				<table id="moods_table" role="presentation" border="0" cellspacing="0" cellpadding="4">
+				<th colspan="3">Tired Moods:</th>
+        		<tr>
+            	<td><a class="moods_link" role="button" title="{#moods_dlg.Bored}" href="javascript:MoodsDialog.insert('/tired/Bored.gif','moods_dlg.Bored');"><img src="img/tired/Bored.gif" width="90" height="90" border="0" alt="{#moods_dlg.Bored}" /></a></td>
+            <td><a class="moods_link" role="button" title="{#moods_dlg.SoundAsleep}" href="javascript:MoodsDialog.insert('/tired/SoundAsleep.gif','moods_dlg.SoundAsleep');"><img src="img/tired/SoundAsleep.gif" width="90" height="90" border="0" alt="{#moods_dlg.SoundAsleep}" /></a></td>
+            <td><a class="moods_link" role="button" title="{#moods_dlg.StayUp}" href="javascript:MoodsDialog.insert('/tired/StayUp.gif','moods_dlg.StayUp');"><img src="img/tired/StayUp.gif" width="90" height="90" border="0" alt="{#moods_dlg.StayUp}" /></a></td>
+        		</tr>
+        		</table>
+				</fieldset>
+			</div>
+            
+            <div id="unhappy_panel" class="panel">
+				<fieldset>
+				<table id="moods_table" role="presentation" border="0" cellspacing="0" cellpadding="4">
+				<th colspan="3">Unhappy Moods:</th>
+        		<tr>
+            	<td><a class="moods_link" role="button" title="{#moods_dlg.Concerned}" href="javascript:MoodsDialog.insert('/unhappy/Concerned.gif','moods_dlg.Concerned');"><img src="img/unhappy/Concerned.gif" width="90" height="90" border="0" alt="{#moods_dlg.Concerned}" /></a></td>
+            <td><a class="moods_link" role="button" title="{#moods_dlg.Decline}" href="javascript:MoodsDialog.insert('/unhappy/Decline.gif','moods_dlg.Decline');"><img src="img/unhappy/Decline.gif" width="90" height="90" border="0" alt="{#moods_dlg.Decline}" /></a></td>
+            <td><a class="moods_link" role="button" title="{#moods_dlg.Worried}" href="javascript:MoodsDialog.insert('/unhappy/Worried.gif','moods_dlg.Worried');"><img src="img/unhappy/Worried.gif" width="90" height="90" border="0" alt="{#moods_dlg.Worried}" /></a></td>
+        		</tr>
+        		</table>
+				</fieldset>
+			</div>
+            
+            <div id="weather_panel" class="panel">
+				<fieldset>
+				<table id="moods_table" role="presentation" border="0" cellspacing="0" cellpadding="4">
+				<th colspan="3">Weather Moods:</th>
+        		<tr>
+            	<td><a class="moods_link" role="button" title="{#moods_dlg.Snow}" href="javascript:MoodsDialog.insert('/weather/Snow.gif','moods_dlg.Snow');"><img src="img/weather/Snow.gif" width="90" height="90" border="0" alt="{#moods_dlg.Snow}" /></a></td>
+            <td><a class="moods_link" role="button" title="{#moods_dlg.Lightning}" href="javascript:MoodsDialog.insert('/weather/Lightning.gif','moods_dlg.Lightning');"><img src="img/weather/Lightning.gif" width="90" height="90" border="0" alt="{#moods_dlg.Lightning}" /></a></td>
+            <td><a class="moods_link" role="button" title="{#moods_dlg.Showers}" href="javascript:MoodsDialog.insert('/weather/Showers.gif','moods_dlg.Showers');"><img src="img/weather/Showers.gif" width="90" height="90" border="0" alt="{#moods_dlg.Showers}" /></a></td>
+        		</tr>
+        		</table>
+				</fieldset>
+			</div>
+		</div>
+
+		
+</body> 
+</html> 

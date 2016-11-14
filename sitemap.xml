@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="http://odyssea.skauting.cz/odyweb/wp-content/plugins/google-sitemap-generator/sitemap.xsl"?><!-- generator="wordpress/2.9.1" -->
+<!-- sitemap-generator-url="http://www.arnebrachhold.de" sitemap-generator-version="3.2.2" -->
+<!-- generated-on="19.1.2010 16.34" -->
+<!-- Debug: Total comment count: 1 -->
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">	<url>
+		<loc>http://odyssea.skauting.cz/odyweb/</loc>
+		<lastmod>2010-01-19T16:24:13+00:00</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+<!-- Debug: Start Postings -->
+	<url>
+		<loc>http://odyssea.skauting.cz/odyweb/?page_id=5</loc>
+		<lastmod>2010-01-19T16:33:46+00:00</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
+	</url>
+	<url>
+		<loc>http://odyssea.skauting.cz/odyweb/?page_id=46</loc>
+		<lastmod>2010-01-19T16:26:20+00:00</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
+	</url>
+<!-- Debug: Priority report of postID 3: Comments: 0 of 1 = 0 points -->
+	<url>
+		<loc>http://odyssea.skauting.cz/odyweb/?p=3</loc>
+		<lastmod>2010-01-19T16:24:13+00:00</lastmod>
+		<changefreq>monthly</changefreq>
+		<priority>0.2</priority>
+	</url>
+	<url>
+		<loc>http://odyssea.skauting.cz/odyweb/?page_id=7</loc>
+		<lastmod>2010-01-19T12:08:31+00:00</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
+	</url>
+	<url>
+		<loc>http://odyssea.skauting.cz/odyweb/?page_id=9</loc>
+		<lastmod>2010-01-18T23:28:49+00:00</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
+	</url>
+	<url>
+		<loc>http://odyssea.skauting.cz/odyweb/?page_id=8</loc>
+		<lastmod>2010-01-18T23:28:29+00:00</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
+	</url>
+<!-- Debug: End Postings -->
+<!-- Debug: Start Custom Pages -->
+<!-- Debug: End Custom Pages -->
+<!-- Debug: Start additional URLs -->
+<!-- Debug: End additional URLs -->
+</urlset>

@@ -1,0 +1,597 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Daniel H&uuml;sken
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/minimeta-widget\n"
+"POT-Creation-Date: 2009-06-11 11:57+0000\n"
+"PO-Revision-Date: 2009-06-11 15:32+0100\n"
+"Last-Translator: Lorand <contact@pocketpc-logiciels.fr>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: app/functions.php:31
+#, php-format
+msgid "Comments %s"
+msgstr "Commentaires %s"
+
+#: app/functions.php:33
+#, php-format
+msgid "Plugins %s"
+msgstr "Plugins %s"
+
+#. #-#-#-#-#  plugin.pot (PACKAGE VERSION)  #-#-#-#-#
+#. Plugin Name of an extension
+#: app/functions.php:72
+#: app/options-form.php:24
+#: app/widgets-wp-2_5.php:19
+#: app/widgets-wp-2_8.php:11
+msgid "MiniMeta Widget"
+msgstr "MiniMeta Widget"
+
+#: app/functions.php:83
+msgid "Support Forums"
+msgstr "Forums de support"
+
+#: app/functions.php:84
+msgid "Plugin Homepage"
+msgstr "Page d'accueil du Plugin"
+
+#: app/functions.php:85
+msgid "Plugin Home on WordPress.org"
+msgstr "Page du Plugin sur WordPress.org"
+
+#: app/functions.php:88
+msgid "Version:"
+msgstr "Version :"
+
+#: app/functions.php:89
+msgid "Author:"
+msgstr "Auteur :"
+
+#: app/functions.php:126
+msgid "Uninstall MiniMeta Widget"
+msgstr "Désinstaller MiniMeta Widget"
+
+#: app/functions.php:127
+#, php-format
+msgid "<a href=\"%s\">Click Here</a> To Finish The Uninstallation And MiniMeta Widget Will Be Deactivated Automatically."
+msgstr "<a href=\"%s\">Cliquez ici</a> pour terminer la désinstallation de MiniMeta Widget et afin qu'il soit automatiquement désactivé."
+
+#: app/functions.php:140
+msgid "Edit"
+msgstr "Editer"
+
+#: app/functions.php:154
+#, php-format
+msgid "Setting Key '%s' has been deleted."
+msgstr "La clé de configuration '%s' a bien été supprimée"
+
+#: app/functions.php:158
+#, php-format
+msgid "Error deleting Setting Key '%s'."
+msgstr "Erreur lors de la suppression d ela clé de configuration '%s'"
+
+#: app/functions.php:181
+msgid "Go to Settings Page"
+msgstr "Aller sur la page de configuration"
+
+#: app/functions.php:181
+msgid "Settings"
+msgstr "Configuration"
+
+#: app/options-form.php:27
+msgid "Widget Config"
+msgstr "Configuration du Widget"
+
+#: app/options-form.php:28
+msgid "Uninstall"
+msgstr "Désinstaller"
+
+#: app/options-form.php:29
+msgid "Usage"
+msgstr "Utilisation"
+
+#: app/options-form.php:38
+msgid "adds a new MiniMeta widget config with default values"
+msgstr "Désolé, le widget MiniMeta fonctionne uniquement avec les versions WordPress 2.5 et supérieures"
+
+#: app/options-form.php:38
+msgid "Add New Config"
+msgstr "Ajouter une nouvelle configuration"
+
+#: app/options-form.php:40
+msgid "clones the current MiniMeta widget config"
+msgstr "Cloner la configuration MiniMeta widget actuelle"
+
+#: app/options-form.php:40
+msgid "Duplicate This Config"
+msgstr "Dupliquer cette configuration"
+
+#: app/options-form.php:41
+msgid "This will delete the current MiniMeta widget config - no warning!"
+msgstr "Ceci va supprimer la configuration MiniMeta widget actuelle - sans avertissement !"
+
+#: app/options-form.php:41
+msgid "This will delete the current MiniMeta widget config!"
+msgstr "Ceci va supprimer la configuration MiniMeta widget actuelle !"
+
+#: app/options-form.php:41
+msgid "Delete This Config"
+msgstr "Supprimer cette configuration"
+
+#: app/options-form.php:46
+msgid "Select the current MiniMeta widget config!"
+msgstr "Sélectionnez la configuration MiniMeta widget actuelle !"
+
+#: app/options-form.php:53
+msgid "Go to MiniMeta widget config"
+msgstr "Aller dans la configuration MiniMeta widget"
+
+#: app/options-form.php:53
+msgid "Go!"
+msgstr "Valider !"
+
+#: app/options-form.php:55
+msgid "Make a New config first -->"
+msgstr "Créer une nouvelle configuration en premier -->"
+
+#: app/options-form.php:68
+msgid "MiniMeta Widget Config"
+msgstr "Configuration MiniMeta Widget"
+
+#: app/options-form.php:70
+msgid "Save Changes"
+msgstr "Sauvegarder les modifications"
+
+#: app/options-form.php:71
+msgid "Config Name:"
+msgstr "Nom de configuration :"
+
+#: app/options-form.php:71
+msgid "Config Name"
+msgstr "Nom de configuration"
+
+#: app/options-form.php:81
+msgid "Show when Loggt in:"
+msgstr "Afficher lorsque connecté :"
+
+#: app/options-form.php:86
+msgid "Show when Loggt out:"
+msgstr "Afficher lorsque déconnecté :"
+
+#: app/options-form.php:132
+msgid "Generel Settings:"
+msgstr "Préférences générales :"
+
+#: app/options-form.php:135
+msgid "Stylesheet"
+msgstr "Feuille de style"
+
+#: app/options-form.php:148
+msgid "Seidbar Widget Settings (PHP Function)"
+msgstr "Préférences sidebar Widget (PHP Function)"
+
+#: app/options-form.php:151
+#: app/widget-display.php:30
+#: app/widgets-wp-2_5.php:95
+#: app/widgets-wp-2_8.php:16
+msgid "Meta"
+msgstr "Meta"
+
+#: app/options-form.php:157
+#: app/widgets-wp-2_5.php:109
+#: app/widgets-wp-2_8.php:35
+msgid "Title:"
+msgstr "Titre :"
+
+#: app/options-form.php:159
+msgid "Before Title:"
+msgstr "Avant le titre :"
+
+#: app/options-form.php:161
+msgid "After Title:"
+msgstr "Après le titre :"
+
+#: app/options-form.php:163
+msgid "Before Widget:"
+msgstr "Avant le Widget :"
+
+#: app/options-form.php:165
+msgid "After Widget:"
+msgstr "Après le Widget :"
+
+#: app/options-form.php:170
+msgid "Display on Pages"
+msgstr "Afficher sur les pages"
+
+#: app/options-form.php:172
+msgid "Display on <b>not</b> selected Pages"
+msgstr "Affichage sur les pages <b>non</b> sélectionnées"
+
+#: app/options-form.php:173
+msgid "out"
+msgstr "Hors"
+
+#: app/options-form.php:173
+msgid "in"
+msgstr "Dans"
+
+#: app/options-form.php:173
+msgid "Pages"
+msgstr "Pages"
+
+#: app/options-form.php:174
+msgid "Homepage"
+msgstr "Page d'accueil"
+
+#: app/options-form.php:175
+msgid "Single Post"
+msgstr "Post simple"
+
+#: app/options-form.php:176
+msgid "Search Page"
+msgstr "Page de recherche"
+
+#: app/options-form.php:177
+msgid "Error Page"
+msgstr "Page d'erreur"
+
+#: app/options-form.php:196
+msgid "Please Select a MiniMeta Widget Config to begin!"
+msgstr "Veuillez svp sélectionner une configuration MiniMeta Widget pour commencer !"
+
+#: app/options-form.php:203
+msgid "1. Create a Widget Config."
+msgstr "1. Cochez une option Widget"
+
+#: app/options-form.php:204
+msgid "2. Configure your Widget Config as you wont."
+msgstr "2. Configurez votre widget comme vous le souhaitez."
+
+#: app/options-form.php:205
+msgid "3. Place a Widget from WordPress Widgets or in Theme via PHP and select a Widget Config."
+msgstr "3. Placer un widget depuis les Widgets WordPress ou dans votre thème via PHP et sélectionner une configuration Widget."
+
+#: app/options-form.php:206
+msgid "4. Ready."
+msgstr "4. Prêt"
+
+#: app/options-form.php:208
+msgid "Code too place a Widget via PHP:"
+msgstr "Vous pouvez également placer ce code PHP dans votre thème :"
+
+#: app/options-form.php:209
+msgid "Name of Widget Config"
+msgstr "Nom du Widget de configuration"
+
+#: app/options-form.php:219
+msgid "Deactivating MiniMeta Widget plugin does not remove any data that may have been created. To completely remove this plugin, you can uninstall it here."
+msgstr "Le fait de désactiver le plugin MiniMeta Widget ne supprime pas les tables qui ont été créées dans la base de données. Pour supprimer totalement ce plugin, vous devez le désinstaller avec cette fonction."
+
+#: app/options-form.php:222
+msgid "WARNING:"
+msgstr "ATTENTION :"
+
+#: app/options-form.php:223
+msgid "Once uninstalled, this cannot be undone. You should use a Database Backup plugin of WordPress to back up all the data first."
+msgstr "Une fois désinstallé, il ne sera plus possible de revenir en arrière. Vous devrez avant tout utiliser une sauvegarde des tables de la base de données de ce plugin WordPress pour le réinstaller avec votre configuration. "
+
+#: app/options-form.php:226
+msgid "The following WordPress Options will be DELETED:"
+msgstr "Les options WordPress suivantes seront SUPPRIMEES :"
+
+#: app/options-form.php:231
+msgid "WordPress Options"
+msgstr "Options WordPress"
+
+#: app/options-form.php:248
+msgid "Yes"
+msgstr "Oui"
+
+#: app/options-form.php:249
+msgid "UNINSTALL MiniMeta Widget"
+msgstr "DESINSTALLER MiniMeta Widget"
+
+#: app/options-form.php:249
+msgid ""
+"You Are About To Uninstall MiniMeta Widget From WordPress.\\n"
+"This Action Is Not Reversible.\\n"
+"\\n"
+" Choose [Cancel] To Stop, [OK] To Uninstall."
+msgstr ""
+"Vous êtes sur le point de désinstaller MiniMeta Widget de votre WordPress.\\n"
+"Cette action sera irreversible.\\n"
+"\\n"
+"Choisissez [Cancel] pour annuler, ou [OK] pour désinstaller."
+
+#: app/options-save.php:22
+msgid "New"
+msgstr "Nouveau"
+
+#: app/options-save.php:40
+msgid "New Config Created"
+msgstr "Nouvelle configuration créée"
+
+#: app/options-save.php:42
+msgid "New Config NOT Created"
+msgstr "Nouvelle configuration NON créée"
+
+#: app/options-save.php:59
+msgid "Copy of"
+msgstr "Copie de"
+
+#: app/options-save.php:62
+#, php-format
+msgid "Copy of \"%s\" Config Created"
+msgstr "Copie de la configuration \"%s\" créée"
+
+#: app/options-save.php:64
+#, php-format
+msgid "Copy of \"%s\" Config NOT Created"
+msgstr "Copie de la configuration \"%s\" NON créée"
+
+#: app/options-save.php:85
+#: app/options-save.php:92
+#, php-format
+msgid "Config \"%s\" Deleted"
+msgstr "Configuration \"%s\" supprimée"
+
+#: app/options-save.php:88
+#: app/options-save.php:95
+#, php-format
+msgid "Config \"%s\" NOT Deleted"
+msgstr "Configuration \"%s\" NON supprimée"
+
+#: app/options-save.php:154
+#, php-format
+msgid "Config \"%s\" Updated"
+msgstr "Configuration \"%s\" mise à jour"
+
+#: app/options-save.php:157
+#, php-format
+msgid "Config \"%s\" NOT Updated"
+msgstr "Configuration \"%s\" NON mise à jour"
+
+#: app/widget-parts.php:31
+msgid "Your Profile"
+msgstr "Votre Profil"
+
+#: app/widget-parts.php:45
+msgid "Disply user Identity as title"
+msgstr "Afficher l'identité de l'utilisateur comme titre"
+
+#: app/widget-parts.php:46
+msgid "Link to Your Profile in title"
+msgstr "Lien vers votre profil en titre"
+
+#: app/widget-parts.php:69
+msgid "Gravatar Size:"
+msgstr "Taille Gravatar :"
+
+#: app/widget-parts.php:73
+#: app/widget-parts.php:126
+#: app/widget-parts.php:163
+#: app/widget-parts.php:192
+#: app/widget-parts.php:251
+#: app/widget-parts.php:322
+#: app/widget-parts.php:350
+#: app/widget-parts.php:377
+#: app/widget-parts.php:447
+#: app/widget-parts.php:466
+#: app/widget-parts.php:486
+msgid "Stylesheet:"
+msgstr "Feuille de style :"
+
+#: app/widget-parts.php:94
+msgid "Username"
+msgstr "Nom d'utilisateur"
+
+#: app/widget-parts.php:98
+msgid "Password"
+msgstr "Mot de passe"
+
+#: app/widget-parts.php:102
+#: app/widget-parts.php:118
+msgid "Remember Me"
+msgstr "Se souvenir de moi"
+
+#: app/widget-parts.php:104
+#: app/widget-parts.php:180
+msgid "Log in"
+msgstr "Connexion"
+
+#: app/widget-parts.php:119
+#: app/widget-parts.php:188
+msgid "Enable WordPress redirect function"
+msgstr "Activer la fonction de redirection WordPress"
+
+#: app/widget-parts.php:120
+msgid "Enable WordPress Cookie Test for login Form"
+msgstr "Activer les cookies WordPress pour formulaire de connexion test"
+
+#: app/widget-parts.php:121
+msgid "Form in &lt;ul&gt; &lt;il&gt; tag"
+msgstr "Formulaire tag dans &lt;ul&gt; &lt;il&gt;"
+
+#: app/widget-parts.php:151
+#: app/widget-parts.php:508
+msgid "Site Admin"
+msgstr "Admin du site"
+
+#: app/widget-parts.php:152
+msgid "Dashboard"
+msgstr "Mon Compte"
+
+#: app/widget-parts.php:160
+msgid "Show Link Name as &quot;Dashboard&quot; <b>not</b> &quot;Site Admin&quot;"
+msgstr "Montrer le nom du lien comme &quot;Dashboard&quot; <b>et non comme</b> &quot;Site Admin&quot;"
+
+#: app/widget-parts.php:178
+msgid "Log out"
+msgstr "Déconnexion"
+
+#: app/widget-parts.php:228
+#: app/widget-parts.php:301
+msgid "Do not show Admin Links Topics"
+msgstr "Ne pas montrer les liens des sujets Admin"
+
+#: app/widget-parts.php:229
+#: app/widget-parts.php:302
+msgid "Display <b>not</b> selected Admin Links"
+msgstr "Ne <b>pas</b> afficher les liens Admin sélectionnés"
+
+#: app/widget-parts.php:230
+#: app/widget-parts.php:303
+msgid "Select Admin Links:"
+msgstr "Sélectionnez les liens Admin :"
+
+#: app/widget-parts.php:230
+#: app/widget-parts.php:303
+#: app/widget-parts.php:399
+#: app/widget-parts.php:424
+msgid "All"
+msgstr "Tout"
+
+#: app/widget-parts.php:230
+#: app/widget-parts.php:303
+#: app/widget-parts.php:399
+#: app/widget-parts.php:424
+msgid "None"
+msgstr "Aucun"
+
+#: app/widget-parts.php:252
+msgid "topic"
+msgstr "sujet"
+
+#: app/widget-parts.php:278
+msgid "Please select:"
+msgstr "Veuillez svp sélectionner :"
+
+#: app/widget-parts.php:344
+msgid "Password Lost and Found"
+msgstr "Mot de passe perdu et retrouvé"
+
+#: app/widget-parts.php:344
+#: app/widget-parts.php:513
+msgid "Lost your password?"
+msgstr "Vous avez perdu votre mot de passe ?"
+
+#: app/widget-parts.php:364
+#: app/widget-parts.php:509
+msgid "Register"
+msgstr "S'enregistrer"
+
+#: app/widget-parts.php:373
+msgid "Register is not allowed in this Blog! Activate it to use this Link."
+msgstr "L'enregistrement sur ce Blog n'est pas autorisé ! Activez le pour pouvoir utiliser ce lien."
+
+#: app/widget-parts.php:399
+#: app/widget-parts.php:424
+msgid "Select Links to Display:"
+msgstr "Sélectionner les liens à afficher :"
+
+#: app/widget-parts.php:441
+msgid "Syndicate this site using RSS 2.0"
+msgstr "Syndiquer ce site en utilisant le RSS 2.0"
+
+#: app/widget-parts.php:441
+#: app/widget-parts.php:516
+msgid "Entries <abbr title=\"Really Simple Syndication\">RSS</abbr>"
+msgstr "Entrées <abbr title=\"Really Simple Syndication\">RSS</abbr>"
+
+#: app/widget-parts.php:460
+msgid "The latest comments to all posts in RSS"
+msgstr "Les derniers commentaires de tous les posts dans le RSS"
+
+#: app/widget-parts.php:460
+#: app/widget-parts.php:517
+msgid "Comments <abbr title=\"Really Simple Syndication\">RSS</abbr>"
+msgstr "Commentaires <abbr title=\"Really Simple Syndication\">RSS</abbr>"
+
+#: app/widget-parts.php:480
+msgid "Powered by WordPress, state-of-the-art semantic personal publishing platform."
+msgstr "Propulsé par WordPress, state-of-the-art semantic personal publishing platform."
+
+#: app/widget-parts.php:504
+#: app/widget-parts.php:506
+msgid "Gravatar"
+msgstr "Gravatar"
+
+#: app/widget-parts.php:505
+msgid "Title"
+msgstr "Titre"
+
+#: app/widget-parts.php:507
+msgid "Login Form"
+msgstr "Formulaire d'identification"
+
+#: app/widget-parts.php:508
+#: app/widget-parts.php:509
+#: app/widget-parts.php:513
+#: app/widget-parts.php:516
+#: app/widget-parts.php:517
+#: app/widget-parts.php:518
+msgid "Link:"
+msgstr "Lien :"
+
+#: app/widget-parts.php:510
+msgid "Link: Login/Logout"
+msgstr "Lien : Connexion/Déconnexion"
+
+#: app/widget-parts.php:511
+msgid "Adminlinks as Links"
+msgstr "Liens Admin en tant que liens"
+
+#: app/widget-parts.php:512
+msgid "Adminlinks as Selectbox"
+msgstr "Liens Admin comme case à cocher"
+
+#: app/widget-parts.php:514
+msgid "Blog Links by category"
+msgstr "Liens de Blog par catégorie"
+
+#: app/widget-parts.php:515
+msgid "Blog Links"
+msgstr "Liens Blog"
+
+#: app/widget-parts.php:519
+msgid "Do Action:"
+msgstr "Effectuer l'action :"
+
+#: app/widgets-wp-2_5.php:17
+#: app/widgets-wp-2_8.php:10
+msgid "Displaying Meta links, Login Form and Admin Links"
+msgstr "Afficher les liens Meta, de Connexion and d'Admin"
+
+#: app/widgets-wp-2_5.php:110
+#: app/widgets-wp-2_8.php:36
+msgid "Select a Widget Config"
+msgstr "Sélectionnez une configuration Widget"
+
+#: app/widgets-wp-2_5.php:110
+#: app/widgets-wp-2_8.php:36
+msgid "Widget Config:"
+msgstr "Configuration Widget :"
+
+#: app/widgets-wp-2_5.php:116
+#: app/widgets-wp-2_5.php:122
+#: app/widgets-wp-2_8.php:42
+#: app/widgets-wp-2_8.php:48
+msgid "default"
+msgstr "Défaut"
+
+#: app/widgets-wp-2_5.php:125
+#: app/widgets-wp-2_8.php:51
+msgid "To make/change a Widget Config go to <a href=\"admin.php?page=minimeta-widget\">MiniMeta Widget</a>"
+msgstr "Pour effectuer des modifications de configuration du Widget, dirigez vous sur <a href=\"admin.php?page=minimeta-widget\">MiniMeta Widget</a>"
+
+#: minimeta-widget.php:131
+msgid "Sorry, MiniMeta Widget works only under WordPress 2.5 or higher"
+msgstr "Désolé, le widget MiniMeta fonctionne uniquement avec les versions WordPress 2.5 et supérieures"
+
