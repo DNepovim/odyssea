@@ -8,3 +8,6 @@
  * Author URI: http://www.dombl.cz
  * License: MIT
  */
+
+require_once 'cpt.php';
+require_once 'meta.php';
