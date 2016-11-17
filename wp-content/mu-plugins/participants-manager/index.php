@@ -7,7 +7,8 @@
  * Author: Dominik Blaha
  * Author URI: http://www.dombl.cz
  * License: MIT
+ * Requirements: https://metabox.io/plugins/meta-box-group/
  */
 
-require_once 'cpt.php';
-require_once 'meta.php';
+require_once 'vintage_register.php';
+require_once 'vintage_settings.php';
