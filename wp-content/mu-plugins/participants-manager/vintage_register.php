@@ -100,11 +100,15 @@ function ptcm_add_default_questions( $vintages_titles ) {
 			array(
 				'id'   => $prefix . 'gender',
 				'name' => __( 'Pohlaví', 'textdomain' ),
-				'type' => 'text'
+				'type' => 'radio',
+				'options' => array(
+					'male' => 'skaut',
+					'female' => 'skautka'
+				)
 			),
 			array(
 				'id'   => $prefix . 'nickname',
-				'name' => __( 'Přesdívka', 'textdomain' ),
+				'name' => __( 'Přezdívka', 'textdomain' ),
 				'type' => 'text'
 			),
 			array(
@@ -113,7 +117,7 @@ function ptcm_add_default_questions( $vintages_titles ) {
 				'type' => 'text'
 			),
 			array(
-				'id'   => $prefix . 'surnamename',
+				'id'   => $prefix . 'surname',
 				'name' => __( 'Příjmení', 'textdomain' ),
 				'type' => 'text'
 			),
@@ -220,8 +224,8 @@ function ptcm_add_default_questions( $vintages_titles ) {
 				'name'    => __( 'Rekord', 'textdomain' ),
 				'type'    => 'select',
 				'options' => array(
-					true  => 'odevzdal',
-					false => 'neodevzdal'
+					false => 'neodevzdal',
+					true  => 'odevzdal'
 				)
 			),
 		)
