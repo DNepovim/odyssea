@@ -5,7 +5,7 @@
 	<meta name="MSSmartTagsPreventParsing" content="TRUE" />
 	<meta http-equiv="imagetoolbar" content="no" />
 	<meta http-equiv="X-UA-Compatible" content="IE=7" /> <?php /* Due to some problems with jQuery and ie8 I force into ie7 mode. */ ?>
-	
+
 	<title><?php wp_title('&raquo;',true,'right');?><?php echo $page > 1 ? "Page $page &raquo; " : '';?><?php bloginfo('name');?></title>
 	<base href="<?php bloginfo('url'); ?>"></base>
 
@@ -14,8 +14,7 @@
 
 	<?php $style = get_theme_option('theme_style');?>
 
-	<link rel="stylesheet" href="<?php bloginfo('template_directory');?>/css.php?c=style.css<?php echo ($style !== '' ? "&amp;f=$style" : '');?>" type="text/css" media="screen" />
-	<link rel="stylesheet" href="<?php bloginfo('template_directory');?>/css.php?c=print.css" type="text/css" media="print" />
+	<link rel="stylesheet" href="<?php bloginfo('template_directory');?>/dist/styles.min.css" type="text/css" media="screen" />
 
 	<!--[if lt IE 7]>
 	<link rel="stylesheet" href="<?php bloginfo("template_directory");?>/ie.css" type="text/css" media="screen"/>

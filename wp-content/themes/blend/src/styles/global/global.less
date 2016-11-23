@@ -1,0 +1,38 @@
+/* I would use min-height to do this but ie6 gets in the way of that. */
+.min-height-prop{
+  height:420px;
+  float:right;
+  width:1px;
+  visibility:hidden;
+  overflow:hidden;
+}
+/* invisible blocks to force open boxes with floats inside.*/
+.clear{
+  display:block;
+  height:1px;
+  overflow:hidden;
+  clear:both;
+  visibility:hidden
+}
+/* I would be using this method instead of the clear but IE6 is a PITA.
+div.post-body:after {
+	content:".";
+	display:block;
+	clear:both;
+	height:0;
+	visibility:hidden
+} */
+
+/*h1,h2,h3,h4,h5,h6{margin:0}*/
+a{text-decoration:none; outline: none; color: white}
+.post a{font-weight:normal; text-decoration:none;}
+a:hover{ text-decoration:underline; color: black;}
+a img{border:0}
+
+body{
+  margin:0;
+  padding:0 0 4em 0;
+  background-color: @backgroun;
+  font:100% TheMixCE B5 Plain, trebuchet ms, verdana, arial,free-sans,sans-serif;
+  line-height: 120%;
+}
