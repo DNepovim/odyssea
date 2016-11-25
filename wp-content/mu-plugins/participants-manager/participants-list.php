@@ -1,7 +1,8 @@
 <?php
 
 //[participants-list year=$year]
-function show_participants_list( $atts ) {
+add_shortcode( 'participants-list', 'ptcm_show_participants_list' );
+function ptcm_show_participants_list( $atts ) {
 
 	$a = shortcode_atts( array( 'year' => 'missing year' ), $atts );
 
@@ -38,4 +39,3 @@ function show_participants_list( $atts ) {
 	echo '</table>';
 }
 
-add_shortcode( 'participants-list', 'show_participants_list' );
