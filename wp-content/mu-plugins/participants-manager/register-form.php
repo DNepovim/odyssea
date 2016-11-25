@@ -19,7 +19,7 @@ function ptcm_show_register_form( $atts ) {
 
 	$fields = ptcm_add_default_questions();
 
-	echo '<form class="form">';
+	echo '<form class="form" method="post" action="' . htmlspecialchars( plugin_dir_url( __FILE__ ) . 'save-participant.php') . '">';
 	foreach ( $fields as $partition ) {
 		if ( ! isset( $partition['frontend'] ) ) {
 			echo '<fieldset class="form-fieldset">';
