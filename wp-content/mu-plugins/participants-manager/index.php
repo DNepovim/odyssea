@@ -10,6 +10,11 @@
  * Requirements: https://metabox.io/plugins/meta-box-group/
  */
 
+require_once ABSPATH . '/wp-content/mu-plugins/wp-tracy/index.php';
+use Tracy\Debugger;
+Debugger::enable();
+
+
 require_once 'vintage_register.php';
 require_once 'vintage_settings.php';
 require_once 'participants-list.php';
