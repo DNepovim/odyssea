@@ -89,7 +89,7 @@ function ptcm_vintages_meta($meta_boxes) {
  * @return array of meta fields
  */
 
-function ptcm_add_default_questions( $vintages_titles ) {
+function ptcm_add_default_questions( $vintages_titles = '') {
 
 	$prefix = 'ptcm_';
 
@@ -211,14 +211,23 @@ function ptcm_add_default_questions( $vintages_titles ) {
 	);
 
 	$meta_boxes[] = array(
-		'title'      => __( 'Úkoly', 'textdomain' ),
+		'title'      => __( 'SMS', 'textdomain' ),
 		'post_types' => $vintages_titles,
 		'fields'     => array(
 			array(
 				'id'   => $prefix . 'sms',
 				'name' => __( 'SMS', 'textdomain' ),
 				'type' => 'textarea'
-			),
+			)
+		)
+	);
+
+	$meta_boxes[] = array(
+		'title'      => __( 'Přijetí', 'textdomain' ),
+		'post_types' => $vintages_titles,
+		'context' => 'side',
+		'frontend' => false,
+		'fields'     => array(
 			array(
 				'id'      => $prefix . 'record',
 				'name'    => __( 'Rekord', 'textdomain' ),
@@ -227,6 +236,11 @@ function ptcm_add_default_questions( $vintages_titles ) {
 					false => 'neodevzdal',
 					true  => 'odevzdal'
 				)
+			),
+			array(
+				'id'      => $prefix . 'record',
+				'name'    => __( 'Přijat', 'textdomain' ),
+				'type'    => 'checkbox'
 			),
 		)
 	);
