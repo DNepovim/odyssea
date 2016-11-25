@@ -30,7 +30,7 @@ function ptcm_show_register_form( $atts ) {
 			echo '</fieldset>';
 		}
 	}
-
+	echo '<input class="button form-button" type="submit" value="Přihlašuji se na plavbu!">';
 	echo '</form>';
 
 }
