@@ -31,7 +31,10 @@ function ptcm_show_register_form( $atts ) {
 			echo '</fieldset>';
 		}
 	}
+	echo '<fieldset class="form-fieldset">';
 	echo '<input class="button form-button" type="submit" value="Přihlašuji se na plavbu!">';
+	echo '</fieldset>';
+	wp_nonce_field( 'post_nonce', 'post_nonce_field' );
 	echo '</form>';
 
 }
@@ -59,7 +62,9 @@ function ptcm_render_field( $args ) {
 		case 'radio':
 			foreach ( $args['options'] as $value => $label ) {
 				echo '<label class="form-radio-label" for="' . $args['id'] . '_' . $value . '">';
-				echo '<input class="form-radio-input" type="' . $args['type'] . '" name="' . $args['id'] . '" id="' . $args['id'] . '_' . $value . '" >' . $label . '</input>';
+				echo '<input class="form-radio-input" type="' . $args['type'] . '" name="' . $args['id'] . '" id="' . $args['id'] . '_' . $value . '" ></input>';
+				echo  $label;
+				echo '</label>';
 			}
 			break;
 	}
