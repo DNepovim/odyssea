@@ -27,6 +27,9 @@ function ptcm_show_register_form( $atts ) {
 			echo '<legend class="form-legend">' . $partition['title'] . '</legend>';
 			foreach ( $partition['fields'] as $field ) {
 				ptcm_render_field( $field );
+				if ($_GET[$field['id']]) {
+					echo '<span class="form-error">Vyplň prosím toto pole.</span>';
+				}
 			}
 			echo '</fieldset>';
 		}
@@ -47,7 +50,7 @@ function ptcm_render_field( $args ) {
 		case 'date':
 		case 'email':
 		case 'checkbox':
-			echo '<input class="form-input form-' . $args['type'] . '" type="' . $args['type'] . '" name="' . $args['id'] . '" id="' . $args['id'] . '" ></input>';
+			echo '<input class="form-input form-' . $args['type'] . '" type="' . $args['type'] . '" name="' . $args['id'] . '" id="' . $args['id'] . '" required></input>';
 			break;
 		case 'textarea':
 			echo '<textarea class="form-input form-' . $args['type'] . '" name="' . $args['id'] . '" id="' . $args['id'] . '" ></textarea>';
