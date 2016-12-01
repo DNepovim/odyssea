@@ -32,9 +32,10 @@ function ptcm_show_register_form( $atts ) {
 		}
 	}
 	echo '<fieldset class="form-fieldset">';
-	echo '<input class="button form-button" type="submit" value="Přihlašuji se na plavbu!">';
-	echo '</fieldset>';
+	echo '<input id="submitted" type="hidden" name="submitted" value="true">';
 	wp_nonce_field( 'post_nonce', 'post_nonce_field' );
+	echo '<button class="button form-button" type="submit">Přihlašuji se na plavbu!</button>';
+	echo '</fieldset>';
 	echo '</form>';
 
 }
