@@ -92,7 +92,7 @@ function ptcm_render_field( $args ) {
 		case 'radio':
 			foreach ( $args['options'] as $value => $label ) {
 				echo '<label class="form-radio-label" for="' . $args['id'] . '_' . $value . '">';
-				echo '<input class="form-radio-input" type="' . $args['type'] . '" name="' . $args['id'] . '" id="' . $args['id'] . '_' . $value . '" required></input>';
+				echo '<input class="form-radio-input" value="' . $value . '" type="' . $args['type'] . '" name="' . $args['id'] . '" id="' . $args['id'] . '_' . $value . '" required></input>';
 				echo  $label;
 				echo '</label>';
 			}
