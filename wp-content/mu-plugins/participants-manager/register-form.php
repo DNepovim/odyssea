@@ -34,6 +34,32 @@ function ptcm_show_register_form( $atts ) {
 			echo '</fieldset>';
 		}
 	}
+
+	$vintage = get_page_by_title($a['year'], 'OBJECT','ptcm_vintage');
+	$custom_fields = get_post_meta($vintage->ID, 'ptcm_field', true);
+	$i = 0;
+
+	echo '<fieldset class="form-fieldset">';
+	echo '<legend class="form-legend">Další informace</legend>';
+
+	foreach ( $custom_fields as $field ) {
+
+		$field_settings = array(
+			'id'   => $prefix . 'custom_meta_' . sprintf( "%02d", $i++ ),
+			'name' => $field[ $prefix . 'name' ],
+			'type' => $field[ $prefix . 'type' ]
+		);
+
+		if ( array_key_exists( $prefix . 'options', $field ) ) {
+			$field_settings['options'] = $field[ $prefix . 'options' ];
+		}
+
+		ptcm_render_field($field_settings);
+
+	}
+
+	echo '</fieldset>';
+
 	echo '<fieldset class="form-fieldset">';
 	echo '<input id="submitted" type="hidden" name="submitted" value="true">';
 	wp_nonce_field( 'post_nonce', 'post_nonce_field' );

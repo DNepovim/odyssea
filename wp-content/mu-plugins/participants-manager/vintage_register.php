@@ -266,8 +266,9 @@ function ptcm_add_next_questions( $item ) {
 
 	foreach ( $fields_values as $field ) {
 
+
 		$field_settings = array(
-			'id'   => $prefix . 'custom_meta_' . sprintf( "%02d", $i ),
+			'id'   => $prefix . 'custom_meta_' . sprintf( "%02d", $i++ ),
 			'name' => __( $field[ $prefix . 'name' ], 'textdomain' ),
 			'type' => $field[ $prefix . 'type' ]
 		);

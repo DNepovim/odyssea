@@ -2,10 +2,13 @@
 
 include '../../../wp-load.php';
 
+
 if ( isset( $_POST['submitted'] )
      && isset( $_POST['post_nonce_field'] )
      && wp_verify_nonce( $_POST['post_nonce_field'], 'post_nonce' )
 ) {
+
+	$prefix = 'ptcm_';
 
 	$fields = ptcm_add_default_questions();
 
@@ -19,6 +22,21 @@ if ( isset( $_POST['submitted'] )
 		}
 	}
 
+
+	$vintage       = get_page_by_title( $_POST['year'], 'OBJECT', $prefix . 'vintage' );
+	$custom_fields = get_post_meta( $vintage->ID, $prefix . 'field', true );
+	$i             = 0;
+
+	foreach ( $custom_fields as $field ) {
+
+		$id    = $prefix . 'custom_meta_' . sprintf( "%02d", $i ++ );
+		$value = trim( $_POST[ $id ] );
+		if ( ! isset( $value ) ) {
+			$err[ $id ] = true;
+			$hasError   = true;
+		}
+	}
+
 	if ( $hasError ) {
 		$query = '?';
 		foreach ( $err as $key => $value ) {
@@ -29,8 +47,8 @@ if ( isset( $_POST['submitted'] )
 	}
 
 	$post_information = array(
-		'post_title'  => $_POST['ptcm_firstname'] . ' ' . $_POST['ptcm_surname'],
-		'post_type'   => 'ptcm_' . $_POST['year'],
+		'post_title'  => $_POST[ $prefix . 'firstname' ] . ' ' . $_POST[ $prefix . 'surname' ],
+		'post_type'   => $prefix . $_POST['year'],
 		'post_status' => 'private'
 	);
 
@@ -43,15 +61,24 @@ if ( isset( $_POST['submitted'] )
 		}
 	}
 
-	$vintage = get_page_by_title($_POST['year'], 'OBJECT','ptcm_vintage');
+	$i = 0;
+	foreach ( $custom_fields as $field ) {
+
+		$id    = $prefix . 'custom_meta_' . sprintf( "%02d", $i ++ );
+		$value = trim( $_POST[ $id ] );
+		add_post_meta( $post_id, $id, $value );
+	}
+
+
+	$vintage = get_page_by_title( $_POST['year'], 'OBJECT', $prefix . 'vintage' );
 
 	$headers .= 'From:Odysseus Ithacky <odysseus.ithacky@gmail.com>' . "\r\n";
 	$headers .= 'Content-type: text/html; UTF-8' . "\r\n";
 
 	wp_mail(
-		$_POST['ptcm_email'],
-		get_post_meta($vintage->ID, 'ptcm_mail_subject', true),
-		get_post_meta($vintage->ID, 'ptcm_mail_body', true),
+		$_POST[ $prefix . 'email' ],
+		get_post_meta( $vintage->ID, $prefix . 'mail_subject', true ),
+		get_post_meta( $vintage->ID, $prefix . 'mail_body', true ),
 		$headers
 	);
 
