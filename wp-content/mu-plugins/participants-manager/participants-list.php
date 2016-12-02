@@ -10,7 +10,7 @@ function ptcm_show_participants_list( $atts ) {
 
 	$args = array(
 		'post_type' => $prefix . $a['year'],
-		'offset'    => 0,
+        'numberposts'     => -1,
 		'order'     => 'ASC',
 		'post_status'  => 'private'
 	);
