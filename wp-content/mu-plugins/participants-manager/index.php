@@ -25,12 +25,13 @@ require_once 'register-form.php';
 
 function wpse64933_add_posttype_note()
 {
-	global $post, $pagenow;
+	global $pagenow;
+	$year = $_GET['post_type'];
 
-	if ($pagenow == 'edit.php' && substr($post->post_type, 0, 5) == 'ptcm_') {
+	if ($pagenow == 'edit.php' && substr($year, 0, 5) == 'ptcm_') {
 		echo '<h2>Shortcodes</h2>';
-		echo '<p>Show register form: [register-form year=' . substr($post->post_type, 5) . ']</p>';
-		echo '<p>Show participants list: [participants-list year=' . substr($post->post_type, 5) . ']</p>';
+		echo '<p>Show register form: [register-form year=' . substr($year, 5) . ']</p>';
+		echo '<p>Show participants list: [participants-list year=' . substr($year, 5) . ']</p>';
 	}
 }
 add_action( 'all_admin_notices', 'wpse64933_add_posttype_note' );
