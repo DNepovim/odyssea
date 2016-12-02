@@ -10,15 +10,21 @@ function ptcm_create_post_type() {
 	add_post_type_support( 'page', 'excerpt' );
 	register_post_type( 'ptcm_vintage',
 		array(
-			'labels'      => array(
-				'name' => __( 'Ročník' ),
+			'labels'        => array(
+				'name'         => __( 'Nastavení' ),
+				'add_new'      => __( 'Přidat ročník' ),
+				'add_new_item' => __( 'Přidat nový ročník' ),
+				'edit_item'    => __( 'Upravit ročník' ),
+				'new_item'     => __( 'Nový ročník' ),
+				'menu_name'    => __( 'Přihlašování' ),
+				'menu_icon'    => 'dashicons-admin-users'
 			),
-			'public'      => true,
-			'has_archive' => true,
-			'supports'    => array(
+			'public'        => true,
+			'has_archive'   => true,
+			'supports'      => array(
 				'title'
 			),
-			'menu_icon'   => 'dashicons-admin-users',
+			'menu_icon'     => 'dashicons-admin-users',
 			'menu_position' => 5
 		)
 	);
@@ -37,16 +43,33 @@ function ptcm_settings_meta( $meta_boxes ) {
 	$prefix = 'ptcm_';
 
 	$meta_boxes[] = array(
+		'title'      => __( 'Mail', 'textdomain' ),
+		'post_types' => $prefix . 'vintage',
+		'fields'     => array(
+			array(
+				'id'   => $prefix . 'mail_subject',
+				'name' => __( 'Předmět', 'textdomain' ),
+				'type' => 'textarea'
+			),
+			array(
+				'id'   => $prefix . 'mail_body',
+				'name' => __( 'Zpráva', 'textdomain' ),
+				'type' => 'textarea'
+			),
+		),
+	);
+
+	$meta_boxes[] = array(
 		'title'      => __( 'Data', 'textdomain' ),
 		'post_types' => $prefix . 'vintage',
 		'fields'     => array(
 			array(
-				'id'   => $prefix . 'field',
-				'name' => __( 'pole', 'textdomain' ),
-				'type' => 'group',
-				'clone' => true,
+				'id'         => $prefix . 'field',
+				'name'       => __( 'pole', 'textdomain' ),
+				'type'       => 'group',
+				'clone'      => true,
 				'sort_clone' => true,
-				'fields' => array(
+				'fields'     => array(
 					array(
 						'id'   => $prefix . 'name',
 						'name' => __( 'Popisek', 'textdomain' ),
@@ -67,11 +90,11 @@ function ptcm_settings_meta( $meta_boxes ) {
 						)
 					),
 					array(
-						'id'    => $prefix . 'options',
-						'name'  => __( 'Možnosti', 'textdomain' ),
-						'desc'    => __( 'Pouze u rozevíracího seznamu a radioboxu', 'textdomain' ),
-						'type'  => 'text',
-						'clone' => true,
+						'id'         => $prefix . 'options',
+						'name'       => __( 'Možnosti', 'textdomain' ),
+						'desc'       => __( 'Pouze u rozevíracího seznamu a radioboxu', 'textdomain' ),
+						'type'       => 'text',
+						'clone'      => true,
 						'sort_clone' => true
 					),
 

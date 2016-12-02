@@ -43,6 +43,18 @@ if ( isset( $_POST['submitted'] )
 		}
 	}
 
+	$vintage = get_page_by_title($_POST['year'], 'OBJECT','ptcm_vintage');
+
+	$headers .= 'From:Odysseus Ithacky <odysseus.ithacky@gmail.com>' . "\r\n";
+	$headers .= 'Content-type: text/html; UTF-8' . "\r\n";
+
+	wp_mail(
+		$_POST['ptcm_email'],
+		get_post_meta($vintage->ID, 'ptcm_mail_subject', true),
+		get_post_meta($vintage->ID, 'ptcm_mail_body', true),
+		$headers
+	);
+
 	if ( $post_id ) {
 		wp_safe_redirect( wp_get_referer() );
 	}
