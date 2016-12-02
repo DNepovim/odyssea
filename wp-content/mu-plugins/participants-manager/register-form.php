@@ -53,10 +53,10 @@ function ptcm_render_field( $args ) {
 			echo '<input class="form-input form-' . $args['type'] . '" type="' . $args['type'] . '" name="' . $args['id'] . '" id="' . $args['id'] . '" required></input>';
 			break;
 		case 'textarea':
-			echo '<textarea class="form-input form-' . $args['type'] . '" name="' . $args['id'] . '" id="' . $args['id'] . '" ></textarea>';
+			echo '<textarea class="form-input form-' . $args['type'] . '" name="' . $args['id'] . '" id="' . $args['id'] . '" required></textarea>';
 			break;
 		case 'select':
-			echo '<select class="form-input form-' . $args['type'] . '" name="' . $args['id'] . '" id="' . $args['id'] . '" >';
+			echo '<select class="form-input form-' . $args['type'] . '" name="' . $args['id'] . '" id="' . $args['id'] . '" required>';
 			foreach ( $args['options'] as $value => $label ) {
 				echo '<option value="' . $value . '">' . $label . '</option>';
 
@@ -66,7 +66,7 @@ function ptcm_render_field( $args ) {
 		case 'radio':
 			foreach ( $args['options'] as $value => $label ) {
 				echo '<label class="form-radio-label" for="' . $args['id'] . '_' . $value . '">';
-				echo '<input class="form-radio-input" type="' . $args['type'] . '" name="' . $args['id'] . '" id="' . $args['id'] . '_' . $value . '" ></input>';
+				echo '<input class="form-radio-input" type="' . $args['type'] . '" name="' . $args['id'] . '" id="' . $args['id'] . '_' . $value . '" required></input>';
 				echo  $label;
 				echo '</label>';
 			}
