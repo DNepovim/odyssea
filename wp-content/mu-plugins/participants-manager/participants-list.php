@@ -19,7 +19,7 @@ function ptcm_show_participants_list( $atts ) {
 	echo '<table class="table">';
 	echo '<thead>';
 	echo '<tr>';
-	echo '<th class="table-head">Přesdívka</th>';
+	echo '<th class="table-head">Přezdívka</th>';
 	echo '<th class="table-head">Jméno a příjmení</th>';
 	echo '<th class="table-head">Město</th>';
 	echo '<th class="table-head">SMS</th>';
