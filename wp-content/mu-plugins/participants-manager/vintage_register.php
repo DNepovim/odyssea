@@ -211,12 +211,12 @@ function ptcm_add_default_questions( $vintages_titles = '') {
 	);
 
 	$meta_boxes[] = array(
-		'title'      => __( 'SMSka pro insktruktory a účastníky – představ se – kdo jsi, co rád děláš…', 'textdomain' ),
+		'title'      => __( 'SMSka ' ),
 		'post_types' => $vintages_titles,
 		'fields'     => array(
 			array(
 				'id'   => $prefix . 'sms',
-				'name' => __( 'SMS', 'textdomain' ),
+				'name' => __( 'pro insktruktory a účastníky – představ se – kdo jsi, co rád děláš…', 'textdomain', 'textdomain' ),
 				'type' => 'textarea'
 			)
 		)
