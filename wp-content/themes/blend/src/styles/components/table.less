@@ -1,0 +1,62 @@
+.table {
+  width: 100%;
+
+  &-row {
+    &:nth-of-type(odd) {
+      background: @brand;
+    }
+  }
+
+  &-cell {
+    padding: 0.2em 1em;
+  }
+
+  &-message {
+    position: relative;
+    cursor: pointer;
+    width: 1rem;
+
+    &:hover {
+      .hidden {
+        display: block;
+      }
+    }
+  }
+
+  &-icon {
+    display: block;
+    fill: @text;
+    width: 1rem;
+    height: 1rem;
+    margin: 0 auto;
+  }
+
+  &-record {
+    width: 1rem;
+
+    &-icon {
+      display: block;
+      height: 0.5em;
+      width: 0.5em;
+      background: @text;
+    }
+  }
+
+  &-city {
+    text-align: center;
+  }
+
+  &-head {
+    padding: 0.2em 0;
+  }
+
+  .hidden {
+    position: absolute;
+    right: 0;
+    z-index: 10;
+    display: none;
+    background: #e7e7e7;
+    min-width: 15em;
+    padding: 1em;
+  }
+}
