@@ -42,8 +42,10 @@ if ( isset( $_POST['submitted'] )
 		foreach ( $err as $key => $value ) {
 			$query .= $key . '=' . $value . '&';
 		}
-		wp_redirect( home_url( $query ) );
+		wp_redirect( wp_get_referer() . $query  );
 		exit;
+	} else {
+		$query = '?success=true';
 	}
 
 	$post_information = array(
@@ -83,6 +85,6 @@ if ( isset( $_POST['submitted'] )
 	);
 
 	if ( $post_id ) {
-		wp_safe_redirect( wp_get_referer() );
+		wp_redirect( wp_get_referer() . $query  );
 	}
 }

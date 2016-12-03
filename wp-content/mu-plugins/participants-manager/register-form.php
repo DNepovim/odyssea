@@ -19,6 +19,9 @@ function ptcm_show_register_form( $atts ) {
 
 	$fields = ptcm_add_default_questions();
 
+	if ($_GET['success']) {
+		echo '<div class="message message-success">Byl jsi úspěšně přihlášen/a.</div>';
+	}
 	echo '<form class="form" method="post" action="' . htmlspecialchars( plugin_dir_url( __FILE__ ) . 'save-participant.php') . '">';
 	echo '<input type="hidden" name="year" value="' . $a['year'] . '">';
 	foreach ( $fields as $partition ) {
