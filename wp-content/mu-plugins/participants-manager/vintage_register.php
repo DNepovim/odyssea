@@ -189,29 +189,29 @@ function ptcm_add_default_questions( $vintages_titles = '') {
 			),
 			array(
 				'id'   => $prefix . 'chief',
-				'name' => __( 'Jméno vedoucího', 'textdomain' ),
+				'name' => __( 'Jméno vedoucího oddílu', 'textdomain' ),
 				'type' => 'text'
 			),
 			array(
 				'id'   => $prefix . 'chief_contact',
-				'name' => __( 'Kontakt na vedoucího', 'textdomain' ),
+				'name' => __( 'Kontakt na vedoucího oddílu', 'textdomain' ),
 				'type' => 'text'
 			),
 			array(
 				'id'   => $prefix . 'co-chief',
-				'name' => __( 'Jméno zástupce vedoucího', 'textdomain' ),
+				'name' => __( 'Jméno zástupce vedoucího oddílu', 'textdomain' ),
 				'type' => 'text'
 			),
 			array(
 				'id'   => $prefix . 'co-chief_contact',
-				'name' => __( 'Kontakt na zástupce vedoucího', 'textdomain' ),
+				'name' => __( 'Kontakt na zástupce vedoucího oddílu', 'textdomain' ),
 				'type' => 'text'
 			),
 		)
 	);
 
 	$meta_boxes[] = array(
-		'title'      => __( 'SMS', 'textdomain' ),
+		'title'      => __( 'SMSka pro insktruktory a účastníky – představ se – kdo jsi, co rád děláš…', 'textdomain' ),
 		'post_types' => $vintages_titles,
 		'fields'     => array(
 			array(
