@@ -140,7 +140,7 @@ function ptcm_add_default_questions( $vintages_titles = '') {
 			),
 			array(
 				'id'   => $prefix . 'phone',
-				'name' => __( 'Telefoní číslo', 'textdomain' ),
+				'name' => __( 'Telefonní číslo', 'textdomain' ),
 				'type' => 'text'
 			),
 		)
@@ -167,7 +167,7 @@ function ptcm_add_default_questions( $vintages_titles = '') {
 			),
 			array(
 				'id'   => $prefix . 'address_post_code',
-				'name' => __( 'Číslo popisné', 'textdomain' ),
+				'name' => __( 'PSČ', 'textdomain' ),
 				'type' => 'text'
 			),
 		)
@@ -184,7 +184,7 @@ function ptcm_add_default_questions( $vintages_titles = '') {
 			),
 			array(
 				'id'   => $prefix . 'unit',
-				'name' => __( 'Středsiko', 'textdomain' ),
+				'name' => __( 'Středisko', 'textdomain' ),
 				'type' => 'text'
 			),
 			array(
