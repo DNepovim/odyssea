@@ -15,7 +15,6 @@ function ptcm_show_participants_list( $atts ) {
 		'post_status'  => 'private'
 	);
 
-	$participants = get_posts( $args );
 
 	echo '<table class="table">';
 	echo '<thead>';
@@ -28,6 +27,7 @@ function ptcm_show_participants_list( $atts ) {
 	echo '</tr>';
 	echo '</thead>';
 
+	if ($participants = get_posts( $args )) {
 	foreach ($participants as $person) {
 		echo '<tr class="table-row">';
 		echo '<td class="table-cell table-nickname ' . get_post_meta($person->ID, $prefix . 'gender', true) . '">'. get_post_meta($person->ID, $prefix . 'nickname', true) . '</td>';
@@ -45,6 +45,9 @@ function ptcm_show_participants_list( $atts ) {
 		}
 		echo '</td>';
 		echo '</tr>';
+	}
+	} else {
+		echo '<tr><td class="table-empty" colspan="5">Ztím nejsou žádní přihlášení.</td></tr>';
 	}
 
 	echo '</table>';
