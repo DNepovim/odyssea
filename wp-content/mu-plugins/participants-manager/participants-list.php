@@ -47,7 +47,7 @@ function ptcm_show_participants_list( $atts ) {
 		echo '</tr>';
 	}
 	} else {
-		echo '<tr><td class="table-empty" colspan="5">Ztím nejsou žádní přihlášení.</td></tr>';
+		echo '<tr><td class="table-empty" colspan="5">Zatím nejsou žádní přihlášení.</td></tr>';
 	}
 
 	echo '</table>';
