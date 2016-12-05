@@ -20,21 +20,21 @@ function ptcm_show_register_form( $atts ) {
 	$fields = ptcm_add_default_questions();
 
 	if ($_GET['success']) {
-		echo '<div class="message message-success">Byl/a jsi úspěšně přihlášen/a.<br/>Pokud ti od nás do několika dnů nepřijde e-mail, tak neváhej a ozvi se nám.</div>';
+		$output = '<div class="message message-success">Byl/a jsi úspěšně přihlášen/a.<br/>Pokud ti od nás do několika dnů nepřijde e-mail, tak neváhej a ozvi se nám.</div>';
 	}
-	echo '<form class="form" method="post" action="' . htmlspecialchars( plugin_dir_url( __FILE__ ) . 'save-participant.php') . '">';
-	echo '<input type="hidden" name="year" value="' . $a['year'] . '">';
+	$output .= '<form class="form" method="post" action="' . htmlspecialchars( plugin_dir_url( __FILE__ ) . 'save-participant.php') . '">';
+	$output .= '<input type="hidden" name="year" value="' . $a['year'] . '">';
 	foreach ( $fields as $partition ) {
 		if ( ! isset( $partition['frontend'] ) ) {
-			echo '<fieldset class="form-fieldset">';
-			echo '<legend class="form-legend">' . $partition['title'] . '</legend>';
+			$output .= '<fieldset class="form-fieldset">';
+			$output .= '<legend class="form-legend">' . $partition['title'] . '</legend>';
 			foreach ( $partition['fields'] as $field ) {
 				ptcm_render_field( $field );
 				if ($_GET[$field['id']]) {
-					echo '<span class="form-error">Vyplň prosím toto pole.</span>';
+					$output .= '<span class="form-error">Vyplň prosím toto pole.</span>';
 				}
 			}
-			echo '</fieldset>';
+			$output .= '</fieldset>';
 		}
 	}
 
@@ -42,8 +42,8 @@ function ptcm_show_register_form( $atts ) {
 	$custom_fields = get_post_meta($vintage->ID, 'ptcm_field', true);
 	$i = 0;
 
-	echo '<fieldset class="form-fieldset">';
-	echo '<legend class="form-legend">Další informace</legend>';
+	$output .= '<fieldset class="form-fieldset">';
+	$output .= '<legend class="form-legend">Další informace</legend>';
 
 	foreach ( $custom_fields as $field ) {
 
@@ -61,44 +61,47 @@ function ptcm_show_register_form( $atts ) {
 
 	}
 
-	echo '</fieldset>';
+	$output .= '</fieldset>';
 
-	echo '<fieldset class="form-fieldset">';
-	echo '<input id="submitted" type="hidden" name="submitted" value="true">';
+	$output .= '<fieldset class="form-fieldset">';
+	$output .= '<input id="submitted" type="hidden" name="submitted" value="true">';
 	wp_nonce_field( 'post_nonce', 'post_nonce_field' );
-	echo '<button class="button form-button" type="submit">Přihlašuji se na plavbu!</button>';
-	echo '</fieldset>';
-	echo '</form>';
+	$output .= '<button class="button form-button" type="submit">Přihlašuji se na plavbu!</button>';
+	$output .= '</fieldset>';
+	$output .= '</form>';
+
+	return $output;
 
 }
 
 function ptcm_render_field( $args ) {
-	echo '<label class="form-label" for="' . $args['id'] . '">' . $args['name'] . ':</label>';
+	$output = '<label class="form-label" for="' . $args['id'] . '">' . $args['name'] . ':</label>';
 	switch ( $args['type'] ) {
 		case 'text':
 		case 'date':
 		case 'email':
 		case 'checkbox':
-			echo '<input class="form-input form-' . $args['type'] . '" type="' . $args['type'] . '" name="' . $args['id'] . '" id="' . $args['id'] . '" required></input>';
+			$output .= '<input class="form-input form-' . $args['type'] . '" type="' . $args['type'] . '" name="' . $args['id'] . '" id="' . $args['id'] . '" required></input>';
 			break;
 		case 'textarea':
-			echo '<textarea class="form-input form-' . $args['type'] . '" name="' . $args['id'] . '" id="' . $args['id'] . '" required></textarea>';
+			$output .= '<textarea class="form-input form-' . $args['type'] . '" name="' . $args['id'] . '" id="' . $args['id'] . '" required></textarea>';
 			break;
 		case 'select':
-			echo '<select class="form-input form-' . $args['type'] . '" name="' . $args['id'] . '" id="' . $args['id'] . '" required>';
+			$output .= '<select class="form-input form-' . $args['type'] . '" name="' . $args['id'] . '" id="' . $args['id'] . '" required>';
 			foreach ( $args['options'] as $value => $label ) {
-				echo '<option value="' . $value . '">' . $label . '</option>';
+				$output .= '<option value="' . $value . '">' . $label . '</option>';
 
 			}
-			echo '</select>';
+			$output .= '</select>';
 			break;
 		case 'radio':
 			foreach ( $args['options'] as $value => $label ) {
-				echo '<label class="form-radio-label" for="' . $args['id'] . '_' . $value . '">';
-				echo '<input class="form-radio-input" value="' . $value . '" type="' . $args['type'] . '" name="' . $args['id'] . '" id="' . $args['id'] . '_' . $value . '" required></input>';
-				echo  $label;
-				echo '</label>';
+				$output .= '<label class="form-radio-label" for="' . $args['id'] . '_' . $value . '">';
+				$output .= '<input class="form-radio-input" value="' . $value . '" type="' . $args['type'] . '" name="' . $args['id'] . '" id="' . $args['id'] . '_' . $value . '" required></input>';
+				$output .=  $label;
+				$output .= '</label>';
 			}
 			break;
 	}
+	return $output;
 }
