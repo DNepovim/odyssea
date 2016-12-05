@@ -242,6 +242,11 @@ function ptcm_add_default_questions( $vintages_titles = '') {
 				'name'    => __( 'Přijat', 'textdomain' ),
 				'type'    => 'checkbox'
 			),
+			array(
+				'id'      => $prefix . 'mail_state',
+				'name'    => __( 'Mail status', 'textdomain' ),
+				'type'    => 'textarea'
+			),
 		)
 	);
 

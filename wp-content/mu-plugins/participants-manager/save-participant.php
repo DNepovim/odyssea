@@ -77,12 +77,16 @@ if ( isset( $_POST['submitted'] )
 	$headers .= 'From:Odysseus Ithacky <odysseus.ithacky@gmail.com>' . "\r\n";
 	$headers .= 'Content-type: text/html; UTF-8' . "\r\n";
 
-	wp_mail(
+	if (wp_mail(
 		$_POST[ $prefix . 'email' ],
 		get_post_meta( $vintage->ID, $prefix . 'mail_subject', true ),
 		get_post_meta( $vintage->ID, $prefix . 'mail_body', true ),
 		$headers
-	);
+	)) {
+		add_post_meta( $post_id, 'ptcm_mail_state', 'successfully send' );
+	} else {
+		add_post_meta( $post_id, 'ptcm_mail_state', 'there is some error' );
+	}
 
 	if ( $post_id ) {
 		wp_redirect( wp_get_referer() . $query  );
