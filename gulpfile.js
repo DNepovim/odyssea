@@ -17,7 +17,7 @@ const
 
 const
     localhostURL = 'https://odyssea.dev'
-    pathToTemplate = 'wp-content/themes/blend/';
+    pathToTemplate = 'wp-content/themes/odyssea/';
 
 
 gulp.task('images', function () {
