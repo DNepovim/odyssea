@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * Get list of vintages
  *
@@ -60,7 +59,7 @@ function ptcm_create_vintage() {
  */
 
 add_filter( 'rwmb_meta_boxes', 'ptcm_vintages_meta' );
-function ptcm_vintages_meta($meta_boxes) {
+function ptcm_vintages_meta( $meta_boxes ) {
 
 	$prefix = 'ptcm_';
 
@@ -89,20 +88,57 @@ function ptcm_vintages_meta($meta_boxes) {
  * @return array of meta fields
  */
 
-function ptcm_add_default_questions( $vintages_titles = '') {
+function ptcm_add_default_questions( $vintages_titles = '' ) {
 
 	$prefix = 'ptcm_';
+
+	$meta_boxes[] = array(
+		'title'      => __( 'Přijetí', 'textdomain' ),
+		'post_types' => $vintages_titles,
+		'context'    => 'side',
+		'frontend'   => false,
+		'fields'     => array(
+			array(
+				'id'      => $prefix . 'record',
+				'name'    => __( 'Rekord', 'textdomain' ),
+				'type'    => 'select',
+				'options' => array(
+					false => 'neodevzdal',
+					true  => 'odevzdal'
+				)
+			),
+			array(
+				'id'   => $prefix . 'record',
+				'name' => __( 'Přijat', 'textdomain' ),
+				'type' => 'checkbox'
+			),
+		)
+	);
+
+	$meta_boxes[] = array(
+		'title'      => __( 'Mail', 'textdomain' ),
+		'post_types' => $vintages_titles,
+		'context'    => 'side',
+		'frontend'   => false,
+		'fields'     => array(
+			array(
+				'id'   => $prefix . 'mail_state',
+				'name' => __( 'Status', 'textdomain' ),
+				'type' => 'text'
+			),
+		)
+	);
 
 	$meta_boxes[] = array(
 		'title'      => __( 'Osobní údaje', 'textdomain' ),
 		'post_types' => $vintages_titles,
 		'fields'     => array(
 			array(
-				'id'   => $prefix . 'gender',
-				'name' => __( 'Pohlaví', 'textdomain' ),
-				'type' => 'radio',
+				'id'      => $prefix . 'gender',
+				'name'    => __( 'Pohlaví', 'textdomain' ),
+				'type'    => 'radio',
 				'options' => array(
-					'male' => 'skaut',
+					'male'   => 'skaut',
 					'female' => 'skautka'
 				)
 			),
@@ -222,34 +258,6 @@ function ptcm_add_default_questions( $vintages_titles = '') {
 		)
 	);
 
-	$meta_boxes[] = array(
-		'title'      => __( 'Přijetí', 'textdomain' ),
-		'post_types' => $vintages_titles,
-		'context' => 'side',
-		'frontend' => false,
-		'fields'     => array(
-			array(
-				'id'      => $prefix . 'record',
-				'name'    => __( 'Rekord', 'textdomain' ),
-				'type'    => 'select',
-				'options' => array(
-					false => 'neodevzdal',
-					true  => 'odevzdal'
-				)
-			),
-			array(
-				'id'      => $prefix . 'record',
-				'name'    => __( 'Přijat', 'textdomain' ),
-				'type'    => 'checkbox'
-			),
-			array(
-				'id'      => $prefix . 'mail_state',
-				'name'    => __( 'Mail status', 'textdomain' ),
-				'type'    => 'textarea'
-			),
-		)
-	);
-
 	return $meta_boxes;
 }
 
@@ -269,27 +277,34 @@ function ptcm_add_next_questions( $item ) {
 	$fields_values = get_post_meta( $item->ID, $prefix . 'field', true );
 	$i             = 0;
 
+
 	foreach ( $fields_values as $field ) {
 
+		if ( ! empty( $field['ptcm_name'] ) && ! empty( $field['ptcm_type'] ) ) {
+			$field_settings = array(
+				'id'   => $prefix . 'custom_meta_' . sprintf( "%02d", $i ++ ),
+				'name' => __( $field[ $prefix . 'name' ], 'textdomain' ),
+				'type' => $field[ $prefix . 'type' ]
+			);
 
-		$field_settings = array(
-			'id'   => $prefix . 'custom_meta_' . sprintf( "%02d", $i++ ),
-			'name' => __( $field[ $prefix . 'name' ], 'textdomain' ),
-			'type' => $field[ $prefix . 'type' ]
-		);
+			if ( array_key_exists( $prefix . 'options', $field ) ) {
+				$field_settings['options'] = $field[ $prefix . 'options' ];
+			}
 
-		if ( array_key_exists( $prefix . 'options', $field ) ) {
-			$field_settings['options'] = $field[ $prefix . 'options' ];
+			$fields[] = $field_settings;
 		}
-
-		$fields[] = $field_settings;
 	}
 
-	$meta_boxes = array(
-		'title'      => __( 'Další otázky', 'textdomain' ),
-		'post_types' => $prefix . $item->post_title,
-		'fields'     => $fields
-	);
+	if (!empty($fields)) {
+		$meta_boxes = array(
+			'title'      => __( 'Další otázky', 'textdomain' ),
+			'post_types' => $prefix . $item->post_title,
+			'fields'     => $fields
+		);
 
-	return $meta_boxes;
+		return $meta_boxes;
+	}
+
+	return false;
+
 }
