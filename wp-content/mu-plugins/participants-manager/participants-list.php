@@ -32,7 +32,7 @@ function ptcm_show_participants_list( $atts ) {
 		$i = 1;
 		foreach ( $participants as $person ) {
 			echo '<tr class="table-row">';
-			echo '<td class="tablle-cell table-number">' . $i++ . '. </td>';
+			echo '<td class="tablle-cell table-number">' . $i ++ . '. </td>';
 			echo '<td class="table-cell table-nickname ' . get_post_meta( $person->ID, $prefix . 'gender', true ) . '">' . get_post_meta( $person->ID, $prefix . 'nickname', true ) . '</td>';
 			echo '<td class="table-cell table-name">' . get_post_meta( $person->ID, $prefix . 'firstname', true ) . ' ' . get_post_meta( $person->ID, $prefix . 'surname', true ) . '</td>';
 			echo '<td class="table-cell table-city">' . get_post_meta( $person->ID, $prefix . 'address_city', true ) . '</td>';
@@ -44,7 +44,7 @@ function ptcm_show_participants_list( $atts ) {
 			echo '</td>';
 			echo '<td class="table-cell table-record">';
 			if ( get_post_meta( $person->ID, $prefix . 'record', true ) ) {
-				echo '<span class="table-record-icon"></span>';
+				echo '<svg class="table-check" width="67" height="49" viewBox="0 0 67 49" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 21.3L24.6 44 64.5 3" /></svg>';
 			}
 			echo '</td>';
 			echo '</tr>';
