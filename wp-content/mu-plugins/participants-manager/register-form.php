@@ -18,9 +18,12 @@ function ptcm_show_register_form( $atts ) {
 
 
 	$fields = ptcm_add_default_questions();
+	$output = '';
 
-	if ($_GET['success']) {
-		$output = '<div class="message message-success">Byl/a jsi úspěšně přihlášen/a.<br/>Pokud ti od nás do několika dnů nepřijde e-mail, tak neváhej a ozvi se nám.</div>';
+	if (!empty($_GET['success'])) {
+		if ($_GET['success']) {
+			$output .= '<div class="message message-success">Byl/a jsi úspěšně přihlášen/a.<br/>Pokud ti od nás do několika dnů nepřijde e-mail, tak neváhej a ozvi se nám.</div>';
+		}
 	}
 	$output .= '<form class="form" method="post" action="' . htmlspecialchars( plugin_dir_url( __FILE__ ) . 'save-participant.php') . '">';
 	$output .= '<input type="hidden" name="year" value="' . $a['year'] . '">';
@@ -29,9 +32,11 @@ function ptcm_show_register_form( $atts ) {
 			$output .= '<fieldset class="form-fieldset">';
 			$output .= '<legend class="form-legend">' . $partition['title'] . '</legend>';
 			foreach ( $partition['fields'] as $field ) {
-				ptcm_render_field( $field );
-				if ($_GET[$field['id']]) {
-					$output .= '<span class="form-error">Vyplň prosím toto pole.</span>';
+				$output .= ptcm_render_field( $field );
+				if (!empty($_GET[$field['id']])) {
+					if ($_GET[$field['id']]) {
+						$output .= '<span class="form-error">Vyplň prosím toto pole.</span>';
+					}
 				}
 			}
 			$output .= '</fieldset>';
@@ -57,7 +62,7 @@ function ptcm_show_register_form( $atts ) {
 			$field_settings['options'] = $field[ $prefix . 'options' ];
 		}
 
-		ptcm_render_field($field_settings);
+		$output .= ptcm_render_field($field_settings);
 
 	}
 
@@ -70,6 +75,7 @@ function ptcm_show_register_form( $atts ) {
 	$output .= '</fieldset>';
 	$output .= '</form>';
 
+	bdump($output);
 	return $output;
 
 }
