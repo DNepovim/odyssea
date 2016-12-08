@@ -37,6 +37,7 @@ if ( isset( $_POST['submitted'] )
 		}
 	}
 
+
 	if ( $hasError ) {
 		$query = '?';
 		foreach ( $err as $key => $value ) {
@@ -48,6 +49,7 @@ if ( isset( $_POST['submitted'] )
 		$query = '?success=true';
 	}
 
+
 	$post_information = array(
 		'post_title'  => $_POST[ $prefix . 'firstname' ] . ' ' . $_POST[ $prefix . 'surname' ],
 		'post_type'   => $prefix . $_POST['year'],
@@ -55,6 +57,7 @@ if ( isset( $_POST['submitted'] )
 	);
 
 	$post_id = wp_insert_post( $post_information );
+
 
 	foreach ( $fields as $partition ) {
 		foreach ( $partition['fields'] as $field ) {
@@ -91,4 +94,6 @@ if ( isset( $_POST['submitted'] )
 	if ( $post_id ) {
 		wp_redirect( wp_get_referer() . $query  );
 	}
+} else {
+	echo 'Omlouváme se, je tu nějaký problém s verifikací.<br>Zkuste to za chvíli, nebo nám napište na <a href="mailto:odysseus.ithacky@gmail.com">odysseus.ithacky@gmail.com</a>.<br>Děkujeme za pochopení.';
 }
