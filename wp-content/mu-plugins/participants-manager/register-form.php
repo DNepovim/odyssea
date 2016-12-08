@@ -69,13 +69,12 @@ function ptcm_show_register_form( $atts ) {
 	$output .= '</fieldset>';
 
 	$output .= '<fieldset class="form-fieldset">';
+	$output .= wp_nonce_field( 'post_nonce', 'post_nonce_field' );
 	$output .= '<input id="submitted" type="hidden" name="submitted" value="true">';
-	wp_nonce_field( 'post_nonce', 'post_nonce_field' );
 	$output .= '<button class="button form-button" type="submit">Přihlašuji se na plavbu!</button>';
 	$output .= '</fieldset>';
 	$output .= '</form>';
 
-	bdump($output);
 	return $output;
 
 }
