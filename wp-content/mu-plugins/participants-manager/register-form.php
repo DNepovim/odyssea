@@ -22,7 +22,7 @@ function ptcm_show_register_form( $atts ) {
 
 	if (!empty($_GET['success'])) {
 		if ($_GET['success']) {
-			$output .= '<div class="message message-success">Byl/a jsi úspěšně přihlášen/a.<br/>Pokud ti od nás do několika dnů nepřijde e-mail, tak neváhej a ozvi se nám.</div>';
+			$output .= '<div id="message" class="message message-success">Byl/a jsi úspěšně přihlášen/a.<br/>Pokud ti od nás do několika dnů nepřijde e-mail, tak neváhej a ozvi se nám.</div>';
 		}
 	}
 	$output .= '<form class="form" method="post" action="' . htmlspecialchars( plugin_dir_url( __FILE__ ) . 'save-participant.php') . '">';

@@ -2,7 +2,6 @@
 
 include '../../../wp-load.php';
 
-
 if ( isset( $_POST['submitted'] )
      && isset( $_POST['post_nonce_field'] )
      && wp_verify_nonce( $_POST['post_nonce_field'], 'post_nonce' )
@@ -92,7 +91,7 @@ if ( isset( $_POST['submitted'] )
 	}
 
 	if ( $post_id ) {
-		wp_redirect( wp_get_referer() . $query  );
+		wp_redirect( wp_get_referer() . $query . '#message' );
 	}
 } else {
 	echo 'Omlouváme se, je tu nějaký problém s verifikací.<br>Zkuste to za chvíli, nebo nám napište na <a href="mailto:odysseus.ithacky@gmail.com">odysseus.ithacky@gmail.com</a>.<br>Děkujeme za pochopení.';
