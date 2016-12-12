@@ -1,8 +1,17 @@
 <?php
 
-//[participants-list year=$year]
+/**
+ * Print participants list with shortcode [participants-list year=$year]
+ *
+ * @param array $atts shortcode atributes
+ *
+ * @return string with participants table
+ */
+
 add_shortcode( 'participants-list', 'ptcm_show_participants_list' );
 function ptcm_show_participants_list( $atts ) {
+	dump($atts);
+	exit;
 
 	$a = shortcode_atts( array( 'year' => 'missing year' ), $atts );
 

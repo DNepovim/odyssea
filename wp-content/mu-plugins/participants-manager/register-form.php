@@ -1,6 +1,13 @@
 <?php
 
-//[register-form year=$year]
+/**
+ * Print register form with shortcode [register-form year=$year]
+ *
+ * @param array $atts shortcode atributes
+ *
+ * @return string with HTML form
+ */
+
 add_shortcode( 'register-form', 'ptcm_show_register_form' );
 function ptcm_show_register_form( $atts ) {
 
@@ -78,6 +85,14 @@ function ptcm_show_register_form( $atts ) {
 	return $output;
 
 }
+
+/**
+ * Print register form with shortcode [register-form year=$year]
+ *
+ * @param array $args List of input args
+ *
+ * @return string with HTML input
+ */
 
 function ptcm_render_field( $args ) {
 	$output = '<label class="form-label" for="' . $args['id'] . '">' . $args['name'] . ':</label>';
