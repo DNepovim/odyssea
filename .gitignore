@@ -16,4 +16,7 @@ wp-content/plugins/hello.php
 .idea
 node_modules
 
+vendor/
+*OdysseaMailer_client_secret.json*
+*OdysseaMailer_credentials.json*
 
