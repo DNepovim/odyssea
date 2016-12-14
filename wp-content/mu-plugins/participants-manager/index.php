@@ -22,9 +22,8 @@ require_once 'participants-list.php';
 require_once 'register-form.php';
 
 ! defined( 'ABSPATH' ) AND exit;
-/** Plugin Name: (#64933) »kaiser« Add post/page note */
 
-function wpse64933_add_posttype_note() {
+function ptcm_add_posttype_note() {
 	global $pagenow;
 	if ( ! empty( $_GET['post_type'] ) ) {
 		if ( $year = $_GET['post_type'] ) {
@@ -38,4 +37,4 @@ function wpse64933_add_posttype_note() {
 
 }
 
-add_action( 'all_admin_notices', 'wpse64933_add_posttype_note' );
+add_action( 'all_admin_notices', 'ptcm_add_posttype_note' );
