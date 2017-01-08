@@ -1,5 +1,4 @@
 <?php
-require_once $_SERVER["DOCUMENT_ROOT"] . "/vendor/autoload.php";
 
 /**
  * The OdysseaMailer class - a Gmail API client
@@ -51,9 +50,10 @@ class OdysseaMailer
 	 *
 	 * This function needs to be called once in order to authenticate this application with the desired Gmail account.
 	 * Call this function from the CLI and follow the instructions.
-	 */ 
+	 */
 	public function getCredentials()
 	{
+
 		if(php_sapi_name() != "cli")
 		{
 			throw new Exception("Method OdysseaMailer::getCredentials() must be called from a CLI!\n");
@@ -141,20 +141,26 @@ class OdysseaMailer
 	 * @param string $subject The message subject. May contain UTF-8 characters.
 	 * @param string $body The message body. May contain UTF-8 characters.
 	 */
-	public function send($recipient, $subject, $body)
-	{
-		if(!isset($this->service))
-		{
-			throw new Exception("OdysseaMailer not authenticated! Call OdysseaMailer::authenticate() before attempting to send mail.\n");
+	public function send($post_id, $recipient, $subject, $body) {
+		if ( ! isset( $this->service ) ) {
+			throw new Exception( "OdysseaMailer not authenticated! Call OdysseaMailer::authenticate() before attempting to send mail.\n" );
 		}
-		$message = "From: " . $this->utf8base64(self::SENDER_NAME) . " <" . self::SENDER_EMAIL . ">" . "\r\n";
+		$message = "From: " . $this->utf8base64( self::SENDER_NAME ) . " <" . self::SENDER_EMAIL . ">" . "\r\n";
 		$message .= "To: " . $recipient . "\r\n";
-		$message .= "Subject: " . $this->utf8base64($subject) . "\r\n";
+		$message .= "Subject: " . $this->utf8base64( $subject ) . "\r\n";
 		$message .= "\r\n" . $body;
-		$messageBase64 = rtrim(strtr(base64_encode($message), '+/', '-_'), '=');
-		$gMessage = new Google_Service_Gmail_Message();
-		$gMessage->setRaw($messageBase64);
-		$this->service->users_messages->send(self::USER_ID, $gMessage);
+		$messageBase64 = rtrim( strtr( base64_encode( $message ), '+/', '-_' ), '=' );
+		$gMessage      = new Google_Service_Gmail_Message();
+		$gMessage->setRaw( $messageBase64 );
+		try {
+			$this->service->users_messages->send( self::USER_ID, $gMessage )->processed;
+			add_post_meta( $post_id, 'ptcm_mail_state', 'successfully send' );
+
+			return $recipient;
+		} catch ( Exception $e ) {
+			print 'Něco se pokazilo při odesílání mailu.<br>Zkus to znovu, nebo nám napiš na <a href="mailto:odysseus.ithacky@gmail.com">odysseus.ithacky@gmail.com</a>' ;
+			add_post_meta( $post_id, 'ptcm_mail_state', $e->getMessage() );
+			exit;
+		}
 	}
 }
-?>

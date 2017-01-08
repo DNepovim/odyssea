@@ -42,7 +42,7 @@ if ( isset( $_POST['submitted'] )
 		foreach ( $err as $key => $value ) {
 			$query .= $key . '=' . $value . '&';
 		}
-		wp_redirect( wp_get_referer() . $query  );
+		wp_redirect( wp_get_referer() . $query );
 		exit;
 	} else {
 		$query = '?success=true';
@@ -76,19 +76,11 @@ if ( isset( $_POST['submitted'] )
 
 	$vintage = get_page_by_title( $_POST['year'], 'OBJECT', $prefix . 'vintage' );
 
-	$headers .= 'From:Odysseus Ithacky <odysseus.ithacky@gmail.com>' . "\r\n";
-	$headers .= 'Content-type: text/html; UTF-8' . "\r\n";
 
-	if (wp_mail(
-		$_POST[ $prefix . 'email' ],
-		get_post_meta( $vintage->ID, $prefix . 'mail_subject', true ),
-		get_post_meta( $vintage->ID, $prefix . 'mail_body', true ),
-		$headers
-	)) {
-		add_post_meta( $post_id, 'ptcm_mail_state', 'successfully send' );
-	} else {
-		add_post_meta( $post_id, 'ptcm_mail_state', 'there is some error' );
-	}
+	$mailer = new OdysseaMailer();
+	$mailer->authenticate();
+	$recipient = $mailer->send($post_id, $_POST[ $prefix . 'email' ], get_post_meta( $vintage->ID, $prefix . 'mail_subject', true ), get_post_meta( $vintage->ID, $prefix . 'mail_body', true ) );
+	$query .= '&recipient=' . $recipient;
 
 	if ( $post_id ) {
 		wp_redirect( wp_get_referer() . $query . '#message' );
