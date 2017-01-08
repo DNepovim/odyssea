@@ -51,6 +51,128 @@ function ptcm_create_vintage() {
 	}
 }
 
+$vintages = ptcm_get_vintages();
+
+foreach ( $vintages as $vintage ) {
+	$hook = 'manage_edit-ptcm_' . $vintage->post_title . '_columns';
+	add_filter( $hook, 'add_new_participants_columns' );
+
+	$hook = 'manage_ptcm_' . $vintage->post_title . '_posts_custom_column';
+	add_action( $hook, 'manage_participants_columns', 10, 2 );
+
+}
+
+// Add to admin_init function
+
+function add_new_participants_columns( $gallery_columns ) {
+	$new_columns['cb'] = '<input type="checkbox" />';
+
+	$new_columns['title']    = 'Jméno';
+	$new_columns['record']   = 'Rekord';
+	$new_columns['accepted'] = 'Přijat';
+
+	return $new_columns;
+}
+
+// Add to admin_init function
+
+function manage_participants_columns( $column_name, $id ) {
+	global $wpdb;
+	switch ( $column_name ) {
+		case 'record':
+			$record = get_post_meta( $id, 'ptcm_record', true );
+			if ( $record ) {
+				echo 'odevzdal';
+			} else {
+
+				echo 'neodevzdal';
+			}
+			break;
+		case 'accepted':
+			$accepted = get_post_meta( $id, 'ptcm_accepted', true );
+			if ( $accepted == 1 ) {
+				echo 'nepřijat';
+			} else if ( $accepted == 2 ) {
+				echo 'přijat';
+			};
+			break;
+		default:
+			break;
+	}
+}
+
+// Add to our admin_init function
+add_action( 'quick_edit_custom_box', 'ptcm_add_quick_edit', 10, 2 );
+
+function ptcm_add_quick_edit( $column_name, $post_type ) {
+	$prefix = 'ptcm_';
+	if ( $column_name != 'record' ) {
+		return;
+	}
+	?>
+	<fieldset class="inline-edit-col-left">
+		<div class="inline-edit-col">
+			<span class="title">Rekord</span>
+			<input type="hidden" name="ptcm_record_noncename" id="ptcm_record_noncename" value=""/>
+			<select name='post_record' id='post_record'>
+				<option class='option' value='1'>Odevzdal</option>
+				<option class='option' value='0'>Neodevzdal</option>
+				?>
+			</select>
+		</div>
+	</fieldset>
+	<fieldset class="inline-edit-col-left">
+		<div class="inline-edit-col">
+			<span class="title">Přijat</span>
+			<input type="hidden" name="ptcm_accepted_noncename" id="ptcm_accepted_noncename" value=""/>
+			<select name='post_accepted' id='post_accepted'>
+				<option class='option' value='0'>Nerozhodnuto</option>
+				<option class='option' value='1'>Nepřijat</option>
+				<option class='option' value='2'>Přijat</option>
+				?>
+			</select>
+		</div>
+	</fieldset>
+	<?php
+}
+
+// Add to our admin_init function
+add_action( 'save_post', 'ptcm_save_quick_edit_data' );
+function ptcm_save_quick_edit_data( $post_id ) {
+	$prefix = 'ptcm_';
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return $post_id;
+	}
+	if ( 'page' == $_POST['post_type'] ) {
+		if ( ! current_user_can( 'edit_page', $post_id ) ) {
+			return $post_id;
+		}
+	} else {
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return $post_id;
+		}
+	}
+	$post = get_post( $post_id );
+	if ( isset( $_POST['post_record'] ) && ( $post->post_type != 'revision' ) ) {
+		$ptcm_set_id = esc_attr( $_POST['post_record'] );
+		if ( $ptcm_set_id ) {
+			update_post_meta( $post_id, $prefix . 'record', $ptcm_set_id );
+		} else {
+			delete_post_meta( $post_id, $prefix . 'record' );
+		}
+	}
+	if ( isset( $_POST['post_accepted'] ) && ( $post->post_type != 'revision' ) ) {
+		$ptcm_set_id = esc_attr( $_POST['post_accepted'] );
+		if ( $ptcm_set_id ) {
+			update_post_meta( $post_id, $prefix . 'accepted', $ptcm_set_id );
+		} else {
+			delete_post_meta( $post_id, $prefix . 'accepted' );
+		}
+	}
+
+	return $ptcm_set_id;
+}
+
 
 /**
  * Create list of all meta fields
@@ -99,18 +221,19 @@ function ptcm_add_default_questions( $vintages_titles = '' ) {
 		'frontend'   => false,
 		'fields'     => array(
 			array(
-				'id'      => $prefix . 'record',
-				'name'    => __( 'Rekord', 'textdomain' ),
-				'type'    => 'select',
-				'options' => array(
-					false => 'neodevzdal',
-					true  => 'odevzdal'
-				)
+				'id'   => $prefix . 'record',
+				'name' => __( 'Rekord', 'textdomain' ),
+				'type' => 'checkbox',
 			),
 			array(
-				'id'   => $prefix . 'accepted',
-				'name' => __( 'Přijat', 'textdomain' ),
-				'type' => 'checkbox'
+				'id'      => $prefix . 'accepted',
+				'name'    => __( 'Přijat', 'textdomain' ),
+				'type'    => 'select',
+				'options' => array(
+					0 => 'nerozhodnuto',
+					1 => 'nepřijat',
+					2 => 'přijat'
+				)
 			),
 		)
 	);
@@ -295,7 +418,7 @@ function ptcm_add_next_questions( $item ) {
 		}
 	}
 
-	if (!empty($fields)) {
+	if ( ! empty( $fields ) ) {
 		$meta_boxes = array(
 			'title'      => __( 'Další otázky', 'textdomain' ),
 			'post_types' => $prefix . $item->post_title,
