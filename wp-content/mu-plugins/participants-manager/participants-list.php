@@ -10,8 +10,6 @@
 
 add_shortcode( 'participants-list', 'ptcm_show_participants_list' );
 function ptcm_show_participants_list( $atts ) {
-	dump($atts);
-	exit;
 
 	$a = shortcode_atts( array( 'year' => 'missing year' ), $atts );
 
