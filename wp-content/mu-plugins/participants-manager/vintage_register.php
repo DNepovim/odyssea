@@ -108,7 +108,7 @@ function ptcm_add_default_questions( $vintages_titles = '' ) {
 				)
 			),
 			array(
-				'id'   => $prefix . 'record',
+				'id'   => $prefix . 'accepted',
 				'name' => __( 'Přijat', 'textdomain' ),
 				'type' => 'checkbox'
 			),

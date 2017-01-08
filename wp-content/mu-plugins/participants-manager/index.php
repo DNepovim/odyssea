@@ -18,13 +18,19 @@ Debugger::enable();
 
 require_once ABSPATH . 'vendor/autoload.php';
 
+add_theme_support( 'post-thumbnails' );
+add_image_size('ptcm_face', 150, 150);
+
 require_once 'vintage_register.php';
 require_once 'vintage_settings.php';
 require_once 'participants-list.php';
+require_once 'faces-list.php';
 require_once 'register-form.php';
 require_once 'OdysseaMailer/OdysseaMailer.php';
 
 ! defined( 'ABSPATH' ) AND exit;
+
+
 
 function ptcm_add_posttype_note() {
 	global $pagenow;
@@ -34,6 +40,7 @@ function ptcm_add_posttype_note() {
 				echo '<h2>Shortcodes</h2>';
 				echo '<p>Show register form: [register-form year=' . substr( $year, 5 ) . ']</p>';
 				echo '<p>Show participants list: [participants-list year=' . substr( $year, 5 ) . ']</p>';
+				echo '<p>Show faces list: [faces-list year=' . substr( $year, 5 ) . ']</p>';
 			}
 		}
 	}
