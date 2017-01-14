@@ -43,6 +43,7 @@ class OdysseaMailer
 		}
 		$this->client->setAuthConfig(self::CLIENT_SECRET_PATH);
 		$this->client->setAccessType("offline");
+		$this->client->setApprovalPrompt("force");
 	}
 
 	/**
