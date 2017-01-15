@@ -20,3 +20,5 @@ vendor/
 *OdysseaMailer_client_secret.json*
 *OdysseaMailer_credentials.json*
 
+odyssea.sublime-project
+odyssea.sublime-workspace
