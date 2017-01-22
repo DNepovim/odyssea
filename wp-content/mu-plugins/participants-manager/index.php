@@ -42,7 +42,7 @@ function ptcm_add_posttype_note() {
 				echo '<p>Show register form: [register-form year=' . substr( $year, 5 ) . ']</p>';
 				echo '<p>Show participants list: [participants-list year=' . substr( $year, 5 ) . ']</p>';
 				echo '<p>Show faces list: [faces-list year=' . substr( $year, 5 ) . ']</p>';
-				echo '<a href="' . admin_url( '?download' ) . '">download</a>';
+				echo '<a href="' . admin_url( '?download&year=' . substr( $year, 5 ) ) . '">Download list of all participants with custom questions</a>';
 			}
 		}
 	}
@@ -52,7 +52,7 @@ add_action( 'all_admin_notices', 'ptcm_add_posttype_note' );
 
 add_action( 'plugins_loaded', function() {
 	if ( isset( $_GET['download'] ) ) {
-		ptcm_get_participants_record_data('2015');
+		ptcm_get_participants_record_data($_GET['year']);
 	}
 });
 
