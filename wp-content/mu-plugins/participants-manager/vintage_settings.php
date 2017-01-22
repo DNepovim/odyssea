@@ -60,6 +60,18 @@ function ptcm_settings_meta( $meta_boxes ) {
 	);
 
 	$meta_boxes[] = array(
+		'title'      => __( 'Podmínky přijetí', 'textdomain' ),
+		'post_types' => $prefix . 'vintage',
+		'fields'     => array(
+			array(
+				'id'   => $prefix . 'age_date',
+				'name' => __( 'Narozen nejpozději', 'textdomain' ),
+				'type' => 'date'
+			),
+		),
+	);
+
+	$meta_boxes[] = array(
 		'title'      => __( 'Data', 'textdomain' ),
 		'post_types' => $prefix . 'vintage',
 		'fields'     => array(

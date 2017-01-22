@@ -27,6 +27,7 @@ require_once 'participants-list.php';
 require_once 'faces-list.php';
 require_once 'register-form.php';
 require_once 'OdysseaMailer/OdysseaMailer.php';
+require_once 'participants-export.php';
 
 ! defined( 'ABSPATH' ) AND exit;
 
@@ -41,10 +42,23 @@ function ptcm_add_posttype_note() {
 				echo '<p>Show register form: [register-form year=' . substr( $year, 5 ) . ']</p>';
 				echo '<p>Show participants list: [participants-list year=' . substr( $year, 5 ) . ']</p>';
 				echo '<p>Show faces list: [faces-list year=' . substr( $year, 5 ) . ']</p>';
+				echo '<a href="' . admin_url( '?download' ) . '">download</a>';
 			}
 		}
 	}
 
 }
-
 add_action( 'all_admin_notices', 'ptcm_add_posttype_note' );
+
+add_action( 'plugins_loaded', function() {
+	if ( isset( $_GET['download'] ) ) {
+		ptcm_get_participants_record_data('2015');
+	}
+});
+
+
+
+
+
+
+
