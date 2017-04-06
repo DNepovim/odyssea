@@ -21,7 +21,7 @@ function ptcm_show_faces_list( $atts ) {
 		'order'       => 'ASC',
 		'post_status' => 'private',
 		'meta_key'    => $prefix . 'accepted',
-		'meta_value'  => true
+		'meta_value'  => 2
 	);
 
 
@@ -29,10 +29,11 @@ function ptcm_show_faces_list( $atts ) {
 
 	if ( $participants = get_posts( $args ) ) {
 		foreach ( $participants as $person ) {
+			bdump(get_post_meta($person->ID, $prefix . 'accepted', true));
 			$output .= '<article class="face-box">';
 			$thumbnail = get_the_post_thumbnail_url($person, 'ptcm_face' );
 			$output .= '<figure class="face-box-thumb" style="background-image: url(' . $thumbnail . ')"></figure>';
-			if ($title = $person->post_title) {
+			if ($title = get_post_meta($person->ID, $prefix . 'nickname', true)) {
 				$output .= '<h3 class="face-box-title">' . $title . '</h3>';
 			}
 			if ( $sms = get_post_meta( $person->ID, $prefix . 'sms', true ) ) {
