@@ -31,9 +31,12 @@ function ptcm_show_faces_list( $atts ) {
 		foreach ( $participants as $person ) {
 			$output .= '<article class="face-box">';
 			$thumbnail = get_the_post_thumbnail_url($person, 'ptcm_face' );
+			$nickname = get_post_meta($person->ID, $prefix . 'nickname', true);
+			$firstname = get_post_meta($person->ID, $prefix . 'firstname', true);
+			$name = !empty($nickname) ? $nickname : $firstname;
 			$output .= '<figure class="face-box-thumb" style="background-image: url(' . $thumbnail . ')"></figure>';
-			if ($title = get_post_meta($person->ID, $prefix . 'nickname', true)) {
-				$output .= '<h3 class="face-box-title">' . $title . '</h3>';
+			if (!empty($nickname)||!empty($firstname)) {
+				$output .= '<h3 class="face-box-title">' . $name . '</h3>';
 			}
 			if ( $sms = get_post_meta( $person->ID, $prefix . 'sms', true ) ) {
 				$output .= '<p class="face-box-sms"/>' . $sms . '</p>';
