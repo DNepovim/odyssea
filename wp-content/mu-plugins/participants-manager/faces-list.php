@@ -29,7 +29,6 @@ function ptcm_show_faces_list( $atts ) {
 
 	if ( $participants = get_posts( $args ) ) {
 		foreach ( $participants as $person ) {
-			bdump(get_post_meta($person->ID, $prefix . 'accepted', true));
 			$output .= '<article class="face-box">';
 			$thumbnail = get_the_post_thumbnail_url($person, 'ptcm_face' );
 			$output .= '<figure class="face-box-thumb" style="background-image: url(' . $thumbnail . ')"></figure>';
