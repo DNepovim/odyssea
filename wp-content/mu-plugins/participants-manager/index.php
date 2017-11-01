@@ -26,6 +26,7 @@ require_once 'vintage_settings.php';
 require_once 'participants-list.php';
 require_once 'faces-list.php';
 require_once 'register-form.php';
+require_once 'OdysseaMailer/OdysseaMailer.php';
 require_once 'participants-export.php';
 
 ! defined( 'ABSPATH' ) AND exit;

@@ -77,17 +77,10 @@ if ( isset( $_POST['submitted'] )
 	$vintage = get_page_by_title( $_POST['year'], 'OBJECT', $prefix . 'vintage' );
 
 
-	if(wp_mail($_POST[ $prefix . 'email' ], get_post_meta( $vintage->ID, $prefix . 'mail_subject', true ), get_post_meta( $vintage->ID, $prefix . 'mail_body', true )))
-	{
-		add_post_meta( $post_id, 'ptcm_mail_state', 'successfully send' );
-	}
-	else
-	{
-		print 'Něco se pokazilo při odesílání mailu.<br>Zkus to znovu, nebo nám napiš na <a href="mailto:odysseus.ithacky@gmail.com">odysseus.ithacky@gmail.com</a>' ;
-		add_post_meta( $post_id, 'ptcm_mail_state', $e->getMessage() );
-		exit;
-	}
-	$query .= '&recipient=' . $_POST[ $prefix . 'email' ];
+	$mailer = new OdysseaMailer();
+	$mailer->authenticate();
+	$recipient = $mailer->send($post_id, $_POST[ $prefix . 'email' ], get_post_meta( $vintage->ID, $prefix . 'mail_subject', true ), get_post_meta( $vintage->ID, $prefix . 'mail_body', true ) );
+	$query .= '&recipient=' . $recipient;
 
 	if ( $post_id ) {
 		wp_redirect( wp_get_referer() . $query . '#message' );
