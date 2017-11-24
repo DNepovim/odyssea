@@ -25,21 +25,31 @@ $.fn.spy = function(settings) {
 	// always returns false, so you need to implement it manually.
 	spy.isDupe = function(latest, last) {
 		if(last){ //Wassup v1.9 bugfix for undefined error
-			if((last.constructor == Object) && (o.method == 'html')) {return (String(latest.text()).substring(0,32) == String(last.text()).substring(0,32));}
-			else if(last.constructor == String){ return (latest == last);}
-			else{ return false; }
+			if ((last.constructor == Object) && (o.method == 'html')) {return (String(latest.text()).substring(0,32) == String(last.text()).substring(0,32));}
+			else if (last.constructor == String) {return (latest == last);}
+			else {return false;}
 		} else {
 			return false;
 		}
 	}
-	spy.timestamp = function() {var now=new Date();return Math.floor((now - spy.epoch) / 1000);}
+	spy.timestamp = function() {
+		var now=new Date();
+		return Math.floor((now - spy.epoch) / 1000);
+	}
 	spy.parse = function(e, r) {
 		spy.parsing = 1; // flag to stop pull via ajax
-		if(o.method == 'html'){$('div#_spyTmp').html(r);
-		}else if(o.method == 'json'){ eval('spy.json = ' + r);}
+		if (o.method == 'html'){$('div#_spyTmp').html(r);}
+		else if(o.method == 'json'){ eval('spy.json = ' + r);}
 		if ((o.method == 'json' && spy.json.constructor == Array) || o.method == 'html') {
 			if (spy.parseItem(e)) {
-				spy.waitTimer = window.setInterval(function(){if(spyRunning){ if(!spy.parseItem(e)){ spy.parsing = 0;clearInterval(spy.waitTimer);}}},o.pushTimeout);
+				spy.waitTimer = window.setInterval(function(){
+					if(spyRunning){ 
+						if(!spy.parseItem(e)){
+							spy.parsing = 0;
+							clearInterval(spy.waitTimer);
+						}
+					}
+				},o.pushTimeout);
 			} else {
 				spy.parsing = 0;
 			}
@@ -88,13 +98,33 @@ $.fn.spy = function(settings) {
 		var e = this;
 		var timestamp = o.timestamp.call();
 		var lr = ''; // last ajax return
-		spy.ajaxTimer = window.setInterval(function() { if (spyRunning && (!spy.parsing)){ $.post(o.ajax,{'timestamp': timestamp},function(r){ spy.parse(e,r);}); timestamp = o.timestamp.call();}}, o.timeout);
+		spy.ajaxTimer = window.setInterval(function() {
+			if (spyRunning && (!spy.parsing)){
+				$.post(o.ajax,{'timestamp': timestamp},function(r){ spy.parse(e,r);});
+				timestamp = o.timestamp.call();
+			}
+		}, o.timeout);
 	});
 };
-$.fn.fadeEachDown = function() {var s=this.size(); return this.each(function(i){ var o = 1 - (s == 1 ? 0.5 : 0.85/s*(i+1)); var e = this.style; if (window.ActiveXObject) e.filter = "alpha(opacity=" + o*100 + ")"; e.opacity = o; });};
+$.fn.fadeEachDown = function() {
+	var s=this.size();
+	return this.each(function(i){
+		var o = 1 - (s == 1 ? 0.5 : 0.85/s*(i+1));
+		var e = this.style;
+		if (window.ActiveXObject) e.filter = "alpha(opacity=" + o*100 + ")";
+		e.opacity = o;
+	});
+};
 })(jQuery);
 
+//Wassup add-ons functions...
 function pauseSpy(){spyRunning=0;return false;}
 function playSpy(){spyRunning=1;return false;}
 function pad(n){n=n.toString();return (n.length==1?'0'+n:n);}
-function spiaTimestamp(){var d=new Date();var timestamp=d.getFullYear()+'-'+pad(d.getMonth())+'-'+pad(d.getDate());timestamp +=' ';timestamp +=pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());return timestamp;}
+function spiaTimestamp(){
+	var d=new Date();
+	var timestamp=d.getFullYear()+'-'+pad(d.getMonth())+'-'+pad(d.getDate());
+	timestamp +=' ';
+	timestamp +=pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());
+	return timestamp;
+}

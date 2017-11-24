@@ -19,8 +19,8 @@ msgstr ""
 "X-Poedit-SearchPath-1: ..\n"
 
 #: ../inc/metaslider.widget.class.php:19
-msgid "Meta Slider"
-msgstr "Meta Slider"
+msgid "MetaSlider"
+msgstr "MetaSlider"
 
 #: ../inc/metaslider.widget.class.php:109
 msgid "Title:"
@@ -682,8 +682,8 @@ msgid "Add slider"
 msgstr "Додати слайдер"
 
 #: ../ml-slider.php:1784
-msgid "Insert Meta Slider"
-msgstr "Вставити Meta Slider"
+msgid "Insert MetaSlider"
+msgstr "Вставити MetaSlider"
 
 #: ../ml-slider.php:1786
 msgid "Choose slideshow"
@@ -698,5 +698,5 @@ msgid "Go Pro"
 msgstr "Отримати Pro версію"
 
 #: ../ml-slider.php:1829
-msgid "Upgrade to Pro $19"
-msgstr "Оновити до Pro версії за $19"
+msgid "Upgrade to Pro $39"
+msgstr "Оновити до Pro версії за $39"

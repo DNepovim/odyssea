@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: NextGEN Gallery\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/nextgen-gallery\n"
 "POT-Creation-Date: 2014-02-20 19:45-0800\n"
-"PO-Revision-Date: 2015-01-15 15:04+08\n"
-"Last-Translator: Photocrati Media\n"
-"Language-Team: Photocrati Media\n"
+"PO-Revision-Date: 2016-05-03 11:18+47\n"
+"Last-Translator: Imagely\n"
+"Language-Team: Imagely\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -350,8 +350,12 @@ msgstr ""
 msgid "Custom"
 msgstr ""
 
+#: products/photocrati_nextgen/modules/nextgen_addgallery_page/templates/import_folder.php:7
+msgid "Leave blank for folder name"
+msgstr ""
+
 #: products/photocrati_nextgen/modules/nextgen_addgallery_page/adapter.import_folder_form.php:7
-#: products/photocrati_nextgen/modules/nextgen_addgallery_page/templates/import_folder.php:6
+#: products/photocrati_nextgen/modules/nextgen_addgallery_page/templates/import_folder.php:12
 msgid "Import Folder"
 msgstr ""
 
@@ -400,11 +404,31 @@ msgstr ""
 msgid "Upload Images"
 msgstr ""
 
+#: products/photocrati_nextgen/modules/nextgen_addgallery_page/adapter.upload_images_form.php:13
+msgid "No images were uploaded successfully."
+msgstr ""
+
+#: products/photocrati_nextgen/modules/nextgen_addgallery_page/adapter.upload_images_form.php:14
+msgid "1 image was uploaded successfully."
+msgstr ""
+
+#: products/photocrati_nextgen/modules/nextgen_addgallery_page/adapter.upload_images_form.php:15
+msgid "{count} images were uploaded successfully."
+msgstr ""
+
+#: products/photocrati_nextgen/modules/nextgen_addgallery_page/adapter.upload_images_form.php:16
+msgid "The following errors occured:"
+msgstr ""
+
+#: products/photocrati_nextgen/modules/nextgen_addgallery_page/adapter.upload_images_form.php:17
+msgid "Manage gallery {name}"
+msgstr ""
+
 #: products/photocrati_nextgen/modules/nextgen_addgallery_page/templates/import_folder.php:1
 msgid "Select a folder to import. The folder name will be used as the title of the gallery."
 msgstr ""
 
-#: products/photocrati_nextgen/modules/nextgen_addgallery_page/templates/import_folder.php:5
+#: products/photocrati_nextgen/modules/nextgen_addgallery_page/templates/import_folder.php:11
 msgid "Keep images in original location."
 msgstr ""
 
@@ -445,6 +469,10 @@ msgstr[1] ""
 
 #: products/photocrati_nextgen/modules/nextgen_addgallery_page/templates/upload_images.php:4
 msgid "Create a new gallery"
+msgstr ""
+
+#: products/photocrati_nextgen/modules/nextgen_addgallery_page/templates/upload_images.php:9
+msgid "Gallery title"
 msgstr ""
 
 #: products/photocrati_nextgen/modules/nextgen_addgallery_page/templates/upload_images.php:13
@@ -1143,6 +1171,10 @@ msgstr ""
 msgid "link text"
 msgstr ""
 
+#: products/photocrati_nextgen/modules/nextgen_gallery_display/templates/no_images_found.php:1
+msgid "no images were found"
+msgstr ""
+
 #: products/photocrati_nextgen/modules/nextgen_other_options/adapter.image_options_form.php:12
 msgid "Image Options"
 msgstr ""
@@ -1557,11 +1589,11 @@ msgid "A failure occurred"
 msgstr ""
 
 #: products/photocrati_nextgen/modules/ngglegacy/admin/admin.php:379
-msgid "<a href=\"http://www.nextgen-gallery.com\" target=\"_blank\">Introduction</a>"
+msgid "<a href=\"https://www.imagely.com/wordpress-gallery-plugin/nextgen-gallery/\" target=\"_blank\">Introduction</a>"
 msgstr ""
 
 #: products/photocrati_nextgen/modules/ngglegacy/admin/admin.php:382
-msgid "<a href=\"http://www.nextgen-gallery.com/languages\" target=\"_blank\">Languages</a>"
+msgid "<a href=\"https://www.imagely.com/wordpress-gallery-plugin/nextgen-gallery//languages\" target=\"_blank\">Languages</a>"
 msgstr ""
 
 #: products/photocrati_nextgen/modules/ngglegacy/admin/admin.php:387
@@ -1620,7 +1652,7 @@ msgstr ""
 #: products/photocrati_nextgen/modules/ngglegacy/admin/album.php:180
 #: products/photocrati_nextgen/modules/ngglegacy/admin/album.php:209
 #: products/photocrati_nextgen/modules/ngglegacy/admin/album.php:253
-msgid "Update Successfully"
+msgid "Updated Successfully"
 msgstr ""
 
 #: products/photocrati_nextgen/modules/ngglegacy/admin/album.php:227
@@ -1817,9 +1849,9 @@ msgstr ""
 msgid "with permission 777 manually !"
 msgstr ""
 
-#: products/photocrati_nextgen/modules/ngglegacy/admin/functions.php:119
+#: products/photocrati_nextgen/modules/ngglegacy/admin/functions.php:121
 #, php-format
-msgid "Gallery ID %1$s successfully created. You can show this gallery in your post or page with the shortcode %2$s.<br/>"
+msgid "Gallery successfully created. <a href=\"%s\" target=\"_blank\">Manage gallery</a>"
 msgstr ""
 
 #: products/photocrati_nextgen/modules/ngglegacy/admin/functions.php:122
@@ -2200,7 +2232,7 @@ msgid "Alt & Title Text / Description"
 msgstr ""
 
 #: products/photocrati_nextgen/modules/ngglegacy/admin/manage.php:213
-msgid "Exclude ?"
+msgid "Exclude?"
 msgstr ""
 
 #: products/photocrati_nextgen/modules/ngglegacy/admin/manage.php:298
@@ -2294,10 +2326,6 @@ msgstr ""
 
 #: products/photocrati_nextgen/modules/ngglegacy/admin/manage.php:778
 msgid "Tags changed"
-msgstr ""
-
-#: products/photocrati_nextgen/modules/ngglegacy/admin/manage.php:818
-msgid "Update successful"
 msgstr ""
 
 #: products/photocrati_nextgen/modules/ngglegacy/admin/manage.php:853
@@ -2418,11 +2446,11 @@ msgid "Server Settings"
 msgstr ""
 
 #: products/photocrati_nextgen/modules/ngglegacy/admin/overview.php:97
-msgid "NextGEN Gallery is one of the most popular WordPress plugins of all time with over 14 million downloads."
+msgid "NextGEN Gallery is one of the most popular WordPress plugins of all time with over 18 million downloads."
 msgstr ""
 
 #: products/photocrati_nextgen/modules/ngglegacy/admin/overview.php:97
-msgid "It is developed and supported by Photocrati Media. We'd like to offer a special thanks to Alex Rabe, who first developed the plugin and maintained it through 2011."
+msgid "It is developed and supported by Imagely. We'd like to offer a special thanks to Alex Rabe, who first developed the plugin and maintained it through 2011."
 msgstr ""
 
 #: products/photocrati_nextgen/modules/ngglegacy/admin/overview.php:98
@@ -2430,12 +2458,12 @@ msgid "<strong>NEED  HELP?</strong> If you need help or assistance please visit 
 msgstr ""
 
 #: products/photocrati_nextgen/modules/ngglegacy/admin/overview.php:99
-msgid "<strong>EXTENDING NEXTGEN?</strong> There are many third party plugins that add displays and functionality for NextGEN Gallery. See our <a href='http://www.nextgen-gallery.com/nextgen-gallery-extension-plugins/'>Complete List of NextGEN Extension  Plugins</a>."
+msgid "<strong>EXTENDING NEXTGEN?</strong> There are many third party plugins that add displays and functionality for NextGEN Gallery. See our <a href='https://www.imagely.com/wordpress-gallery-plugin/nextgen-gallery//nextgen-gallery-extension-plugins/'>Complete List of NextGEN Extension  Plugins</a>."
 msgstr ""
 
 #: products/photocrati_nextgen/modules/ngglegacy/admin/overview.php:107
 #, php-format
-msgid "This plugin is primarily developed, maintained, supported and documented by <a href=\"%s\" target=\"_blank\">Photocrati Media</a> with a lot of love & effort. Any kind of contribution would be highly appreciated. Thanks!"
+msgid "This plugin is primarily developed, maintained, supported and documented by <a href=\"%s\" target=\"_blank\">Imagely</a> with a lot of love & effort. Any kind of contribution would be highly appreciated. Thanks!"
 msgstr ""
 
 #: products/photocrati_nextgen/modules/ngglegacy/admin/overview.php:112
@@ -2855,7 +2883,7 @@ msgid "These are maximum values"
 msgstr ""
 
 #: products/photocrati_nextgen/modules/ngglegacy/admin/wpmu.php:33
-msgid "Update successfully"
+msgid "Updated successfully"
 msgstr ""
 
 #: products/photocrati_nextgen/modules/ngglegacy/admin/wpmu.php:48
@@ -3021,7 +3049,7 @@ msgid "%s slug(s) edited."
 msgstr ""
 
 #: products/photocrati_nextgen/modules/ngglegacy/nggallery.php:60
-msgid "<strong>Translation by : </strong><a target=\"_blank\" href=\"http://www.nextgen-gallery.com/languages/\">See here</a>"
+msgid "<strong>Translation by : </strong><a target=\"_blank\" href=\"https://www.imagely.com/wordpress-gallery-plugin/nextgen-gallery//languages/\">See here</a>"
 msgstr ""
 
 #: products/photocrati_nextgen/modules/ngglegacy/nggallery.php:122
@@ -3195,22 +3223,21 @@ msgid "Limit"
 msgstr ""
 
 #. Plugin Name of the plugin/theme
-msgid "NextGEN Gallery by Photocrati"
+msgid "NextGEN Gallery"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
-msgid "http://www.nextgen-gallery.com"
+msgid "https://www.imagely.com/wordpress-gallery-plugin/nextgen-gallery/"
 msgstr ""
 
 #. Description of the plugin/theme
-msgid "The most popular gallery plugin for WordPress and one of the most popular plugins of all time with over 14 million downloads."
+msgid "The most popular gallery plugin for WordPress and one of the most popular plugins of all time with over 17 million downloads."
 msgstr ""
 
 #. Author of the plugin/theme
-msgid "Photocrati Media"
+msgid "Imagely"
 msgstr ""
 
 #. Author URI of the plugin/theme
-msgid "http://www.photocrati.com"
+msgid "https://www.imagely.com"
 msgstr ""
-

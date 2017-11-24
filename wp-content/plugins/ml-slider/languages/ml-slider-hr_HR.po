@@ -70,8 +70,8 @@ msgstr ""
 "ostavite je označeno."
 
 #: ../ml-slider.php:278
-msgid "Upgrade to Pro $19"
-msgstr "Nadogradite na Pro $19"
+msgid "Upgrade to Pro $39"
+msgstr "Nadogradite na Pro $39"
 
 #: ../ml-slider.php:294
 msgid "Documentation"
@@ -543,8 +543,8 @@ msgid "Add slider"
 msgstr "Dodaj slider"
 
 #: ../ml-slider.php:1258
-msgid "Insert Meta Slider"
-msgstr "Unesi Meta Slider"
+msgid "Insert MetaSlider"
+msgstr "Unesi MetaSlider"
 
 #: ../ml-slider.php:1260
 msgid "Choose slideshow"
@@ -555,8 +555,8 @@ msgid "No slideshows found"
 msgstr "Slideshowi nisu pronađeni"
 
 #: ../inc/metaslider.widget.class.php:18
-msgid "Meta Slider"
-msgstr "Meta Slider"
+msgid "MetaSlider"
+msgstr "MetaSlider"
 
 #: ../inc/metaslider.widget.class.php:111
 msgid "Title:"

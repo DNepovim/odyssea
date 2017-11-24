@@ -1,22 +1,24 @@
 <?php
-/*
-{
-	Module: photocrati-router,
-	Depends: { photocrati-fs }
-}
- */
+
 class M_Router extends C_Base_Module
 {
-	function define()
+	function define($id = 'pope-module',
+                    $name = 'Pope Module',
+                    $description = '',
+                    $version = '',
+                    $uri = '',
+                    $author = '',
+                    $author_uri = '',
+                    $context = FALSE)
 	{
 		parent::define(
 			'photocrati-router',
 			'Router for Pope',
 			'Provides routing capabilities for Pope modules',
-			'0.7',
-			'http://www.photocrati.com',
-			'Photocrati Media',
-			'http://www.photocrati.com'
+			'0.9',
+			'https://www.imagely.com',
+			'Imagely',
+			'https://www.imagely.com'
 		);
 
 		C_Photocrati_Installer::add_handler($this->module_id, 'C_Router_Installer');

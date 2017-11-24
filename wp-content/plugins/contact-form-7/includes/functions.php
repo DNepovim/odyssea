@@ -15,35 +15,28 @@ function wpcf7_plugin_url( $path = '' ) {
 }
 
 function wpcf7_upload_dir( $type = false ) {
-	$uploads = wp_upload_dir();
+	$uploads = wp_get_upload_dir();
 
 	$uploads = apply_filters( 'wpcf7_upload_dir', array(
 		'dir' => $uploads['basedir'],
-		'url' => $uploads['baseurl'] ) );
+		'url' => $uploads['baseurl'],
+	) );
 
-	if ( 'dir' == $type )
+	if ( 'dir' == $type ) {
 		return $uploads['dir'];
-	if ( 'url' == $type )
+	} if ( 'url' == $type ) {
 		return $uploads['url'];
+	}
 
 	return $uploads;
 }
 
-function wpcf7_ajax_loader() {
-	$url = wpcf7_plugin_url( 'images/ajax-loader.gif' );
-
-	return apply_filters( 'wpcf7_ajax_loader', $url );
+function wpcf7_verify_nonce( $nonce, $action = 'wp_rest' ) {
+	return wp_verify_nonce( $nonce, $action );
 }
 
-function wpcf7_verify_nonce( $nonce, $action = -1 ) {
-	if ( substr( wp_hash( $action, 'nonce' ), -12, 10 ) == $nonce )
-		return true;
-
-	return false;
-}
-
-function wpcf7_create_nonce( $action = -1 ) {
-	return substr( wp_hash( $action, 'nonce' ), -12, 10 );
+function wpcf7_create_nonce( $action = 'wp_rest' ) {
+	return wp_create_nonce( $action );
 }
 
 function wpcf7_blacklist_check( $target ) {
@@ -73,13 +66,15 @@ function wpcf7_blacklist_check( $target ) {
 }
 
 function wpcf7_array_flatten( $input ) {
-	if ( ! is_array( $input ) )
+	if ( ! is_array( $input ) ) {
 		return array( $input );
+	}
 
 	$output = array();
 
-	foreach ( $input as $value )
+	foreach ( $input as $value ) {
 		$output = array_merge( $output, wpcf7_array_flatten( $value ) );
+	}
 
 	return $output;
 }
@@ -88,8 +83,9 @@ function wpcf7_flat_join( $input ) {
 	$input = wpcf7_array_flatten( $input );
 	$output = array();
 
-	foreach ( (array) $input as $value )
+	foreach ( (array) $input as $value ) {
 		$output[] = trim( (string) $value );
+	}
 
 	return implode( ', ', $output );
 }
@@ -155,7 +151,8 @@ function wpcf7_format_atts( $atts ) {
 function wpcf7_link( $url, $anchor_text, $args = '' ) {
 	$defaults = array(
 		'id' => '',
-		'class' => '' );
+		'class' => '',
+	);
 
 	$args = wp_parse_args( $args, $defaults );
 	$args = array_intersect_key( $args, $defaults );
@@ -233,7 +230,8 @@ function wpcf7_enctype_value( $enctype ) {
 	$valid_enctypes = array(
 		'application/x-www-form-urlencoded',
 		'multipart/form-data',
-		'text/plain' );
+		'text/plain',
+	);
 
 	if ( in_array( $enctype, $valid_enctypes ) ) {
 		return $enctype;
@@ -250,8 +248,17 @@ function wpcf7_enctype_value( $enctype ) {
 
 function wpcf7_rmdir_p( $dir ) {
 	if ( is_file( $dir ) ) {
-		@unlink( $dir );
-		return true;
+		if ( ! $result = @unlink( $dir ) ) {
+			$stat = @stat( $dir );
+			$perms = $stat['mode'];
+			@chmod( $dir, $perms | 0200 ); // add write for owner
+
+			if ( ! $result = @unlink( $dir ) ) {
+				@chmod( $dir, $perms );
+			}
+		}
+
+		return $result;
 	}
 
 	if ( ! is_dir( $dir ) ) {
@@ -320,6 +327,7 @@ function wpcf7_count_code_units( $string ) {
 	}
 
 	$string = (string) $string;
+	$string = str_replace( "\r\n", "\n", $string );
 
 	$encoding = mb_detect_encoding( $string, mb_detect_order(), true );
 
@@ -337,4 +345,16 @@ function wpcf7_count_code_units( $string ) {
 function wpcf7_is_localhost() {
 	$server_name = strtolower( $_SERVER['SERVER_NAME'] );
 	return in_array( $server_name, array( 'localhost', '127.0.0.1' ) );
+}
+
+function wpcf7_deprecated_function( $function, $version, $replacement ) {
+	$trigger_error = apply_filters( 'deprecated_function_trigger_error', true );
+
+	if ( WP_DEBUG && $trigger_error ) {
+		if ( function_exists( '__' ) ) {
+			trigger_error( sprintf( __( '%1$s is <strong>deprecated</strong> since Contact Form 7 version %2$s! Use %3$s instead.', 'contact-form-7' ), $function, $version, $replacement ) );
+		} else {
+			trigger_error( sprintf( '%1$s is <strong>deprecated</strong> since Contact Form 7 version %2$s! Use %3$s instead.', $function, $version, $replacement ) );
+		}
+	}
 }

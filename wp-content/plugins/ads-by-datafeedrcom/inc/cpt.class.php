@@ -7,7 +7,7 @@
 class DFADS_Post_Type_Taxonomy {
 	
 	// Call necessary hooks.
-	function DFADS_Post_Type_Taxonomy() {
+	public function __construct () {
 		add_action( 'init', array( $this,'create_post_type' ) );
 		add_action( 'init', array( $this,'create_taxonomy' ) );
 	}

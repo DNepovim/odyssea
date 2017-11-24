@@ -3,8 +3,8 @@
 Contributors: datafeedr.com
 Tags: ads, random ads, rotating ads, datafeedr, advertisements, advertising, banner ads, banners, adsense, google adsense
 Requires at least: 3.5
-Tested up to: 4.5
-Stable tag: 1.0.11
+Tested up to: 4.8
+Stable tag: 1.0.12
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,9 +17,6 @@ The Ads plugin allows you to add advertisements to your blog.  You can add adver
 You have full control over how many ads get displayed as well as their sort order.
 
 [youtube http://www.youtube.com/watch?v=tPL8ND0nh4o]
-
-[Check out more video tutorials!](http://wordpress.org/extend/plugins/ads-by-datafeedrcom/other_notes/ "Video Tutorials")
-
 
 = Simple Usage (Shortcode) = 
 
@@ -62,9 +59,9 @@ Check out [datafeedr.com](http://datafeedr.com/dfads/ "Ads by datafeedr.com docu
 
 == Frequently Asked Questions ==
 
-= Are there any Frequently Asked Questions? =
+= Does this plugin track clicks? =
 
-Not yet.
+No. You'll need to use another click tracking plugin or service.
 
 == Screenshots ==
 1. Add a new ad
@@ -101,6 +98,12 @@ View the full video tutorial playlist [here](http://www.youtube.com/playlist?lis
 [youtube http://www.youtube.com/watch?v=MU87O6J9zSo]
 
 == Changelog ==
+
+= 1.0.12 - 2017-06-02 =
+* Changed methods with same name as their class to proper __construct() methods.
+* Fixed undefined index issues.
+* Fixed non-static method being called statically.
+* Removed sidebar in admin interface.
 
 = 1.0.11 - 2016-04-01 =
 * Removed some dead links from the admin page.

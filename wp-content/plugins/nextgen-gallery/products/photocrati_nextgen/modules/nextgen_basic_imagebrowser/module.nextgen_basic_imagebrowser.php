@@ -13,16 +13,23 @@ define(
 
 class M_NextGen_Basic_ImageBrowser extends C_Base_Module
 {
-	function define()
+	function define($id = 'pope-module',
+                    $name = 'Pope Module',
+                    $description = '',
+                    $version = '',
+                    $uri = '',
+                    $author = '',
+                    $author_uri = '',
+                    $context = FALSE)
 	{
 		parent::define(
 			'photocrati-nextgen_basic_imagebrowser',
 			'NextGEN Basic ImageBrowser',
 			'Provides the NextGEN Basic ImageBrowser Display Type',
-            '0.10',
-			'http://www.nextgen-gallery.com',
-			'Photocrati Media',
-			'http://www.photocrati.com'
+            '0.14',
+            'https://www.imagely.com/wordpress-gallery-plugin/nextgen-gallery/',
+            'Imagely',
+            'https://www.imagely.com'
 		);
 
 		C_Photocrati_Installer::add_handler($this->module_id, 'C_NextGen_Basic_ImageBrowser_Installer');
@@ -171,7 +178,7 @@ function nggCreateImageBrowser($picturelist, $template = '')
 
 class C_NextGen_Basic_ImageBrowser_Installer extends C_Gallery_Display_Installer
 {
-	function install()
+	function install($reset = FALSE)
 	{
 		$this->install_display_type(
 			NGG_BASIC_IMAGEBROWSER, array(
@@ -179,7 +186,12 @@ class C_NextGen_Basic_ImageBrowser_Installer extends C_Gallery_Display_Installer
 				'entity_types'			=>	array('image'),
 				'preview_image_relpath'	=>	'photocrati-nextgen_basic_imagebrowser#preview.jpg',
 				'default_source'		=>	'galleries',
-				'view_order' => NGG_DISPLAY_PRIORITY_BASE + 20
+				'view_order' 			=> NGG_DISPLAY_PRIORITY_BASE + 20,
+				'aliases'				=> array(
+					'basic_imagebrowser',
+					'imagebrowser',
+					'nextgen_basic_imagebrowser'
+				)
 			)
 		);
 	}

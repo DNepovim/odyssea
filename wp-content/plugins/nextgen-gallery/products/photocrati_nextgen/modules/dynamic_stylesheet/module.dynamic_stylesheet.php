@@ -11,16 +11,23 @@ if (!defined('NGG_INLINE_DYNAMIC_CSS')) define('NGG_INLINE_DYNAMIC_CSS', TRUE);
 
 class M_Dynamic_Stylesheet extends C_Base_Module
 {
-	function define($context=FALSE)
+	function define($id = 'pope-module',
+                    $name = 'Pope Module',
+                    $description = '',
+                    $version = '',
+                    $uri = '',
+                    $author = '',
+                    $author_uri = '',
+                    $context = FALSE)
 	{
 		parent::define(
 			'photocrati-dynamic_stylesheet',
 			'Dynamic Stylesheet',
 			'Provides the ability to generate and enqueue a dynamic stylesheet',
-			'0.3',
-			'http://www.nextgen-gallery.com',
-			'Photocrati Media',
-			'http://www.photocrati.com',
+			'0.4',
+            'https://www.imagely.com/wordpress-gallery-plugin/nextgen-gallery/',
+            'Imagely',
+            'https://www.imagely.com',
 			$context
 		);
 

@@ -1,10 +1,4 @@
 <?php
-/**
- {
-	Module:		photocrati-attach_to_post,
-	Depends:	{ photocrati-nextgen_gallery_display }
- }
- */
 
 define('NGG_ATTACH_TO_POST_SLUG', 'nextgen-attach_to_post');
 
@@ -18,16 +12,23 @@ class M_Attach_To_Post extends C_Base_Module
 	 * Defines the module
 	 * @param string|bool $context
 	 */
-    function define($context=FALSE)
+    function define($id = 'pope-module',
+                    $name = 'Pope Module',
+                    $description = '',
+                    $version = '',
+                    $uri = '',
+                    $author = '',
+                    $author_uri = '',
+                    $context = FALSE)
     {
         parent::define(
 			'photocrati-attach_to_post',
 			'Attach To Post',
 			'Provides the "Attach to Post" interface for displaying galleries and albums',
-			'0.11',
-			'http://www.nextgen-gallery.com',
-			'Photocrati Media',
-			'http://www.photocrati.com',
+			'0.18',
+            'https://www.imagely.com/wordpress-gallery-plugin/nextgen-gallery/',
+            'Imagely',
+            'https://www.imagely.com',
 		    $context
 		);
 
@@ -101,7 +102,7 @@ class M_Attach_To_Post extends C_Base_Module
 
 	function does_request_require_frame_communication()
 	{
-		return (strpos($_SERVER['REQUEST_URI'], 'attach_to_post') !== FALSE OR strpos($_SERVER['HTTP_REFERER'], 'attach_to_post') !== FALSE OR array_key_exists('attach_to_post', $_REQUEST));
+		return (strpos($_SERVER['REQUEST_URI'], 'attach_to_post') !== FALSE OR (isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], 'attach_to_post') !== FALSE) OR array_key_exists('attach_to_post', $_REQUEST));
 	}
 
 
@@ -111,10 +112,14 @@ class M_Attach_To_Post extends C_Base_Module
 
         // We use two hooks here because we need it to execute for both the post-new.php
         // page and ATP interface
-        add_action('plugins_loaded',            array(&$this, 'fix_ie11'), 1);
-        add_action('admin_init',                array(&$this, 'fix_ie11'), PHP_INT_MAX-1);
-        add_action('admin_enqueue_scripts',     array(&$this, 'fix_ie11'), 1);
-        add_action('admin_enqueue_scripts',     array(&$this, 'fix_ie11'), PHP_INT_MAX-1);
+        add_action('plugins_loaded',        array($this, 'fix_ie11'), 1);
+        add_action('admin_init',            array($this, 'fix_ie11'), PHP_INT_MAX-1);
+        add_action('admin_enqueue_scripts', array($this, 'fix_ie11'), 1);
+        add_action('admin_enqueue_scripts', array($this, 'fix_ie11'), PHP_INT_MAX-1);
+
+        add_filter('wpseo_opengraph_image',   array($this, 'hide_preview_image_from_yoast'));
+        add_filter('wpseo_twitter_image',     array($this, 'hide_preview_image_from_yoast'));
+        add_filter('wpseo_sitemap_urlimages', array($this, 'remove_preview_images_from_yoast_sitemap'), NULL, 2);
 
         // Emit frame communication events
 		if ($this->does_request_require_frame_communication()) {
@@ -124,7 +129,7 @@ class M_Attach_To_Post extends C_Base_Module
 			add_action('ngg_manage_tags',           array(&$this, 'manage_tags_event'));
 		}
 
-        // Admin-only hooks
+		// Admin-only hooks
 		if (is_admin()) {
 			add_action(
 				'admin_enqueue_scripts',
@@ -132,20 +137,98 @@ class M_Attach_To_Post extends C_Base_Module
 				1
 			);
 
-            add_action('admin_init', array(&$this, 'route_insert_gallery_window'));
+			add_action('admin_init', array(&$this, 'route_insert_gallery_window'));
 
-			// TODO: In 2.0.69, we're going to change the ATP placeholder urls
-			if (FALSE) {
-				add_filter('the_editor_content', array(&$this, 'fix_preview_images'));
-			}
-
+			add_action('media_buttons', array($this, 'add_media_button'), 15);
+			add_action('admin_init', array($this, 'enqueue_tinymce_plugin_css'));
+			add_action('admin_print_scripts', array(&$this, 'print_tinymce_placeholder_template'));
 		}
 
-        // Frontend-only hooks
-        if (!is_admin()) {
-            // Add hook to subsitute displayed gallery placeholders
-            add_filter('the_content', array(&$this, 'substitute_placeholder_imgs'), PHP_INT_MAX, 1);
-        }
+		// Frontend-only hooks
+		if (!is_admin()) {
+		// Add hook to subsitute displayed gallery placeholders
+			add_filter('the_content', array(&$this, 'substitute_placeholder_imgs'), PHP_INT_MAX, 1);
+		}
+	}
+
+	/**
+	 * Renders the underscore template used by TinyMCE for IGW placeholders
+	 */
+	function print_tinymce_placeholder_template()
+	{
+		readfile(C_Fs::get_instance()->join_paths(
+			$this->get_registry()->get_module_dir('photocrati-attach_to_post'),
+			'templates',
+			'tinymce_placeholder.php'
+		));
+	}
+
+	/**
+	 * Enqueues the CSS needed to style the IGW placeholders
+	 */
+	function enqueue_tinymce_plugin_css()
+	{
+		add_editor_style('https://fonts.googleapis.com/css?family=Lato');
+		add_editor_style(M_Gallery_Display::get_fontawesome_url());
+		add_editor_style(C_Router::get_instance()->get_static_url('photocrati-attach_to_post#ngg_attach_to_post_tinymce_plugin.css'));
+	}
+
+    /**
+     * Prevents ATP preview image placeholders from being used as opengraph / twitter metadata
+     *
+     * @param string $image
+     * @return null
+     */
+	function hide_preview_image_from_yoast($image)
+    {
+        if (strpos($image, NGG_ATTACH_TO_POST_SLUG) !== FALSE)
+            return null;
+        return $image;
+    }
+
+	/**
+	 * Removes IGW preview/placeholder images from Yoast's sitemap
+	 * @param $images
+	 * @param $post_id
+	 * @return array
+	 */
+	function remove_preview_images_from_yoast_sitemap($images, $post_id)
+	{
+		$retval = array();
+
+		foreach ($images as $image) {
+			if (strpos($image['src'], NGG_ATTACH_TO_POST_SLUG) === FALSE) {
+				$retval[] = $image;
+			}
+			else {
+				// Lookup images for the displayed gallery
+				if (preg_match('/(\d+)$/', $image['src'], $match)) {
+					$displayed_gallery_id = $match[1];
+					$mapper = C_Displayed_Gallery_Mapper::get_instance();
+					$displayed_gallery = $mapper->find($displayed_gallery_id, TRUE);
+					if ($displayed_gallery) {
+						$gallery_storage = C_Gallery_Storage::get_instance();
+						$settings		 = C_NextGen_Settings::get_instance();
+						$source_obj = $displayed_gallery->get_source();
+						if (in_array('image', $source_obj->returns)) {
+							foreach ($displayed_gallery->get_entities() as $image) {
+								$named_image_size = $settings->imgAutoResize ? 'full' : 'thumb';
+
+								$sitemap_image = array(
+									'src'	=>	$gallery_storage->get_image_url($image, $named_image_size),
+									'alt'	=>	$image->alttext,
+									'title'	=>	$image->description ? $image->description: $image->alttext
+								);
+								$retval[] = $sitemap_image;
+							}
+						}
+					}
+
+				}
+			}
+		}
+
+		return $retval;
 	}
 
 	/**
@@ -171,11 +254,28 @@ class M_Attach_To_Post extends C_Base_Module
 
 		return $content;
 	}
+	
+	function add_media_button()
+	{
+        $security  = $this->get_registry()->get_utility('I_Security_Manager');
+        $sec_actor = $security->get_current_actor();
+        if (in_array(FALSE, array(
+            $sec_actor->is_allowed('NextGEN Attach Interface'),
+            $sec_actor->is_allowed('NextGEN Use TinyMCE'))))
+            return;
 
-    /**
-     * Route the IGW requests using wp-admin
-     * @throws E_Clean_Exit
-     */
+		$router = C_Router::get_instance();
+		$button_url = $router->get_static_url('photocrati-attach_to_post#atp_button.png');
+		$label		= __('Add Gallery', 'nggallery');
+		$igw_url    = admin_url('/?'.NGG_ATTACH_TO_POST_SLUG.'=1&KeepThis=true&TB_iframe=true&height=600&width=1000');
+
+		echo sprintf('<a href="%s" data-editor="content" class="button ngg-add-gallery thickbox" id="ngg-media-button" class="button" ><img src="%s" style="padding:0; margin-top:-3px;">%s</a>', $igw_url, $button_url, $label);
+	}
+
+	/**
+	* Route the IGW requests using wp-admin
+	* @throws E_Clean_Exit
+	*/
     function route_insert_gallery_window()
     {
         if (isset($_REQUEST[NGG_ATTACH_TO_POST_SLUG])) {
@@ -264,12 +364,34 @@ class M_Attach_To_Post extends C_Base_Module
 		// Enqueue resources needed at post/page level
 		if (preg_match("/\/wp-admin\/(post|post-new)\.php$/", $_SERVER['SCRIPT_NAME'])) {
 			$this->_enqueue_tinymce_resources();
+
+			M_Gallery_Display::enqueue_fontawesome();
+
+			wp_register_script(
+			    'Base64',
+                $router->get_static_url('photocrati-attach_to_post#base64.js'),
+                array(),
+                NGG_PLUGIN_VERSION
+            );
+
 			wp_enqueue_style(
 				'ngg_attach_to_post_dialog',
 				$router->get_static_url('photocrati-attach_to_post#attach_to_post_dialog.css'),
 				FALSE,
 				NGG_SCRIPT_VERSION
 			);
+
+			wp_enqueue_script(
+				'ngg-igw',
+				$router->get_static_url('photocrati-attach_to_post#igw.js'),
+				array('jquery', 'Base64'),
+				NGG_PLUGIN_VERSION
+			);
+			wp_localize_script('ngg-igw', 'ngg_igw_i18n', array(
+				'nextgen_gallery'	=>	__('NextGEN Gallery', 'nggallery'),
+				'edit'				=>	__('Click to edit', 'nggallery'),
+				'remove'			=>	__('Click to remove', 'nggallery'),
+			));
 		}
 
 		elseif (isset($_REQUEST['attach_to_post']) OR
@@ -332,17 +454,9 @@ class M_Attach_To_Post extends C_Base_Module
 	 */
 	function add_attach_to_post_tinymce_plugin($plugins)
 	{
-        global $wp_version;
         $router = C_Router::get_instance();
-
 		wp_enqueue_script('photocrati_ajax');
-
-        if ($wp_version >= 3.9)
-            $file = $router->get_static_url('photocrati-attach_to_post#ngg_attach_to_post_tinymce_plugin.js');
-        else
-            $file = $router->get_static_url('photocrati-attach_to_post#ngg_attach_to_post_tinymce_plugin_wp38_compat.js');
-
-		$plugins[$this->attach_to_post_tinymce_plugin] = $file;
+		$plugins[$this->attach_to_post_tinymce_plugin] = $router->get_static_url('photocrati-attach_to_post#ngg_attach_to_post_tinymce_plugin.js');
 		return $plugins;
 	}
 

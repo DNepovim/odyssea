@@ -1,11 +1,5 @@
 <?php
 
-/***
-	{
-		Module: photocrati-nextgen-legacy
-	}
- ***/
-
 define(
 	'NGG_LEGACY_MOD_DIR',
     implode(DIRECTORY_SEPARATOR, array(
@@ -16,16 +10,23 @@ define(
 
 class M_NggLegacy extends C_Base_Module
 {
-	function define()
+	function define($id = 'pope-module',
+                    $name = 'Pope Module',
+                    $description = '',
+                    $version = '',
+                    $uri = '',
+                    $author = '',
+                    $author_uri = '',
+                    $context = FALSE)
 	{
 		parent::define(
 			'photocrati-nextgen-legacy',
 			'NextGEN Legacy',
 			'Embeds the original version of NextGEN 1.9.3 by Alex Rabe',
-			'0.14',
-			'http://www.nextgen-gallery.com',
-			'Photocrati Media',
-			'http://www.photocrati.com'
+			'0.21',
+			'https://www.imagely.com/wordpress-gallery-plugin/nextgen-gallery/',
+			'Imagely',
+			'https://www.imagely.com'
 		);
 
 		C_Photocrati_Installer::add_handler($this->module_id, 'C_NggLegacy_Installer');
@@ -82,13 +83,14 @@ class C_NggLegacy_Installer
 	function uninstall($hard=FALSE)
 	{
 		include_once('admin/install.php');
-
-		delete_option('ngg_init_check');
-		delete_option('ngg_update_exists');
-		delete_option( 'ngg_options' );
-		delete_option( 'ngg_db_version' );
-		delete_option( 'ngg_update_exists' );
-		delete_option( 'ngg_next_update' );
+		if ($hard) {
+            delete_option('ngg_init_check');
+            delete_option('ngg_update_exists');
+            delete_option( 'ngg_options' );
+            delete_option( 'ngg_db_version' );
+            delete_option( 'ngg_update_exists' );
+            delete_option( 'ngg_next_update' );
+        }
 
 		// now remove the capability
 		ngg_remove_capability("NextGEN Gallery overview");

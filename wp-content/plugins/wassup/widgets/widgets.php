@@ -3,23 +3,33 @@
  * Defines Wassup_Widget base widget class and classes for Wassup's primary widgets: Visitors Online and Top Stats.
  *
  * @package WassUp Real-time Analytics
- * @subpackage widgets/widgets.php module
+ * @subpackage widgets.php module
  * @since:	v1.9
  * @author:	Helene D. <http://helenesit.com>
  */
-//no direct request for this plugin module
-if(!defined('ABSPATH')|| empty($GLOBALS['wp_version'])|| (!empty($_SERVER['SCRIPT_FILENAME'])&& realpath(preg_replace('/\\\\/','/',__FILE__))===realpath($_SERVER['SCRIPT_FILENAME']))){
-	if(!headers_sent()){header('Location: /?p=404page&err=wassup403');exit;
-	}elseif(function_exists('wp_die')){wp_die("Bad Request: ".esc_attr(wp_kses(preg_replace('/(&#37;|&amp;#37;|%)(?:[01][0-9A-F]|7F)/i','',$_SERVER['REQUEST_URI']),array())));exit;
-	}else{die("Bad Request: ".htmlspecialchars(preg_replace('/(&#37;|&amp;#37;|%)(?:[01][0-9A-F]|7F)/i','',$_SERVER['REQUEST_URI'])));exit;}
+//abort if this is direct uri request for file
+if(!empty($_SERVER['SCRIPT_FILENAME']) && realpath($_SERVER['SCRIPT_FILENAME'])===realpath(preg_replace('/\\\\/','/',__FILE__))){
+	//try track this uri request
+	if(!headers_sent()){
+		//triggers redirect to 404 error page so Wassup can track this attempt to access itself (original request_uri is lost)
+		header('Location: /?p=404page&werr=wassup403'.'&wf='.basename(__FILE__));
+		exit;
+	}else{
+		//'wp_die' may be undefined here
+		die('<strong>Sorry. Unable to display requested page.</strong>');
+	}
+//abort if no WordPress
+}elseif(!defined('ABSPATH') || empty($GLOBALS['wp_version'])){
+	//show escaped bad request on exit
+	die("Bad Request: ".htmlspecialchars(preg_replace('/(&#0*37;?|&amp;?#0*37;?|&#0*38;?#0*37;?|%)(?:[01][0-9A-F]|7F)/i','',$_SERVER['REQUEST_URI'])));
 }
-if(!defined('WASSUPVERSION')) wassup_init();
+//-------------------------------------------------
+if(!defined('WASSUPURL')){
+	if(!wassup_init()) exit;	//nothing to do
+}
 //load widget-functions.php module
 if(!function_exists('wassup_widget_clear_cache')) require_once(WASSUPDIR.'/widgets/widget_functions.php');
-//load widget-compatibility module
-if(version_compare($GLOBALS['wp_version'],'2.8','<')){
-	require_once(WASSUPDIR.'/widgets/widget_compat.php');
-}
+
 //Wassup's base widget
 if(!class_exists('Wassup_Widget')){
 /**
@@ -27,14 +37,13 @@ if(!class_exists('Wassup_Widget')){
  *  - sets common default options for all child widgets
  *  - adds wassup-widget.css to page header
  *  - generate a unique 'wassup_widget_id' for widget caching
- *  - backward compatibility code for widget display in WP 2.2 - 2.8
  *
  * Wassup_Widget API:
  *  - Extensions of Wassup_Widget must use the prefix 'wassup_' in the widget class name
  *  - Extensions of Wassup_Widget must overwrite the 3 parent methods:
  *      ::form  - control form for editing widget settings
  *          -add the field, 'wassup_widget_id' to form
- *          -use '::wassup_parse_args' method instead of 'wp_parse_args' to update for latest defaults and to maintain backward compatibility
+ *          -use '::wassup_parse_args' method instead of 'wp_parse_args' to update for latest defaults
  *      ::update - processes and saves widget settings
  *          -update for the 'wassup_widget_id' field
  *      ::widget - displays the widget.
@@ -52,9 +61,7 @@ class Wassup_Widget extends WP_Widget{
 			'height'=>400,
 		);
 		//widget control dimensions different in WP versions
-		if(version_compare($wp_version,'2.8','<')){
-			$default_control_opts=array('width'=>260,'height'=>550);
-		}elseif(version_compare($wp_version,'3.8','<')){
+		if(version_compare($wp_version,'3.8','<')){
 			$default_control_opts=array('width'=>250,'height'=>550);
 		}
 		$this->wassup_default_opts=array(
@@ -100,7 +107,7 @@ class Wassup_Widget extends WP_Widget{
 		</li>
 		</ul>
 		<input type="hidden" name="<?php echo $this->get_field_name('refresh').'" id="'.$this->get_field_id('refresh');?>" value="<?php echo (int)$instance['refresh'];?>"/>
-		<input type="hidden" name="<?php echo $this->get_field_name('wassup_widget_id').'" id="'.$this->get_field_id('wassup_widget_id');?>" value="<?php echo $this->wassup_get_widget_id();?>"/>
+		<input type="hidden" name="<?php echo $this->get_field_name('wassup_widget_id').'" id="'.$this->get_field_id('wassup_widget_id');?>" value="<?php echo $instance['wassup_widget_id'];?>"/>
 	</div><!-- /wassup-widget-ctrl --><?php
 	} //end form
 
@@ -111,7 +118,6 @@ class Wassup_Widget extends WP_Widget{
 		$instance['title']=(isset($new_instance['title'])?$wassup_options->cleanFormText($new_instance['title']):"");
 		$instance['chars']=(int)$new_instance['chars'];
 		$instance['ulclass']=$wassup_options->cleanFormText($new_instance['ulclass']);
-		//$instance['wassup_widget_id']=$this->wassup_get_widget_id();
 		$instance['wassup_widget_id']=$new_instance['wassup_widget_id'];
 		//purge widget cache to apply new settings
 		wassup_widget_clear_cache($instance['wassup_widget_id']);
@@ -120,14 +126,10 @@ class Wassup_Widget extends WP_Widget{
 
 	/** displays widget content on web site */
 	function widget($wargs,$instance=array()){
-		global $wp_version,$wassup_options,$wdebug_mode;
-		//for backward compatibility
-		if(version_compare($wp_version,'2.8',"<") && (empty($instance)|| !is_array($instance))){
-			$instance=$this->get_settings();
-		}
+		global $wassup_options,$wdebug_mode;
 		$widget_opt=$wargs;
-		if(empty($instance['wassup_widget_id'])) $wassup_widget_id=$this->wassup_get_widget_id();
-		else $wassup_widget_id=$instance['wassup_widget_id'];
+		if(empty($instance['wassup_widget_id'])) $instance=$this->wassup_get_widget_id($instance);
+		$wassup_widget_id=$instance['wassup_widget_id'];
 		//get widget head and foot content
 		$title=((!empty($instance['title']))?trim($instance['title']):"");
 		$ulclass="";
@@ -150,47 +152,34 @@ class Wassup_Widget extends WP_Widget{
 	/* Do NOT Override the methods below */
 	/** adds head style tag for widget/widget-form display */
 	function wassup_add_css(){
-		global $wp_version;
 		//widget css - one style tag for multiple widgets
 		if(!is_admin()){
 			//styles for widget display
-			if(version_compare($wp_version,'2.8','<')){
-				add_action('wp_head','wassup_widget_css');
-			}elseif(!has_action('wp_head','wassup_widget_css')){
+			if(!has_action('wp_head','wassup_widget_css')){
 				add_action('wp_head','wassup_widget_css');
 			}
 		}elseif(strpos($_SERVER['REQUEST_URI'],'/widgets.php')>0 || strpos($_SERVER['REQUEST_URI'],'/customize.php')>0){
 			//styles for widget control/settings form
 			//'wassup_widget_form_css' uses priority 11 to print after 'widgets.css'
-			if(version_compare($wp_version,'2.8','<')){
-				add_action('admin_head','wassup_widget_form_css',11);
-			}elseif(!has_action('admin_head','wassup_widget_form_css')){
+			if(!has_action('admin_head','wassup_widget_form_css')){
 				add_action('admin_head','wassup_widget_form_css',11);
 			}
 		}
 	}
 	/** create a unique id for caching Wassup widgets html */
-	function wassup_get_widget_id(){
+	function wassup_get_widget_id($instance){
 		global $wassup_options;
 		$wassup_widget_id=$this->option_name."-".$this->number;
 		//add blog_id for unique ids in network activation
 		if($wassup_options->network_activated_plugin() && !empty($GLOBALS['current_blog']->blog_id)) $wassup_widget_id .="-b".(int)$GLOBALS['current_blog']->blog_id;
-		return $wassup_widget_id;
+		$instance['wassup_widget_id']=$wassup_widget_id;
+		return $instance;
 	}
 	/** update for new widget settings, add new default values */
 	function wassup_parse_args($old_instance,$defaults){
-		global $wp_version;
-		//update settings from _POST for Wordpress 2.2 - 2.7
-		if(version_compare($wp_version,'2.8','<')){
-			if(!empty($_POST[$this->id_base])){
-				$new_instance=$this->update_callback();
-				$old_instance=$new_instance;
-			}
-			if(empty($old_instance)) $old_instance=$this->get_settings();
-		}
 		$all_defaults=wp_parse_args($defaults,$this->wassup_default_opts);
 		if(empty($old_instance['wassup_widget_id'])){
-			$instance=$all_defaults;
+			$instance=$this->wassup_get_widget_id($all_defaults);
 		}else{
 			$instance=wp_parse_args($old_instance,$all_defaults);
 		}
@@ -207,7 +196,6 @@ class Wassup_Widget extends WP_Widget{
 class wassup_onlineWidget extends Wassup_Widget{
 	/** PHP4-compatible __construct */
 	function wassup_onlinewidget(){
-		global $wp_version;
 		$widget_id="wassup_online";
 		$widget_name='WassUp '.__("Online","wassup");
 		$widget_description= __("Show counts of your site's visitors who are currently online.","wassup");
@@ -218,8 +206,7 @@ class wassup_onlineWidget extends Wassup_Widget{
 	} //end __construct
 
 	/** Widget control form - for widget options */
-	function form($old_instance){
-		global $wp_version;
+	function form($old_instance=array()){
 		$defaults=array( 
 			'online_title'=>__("Online Now","wassup"),
 			'online_total'=>1,
@@ -272,7 +259,7 @@ class wassup_onlineWidget extends Wassup_Widget{
 		</li>
 		</ul>
 		<input type="hidden" name="<?php echo $this->get_field_name('refresh').'" id="'.$this->get_field_id('refresh');?>" value="60"/>
-		<input type="hidden" name="<?php echo $this->get_field_name('wassup_widget_id').'" id="'.$this->get_field_id('wassup_widget_id');?>" value="<?php echo $this->wassup_get_widget_id();?>"/>
+		<input type="hidden" name="<?php echo $this->get_field_name('wassup_widget_id').'" id="'.$this->get_field_id('wassup_widget_id');?>" value="<?php echo $instance['wassup_widget_id'];?>"/>
 	</div><!-- /wassup-widget-ctrl --><?php
 	} //end form
 
@@ -301,13 +288,9 @@ class wassup_onlineWidget extends Wassup_Widget{
 	/** displays widget content on web site */
 	function widget($wargs,$instance=array()){
 		global $wp_version,$wassup_options,$wdebug_mode;
-		//for backward compatibility
-		if(version_compare($wp_version,'2.8',"<") && (empty($instance)|| !is_array($instance))){
-			$instance=$this->get_settings();
-		}
 		$widget_opt=$wargs;
-		if(empty($instance['wassup_widget_id'])) $wassup_widget_id=$this->wassup_get_widget_id();
-		else $wassup_widget_id=$instance['wassup_widget_id'];
+		if(empty($instance['wassup_widget_id'])) $instance=$this->wassup_get_widget_id($instance);
+		$wassup_widget_id=$instance['wassup_widget_id'];
 		//get widget head and foot content
 		$title=((!empty($instance['online_title']))?trim($instance['online_title']):"");
 		$ulclass="";
@@ -340,7 +323,7 @@ class wassup_onlineWidget extends Wassup_Widget{
 		if($refresh >0) $html=wassup_widget_get_cache($wassup_widget_id,$cache_key);
 		//...get new widget content
 		if(empty($html)){
-			if(!empty($wassup_options->wassup_active)){
+			if($wassup_options->is_recording_active()){
 				$html=wassup_widget_get_online_counts($instance);
 				//cache the new widget content
 				if($refresh >0){
@@ -357,7 +340,7 @@ class wassup_onlineWidget extends Wassup_Widget{
 			echo $widget_head.$html.$widget_foot;
 			echo "\n".$widget_opt['after_widget'];
 		}
-		if ($wdebug_mode){
+		if($wdebug_mode){
 			//display sample widget for format debuging
 			$sample_html="";
 			if(function_exists('wassup_sample_widget')){
@@ -392,7 +375,7 @@ class wassup_topstatsWidget extends Wassup_Widget{
 	} //end __construct
 
 	/** Widget control form - for widget options */
-	function form($old_instance){
+	function form($old_instance=array()){
 		global $wp_version,$wassup_options;
 		$defaults=array( 
 			'title'=>"",
@@ -489,7 +472,7 @@ class wassup_topstatsWidget extends Wassup_Widget{
 			<p class="note">&middot; <?php echo __("empty results are not displayed.","wassup");?></p>
 		</li>
 		</ul><!-- /widget-items -->
-		<input type="hidden" name="<?php echo $this->get_field_name('wassup_widget_id').'" id="'.$this->get_field_id('wassup_widget_id');?>" value="<?php echo $this->wassup_get_widget_id();?>"/>
+		<input type="hidden" name="<?php echo $this->get_field_name('wassup_widget_id').'" id="'.$this->get_field_id('wassup_widget_id');?>" value="<?php echo $instance['wassup_widget_id'];?>"/>
 	</div><!-- /wassup-widget-ctrl --><?php
 	} //end form
 
@@ -531,37 +514,33 @@ class wassup_topstatsWidget extends Wassup_Widget{
 	/** displays widget content on web site */
 	function widget($wargs,$instance=array()){
 		global $wp_version,$wassup_options,$wdebug_mode;
-		//for backward compatibility
-		if(version_compare($wp_version,'2.8',"<") && (empty($instance)|| !is_array($instance))){
-			$instance=$this->get_settings();
-		}
 		$widget_opt=$wargs;
+		if(empty($instance['wassup_widget_id'])) $instance=$this->wassup_get_widget_id($instance);
+		$wassup_widget_id=$instance['wassup_widget_id'];
 		if($wdebug_mode){
 			echo "\n<!-- widget instance param=\c";
 			print_r($instance);
 			echo "\n -->";
 		}
 		//get widget head and foot content
-		$ulclass="";
+		$ulclass=' class="topstats"';
 		$widget_head="";
 		$widget_foot='';
 		if(!empty($instance['title'])){
 			$widget_head=$widget_opt['before_title'].esc_attr($instance['title']).$widget_opt['after_title'];
 		}
 		if(!empty($instance['ulclass'])){
-			$ulclass=' class="'.$instance['ulclass'].'"';
+			$ulclass=' class="topstats '.$instance['ulclass'].'"';
 		}
 		//get widget main content
 		$widget_html="";
-		if(empty($instance['wassup_widget_id'])) $wassup_widget_id=$this->wassup_get_widget_id();
-		else $wassup_widget_id=$instance['wassup_widget_id'];
 		$cache_key="_topstats";
 		$refresh=(is_numeric($instance['stat_refresh'])?(int)$instance['stat_refresh']*60:600);
 		if($refresh >0) $widget_html=wassup_widget_get_cache($wassup_widget_id,$cache_key);
 		if(!empty($widget_html)){
 			if($wdebug_mode) echo "\n".'<!-- cached contents for widget '.$wassup_widget_id.' found -->';
 			echo $widget_html;
-		}elseif(empty($wassup_options->wassup_active)){
+		}elseif(!$wassup_options->is_recording_active()){
 			if(!empty($widget_head)){
 				//display "no data" for inactive wassup
 				$widget_html='
@@ -593,7 +572,7 @@ class wassup_topstatsWidget extends Wassup_Widget{
 				if(!empty($html)){
 					$title="";
 					if(empty($widget_head)){
-						if($instance['stat_timeframe']>0 && $instance['stat_timeframe']<1) $item_heading = __("Trending","wassup");
+						if($instance['stat_timeframe']>0 && $instance['stat_timeframe']<1) $item_heading = __("Latest","wassup");
 						else $item_heading = __("Top","wassup");
 						$title=$widget_opt['before_title'].wassup_widget_stat_gettext($item,$item_heading).$widget_opt['after_title'];
 					}else{

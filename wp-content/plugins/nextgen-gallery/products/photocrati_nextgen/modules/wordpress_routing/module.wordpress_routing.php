@@ -1,26 +1,27 @@
 <?php
 
-/***
- {
-	Module: photocrati-wordpress_routing,
-	Depends: { photocrati-router }
- }
- ***/
 class M_WordPress_Routing extends C_Base_Module
 {
 	static $_use_canonical_redirect = TRUE;
     static $_use_old_slugs          = TRUE;
 
-    function define()
+    function define($id = 'pope-module',
+                    $name = 'Pope Module',
+                    $description = '',
+                    $version = '',
+                    $uri = '',
+                    $author = '',
+                    $author_uri = '',
+                    $context = FALSE)
 	{
 		parent::define(
 			'photocrati-wordpress_routing',
 			'WordPress Routing',
 			"Integrates the MVC module's routing implementation with WordPress",
-			'0.6',
-			'http://www.nextgen-gallery.com',
-			'Photocrati Media',
-			'http://www.photocrati.com'
+			'0.8',
+			'https://www.imagely.com/wordpress-gallery-plugin/nextgen-gallery/',
+			'Imagely',
+			'https://www.imagely.com'
 		);
 	}
 
@@ -53,9 +54,9 @@ class M_WordPress_Routing extends C_Base_Module
      */
     function restore_request_uri()
 	{
-		if (isset($_SERVER['ORIG_REQUEST_URI']))
+		if (isset($_SERVER['NGG_ORIG_REQUEST_URI']))
         {
-            $request_uri = $_SERVER['ORIG_REQUEST_URI'];
+            $request_uri = $_SERVER['NGG_ORIG_REQUEST_URI'];
             $_SERVER['UNENCODED_URL'] = $_SERVER['HTTP_X_ORIGINAL_URL'] = $_SERVER['REQUEST_URI'] = $request_uri;
 
             if (isset($_SERVER['ORIG_PATH_INFO'])) {

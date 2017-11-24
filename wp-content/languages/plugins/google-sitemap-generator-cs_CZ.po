@@ -1,0 +1,675 @@
+# Translation of Stable (latest release) in Czech
+# This file is distributed under the same license as the Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2016-07-21 09:46:25+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: GlotPress/2.1.0-alpha\n"
+"Project-Id-Version: Stable (latest release)\n"
+
+#: sitemap-core.php:547
+msgid "Comment Count"
+msgstr "Počet komentářů"
+
+#: sitemap-core.php:557
+msgid "Uses the number of comments of the post to calculate the priority"
+msgstr "K vypočítání priority se využívá počet komentářů"
+
+#: sitemap-core.php:608
+msgid "Comment Average"
+msgstr "Průměrný počet komentářů"
+
+#: sitemap-core.php:618
+msgid "Uses the average comment count to calculate the priority"
+msgstr "K vypočítání priority se využívá průměrného počtu komentářů"
+
+#: sitemap-core.php:778
+msgid "Always"
+msgstr "Vždy"
+
+#: sitemap-core.php:779
+msgid "Hourly"
+msgstr "Každou hodinu"
+
+#: sitemap-core.php:780
+msgid "Daily"
+msgstr "Denně"
+
+#: sitemap-core.php:781
+msgid "Weekly"
+msgstr "Týdně"
+
+#: sitemap-core.php:782
+msgid "Monthly"
+msgstr "Měsíčně"
+
+#: sitemap-core.php:783
+msgid "Yearly"
+msgstr "Ročně"
+
+#: sitemap-core.php:784
+msgid "Never"
+msgstr "Nikdy"
+
+#: sitemap-loader.php:206
+msgid "XML-Sitemap Generator"
+msgstr "Generátor XML-Sitemapy"
+
+#: sitemap-loader.php:206
+msgid "XML-Sitemap"
+msgstr "XML-Sitemap"
+
+#: sitemap-loader.php:233
+msgid "Settings"
+msgstr "Nastavení"
+
+#: sitemap-loader.php:234
+msgid "FAQ"
+msgstr "Nejčastější dotazy"
+
+#: sitemap-loader.php:235
+msgid "Support"
+msgstr "Podpora"
+
+#: sitemap-loader.php:236
+msgid "Donate"
+msgstr "Přispět"
+
+#: sitemap-ui.php:181 sitemap-ui.php:671
+msgid "XML Sitemap Generator for WordPress"
+msgstr "Generátor XML Sitemap"
+
+#: sitemap-ui.php:368
+msgid "Configuration updated"
+msgstr "Nastavení aktualizováno"
+
+#: sitemap-ui.php:369
+msgid "Error while saving options"
+msgstr "Při ukládání nastavení nastala chyba"
+
+#: sitemap-ui.php:372
+msgid "Pages saved"
+msgstr "Stránka uložena"
+
+#: sitemap-ui.php:373
+msgid "Error while saving pages"
+msgstr "Při ukládání stránek nastala chyba"
+
+#: sitemap-ui.php:381
+msgid "The default configuration was restored."
+msgstr "Výchozí nastavení bylo obnoveno."
+
+#: sitemap-ui.php:391
+msgid "The old files could NOT be deleted. Please use an FTP program and delete them by yourself."
+msgstr "Staré soubory se NEPODAŘILO vymazat. Použijte prosím FTP program a odstraňte je ručně."
+
+#: sitemap-ui.php:393
+msgid "The old files were successfully deleted."
+msgstr "Staré soubory byly úspěšně vymazány."
+
+#: sitemap-ui.php:430
+msgid "Notify Search Engines about all sitemaps"
+msgstr "Informovat vyhledávače o veškerých souborech sitemaps"
+
+#: sitemap-ui.php:431
+msgid "The plugin is notifying the selected search engines about your main sitemap and all sub-sitemaps. This might take a minute or two."
+msgstr "Plugin informuje zvolené vyhledávače o vašich hlavních i vedlejších souborech sitemaps. Může to pár minut trvat."
+
+#: sitemap-ui.php:453
+msgid "All done!"
+msgstr "Hotovo!"
+
+#: sitemap-ui.php:470
+msgid "Ping was executed, please see below for the result."
+msgstr "Ping byl vykonán, níže je jeho výsledek."
+
+#: sitemap-ui.php:513
+msgid "Thank you very much for your donation. You help me to continue support and development of this plugin and other free software!"
+msgstr "Děkuji vám mockrát za vaše příspěvky. Pomáháte tím pokračovat v podpoře a vývoji tohoto pluginu a dalšího nekomerčního softwaru!"
+
+#: sitemap-ui.php:513
+msgid "Hide this notice"
+msgstr "Skrýt toto oznámení"
+
+#: sitemap-ui.php:519
+msgid "Thanks for using this plugin! You've installed this plugin over a month ago. If it works and you are satisfied with the results, isn't it worth at least a few dollar? <a href=\"%s\">Donations</a> help me to continue support and development of this <i>free</i> software! <a href=\"%s\">Sure, no problem!</a>"
+msgstr "Díky za používání pluginu! Tento plugin jste nainstalovali před více než měsícem. Pokud vám funguje, a jste spokojeni s jeho výsledky, zvažte přispět alespoň drobnou částkou. <a href=\"%s\"> Dary </a> mi pomoháhají v rozvoji a podpoře tohoto <i>bezpatného</i> softwaru! <a href=\"%s\"> Jasně, žádný problém! </a>"
+
+#: sitemap-ui.php:519
+msgid "Sure, but I already did!"
+msgstr "Jasně, ale už jsem přispěl."
+
+#: sitemap-ui.php:519
+msgid "No thanks, please don't bug me anymore!"
+msgstr "Ne, díky, už mě prosím neotravuj!"
+
+#: sitemap-ui.php:526
+msgid "Thanks for using this plugin! You've installed this plugin some time ago. If it works and your are satisfied, why not <a href=\"%s\">rate it</a> and <a href=\"%s\">recommend it</a> to others? :-)"
+msgstr "Díky za používání tohoto pluginu! Tento plugin jste nainstalovali před nějakou dobou. Pokud vám funguje, a jste s ním spokojeni, nechtěli byste jej <a href=\"%s\">ohodnoťit</a> a <a href=\"%s\"> doporučit </a> ostatním? :-)"
+
+#: sitemap-ui.php:526
+msgid "Don't show this anymore"
+msgstr "Příště nezobrazovat"
+
+#: sitemap-ui.php:675
+msgid "Your blog is currently blocking search engines! Visit the <a href=\"%s\">Reading Settings</a> to change this."
+msgstr "Váš web nyní blokuje vyhledávače! Přejděte do <a href=\"%s\">Nastavení Zobrazování</a> a změňte nastavení."
+
+#: sitemap-ui.php:690
+msgid "About this Plugin:"
+msgstr "O tomto pluginu:"
+
+#: sitemap-ui.php:691
+msgid "Plugin Homepage"
+msgstr "Domovská stránka pluginu"
+
+#: sitemap-ui.php:692
+msgid "Suggest a Feature"
+msgstr "Navrhnout funkci"
+
+#: sitemap-ui.php:693
+msgid "Help / FAQ"
+msgstr "Nápověda / Časté dotazy"
+
+#: sitemap-ui.php:694
+msgid "Notify List"
+msgstr "Oznamovatel novinek"
+
+#: sitemap-ui.php:695
+msgid "Support Forum"
+msgstr "Podpora (fórum)"
+
+#: sitemap-ui.php:696
+msgid "Report a Bug"
+msgstr "Nahlásit chybu"
+
+#: sitemap-ui.php:698
+msgid "Donate with PayPal"
+msgstr "Přispějte přes PayPal"
+
+#: sitemap-ui.php:699
+msgid "My Amazon Wish List"
+msgstr "Můj WishList na Amazonu"
+
+#: sitemap-ui.php:700
+msgid "translator_name"
+msgstr "Peter \"Kahi\" Kahoun"
+
+#: sitemap-ui.php:700
+msgid "translator_url"
+msgstr "http://kahi.cz/wordpress"
+
+#: sitemap-ui.php:703
+msgid "Sitemap Resources:"
+msgstr "Zdroje:"
+
+#: sitemap-ui.php:704 sitemap-ui.php:709
+msgid "Webmaster Tools"
+msgstr "Webmaster Tools"
+
+#: sitemap-ui.php:705
+msgid "Webmaster Blog"
+msgstr "Webmaster Blog"
+
+#: sitemap-ui.php:707
+msgid "Search Blog"
+msgstr "Search Blog"
+
+#: sitemap-ui.php:710
+msgid "Webmaster Center Blog"
+msgstr "Webmaster Center Blog"
+
+#: sitemap-ui.php:712
+msgid "Sitemaps Protocol"
+msgstr "Sitemaps protokol"
+
+#: sitemap-ui.php:713
+msgid "Official Sitemaps FAQ"
+msgstr "Oficiální Sitemaps FAQ"
+
+#: sitemap-ui.php:714
+msgid "My Sitemaps FAQ"
+msgstr "Mé Sitemaps FAQ"
+
+#: sitemap-ui.php:717
+msgid "Recent Donations:"
+msgstr "Poslední příspěvky:"
+
+#: sitemap-ui.php:720
+msgid "List of the donors"
+msgstr "Seznam dárců"
+
+#: sitemap-ui.php:722
+msgid "Hide this list"
+msgstr "Skrýt seznam"
+
+#: sitemap-ui.php:725
+msgid "Thanks for your support!"
+msgstr "Díky za vaši podporu!"
+
+#: sitemap-ui.php:745
+msgid "Search engines haven't been notified yet"
+msgstr "Vyhledávače zatím nebyly informovány"
+
+#: sitemap-ui.php:749
+msgid "Result of the last ping, started on %date%."
+msgstr "Výsledek posledního pingu, vyvolaného %date%."
+
+#: sitemap-ui.php:756
+msgid "Recent Support Topics / News"
+msgstr "Nedávné témata podpory / Novinky"
+
+#: sitemap-ui.php:760
+msgid "Disable"
+msgstr "Zakázat"
+
+#: sitemap-ui.php:778
+msgid "No support topics available or an error occurred while fetching them."
+msgstr "Není k dispozici žádné téma podpory nebo nastala chyba během načíání."
+
+#: sitemap-ui.php:781
+msgid "Support Topics have been disabled. Enable them to see useful information regarding this plugin. No Ads or Spam!"
+msgstr "Témata podpory byly zakázány. Povolte je a uvidíte užitečné infromace ohledně tohoto pluginu. Žádné reklamy nebo SPAM!"
+
+#: sitemap-ui.php:781
+msgid "Enable"
+msgstr "Povolit"
+
+#: sitemap-ui.php:792
+msgid "There is still a sitemap.xml or sitemap.xml.gz file in your blog directory. Please delete them as no static files are used anymore or <a href=\"%s\">try to delete them automatically</a>."
+msgstr "V adresáři tohoto webu je stále soubor sitemap.xml nebo soubor sitemap.xml.gz. Smažte je prosím, ať nejsou používány žádné statické soubory, nebo se je pokuste <a href=\"%s\">smazat automaticky</a>."
+
+#: sitemap-ui.php:795
+msgid "The URL to your sitemap index file is: <a href=\"%s\">%s</a>."
+msgstr "URL adresa souboru sitemap je: <a href=\"%s\">%s</a>."
+
+#: sitemap-ui.php:798
+msgid "Search engines haven't been notified yet. Write a post to let them know about your sitemap."
+msgstr "Vyhledávače doposud nebyly informovány. Napište příspěvek abyste je informovali o své mapě webu."
+
+#: sitemap-ui.php:807
+msgid "%s was <b>successfully notified</b> about changes."
+msgstr "%s byl <strong>úspěšně informován</strong> o změnách."
+
+#: sitemap-ui.php:810
+msgid "It took %time% seconds to notify %name%, maybe you want to disable this feature to reduce the building time."
+msgstr "Trvalo %time% sekund informovat %name%, možná byste chtěli vypnout tuto funkci a snížit tak čas sestavy."
+
+#: sitemap-ui.php:813
+msgid "There was a problem while notifying %name%. <a href=\"%s\" target=\"_blank\">View result</a>"
+msgstr "Vyskytla se neočekávaná chyba během informování uživatele %name%. <a href=\"%s\" target=\"_blank\">Zobrazit výsledek</a>"
+
+#: sitemap-ui.php:825
+msgid "If you encounter any problems with your sitemap you can use the <a href=\"%d\">debug function</a> to get more information."
+msgstr "Pokud se vyskytnou problémy s mapu webu, můžete použít <a href=\"%d\">ladicí funkci</a>  a získat více informací."
+
+#: sitemap-ui.php:829
+msgid "If you like the plugin, please <a target=\"_blank\" href=\"%s\">rate it 5 stars</a> or <a href=\"%s\">donate</a> via PayPal! I'm supporting this plugin since over 9 years! Thanks a lot! :)"
+msgstr "Pokud máte tento plugin rádi, prosím <a target=\"_blank\" href=\"%s\">napište hodnocení</a> nebo jej <a href=\"%s\">Podpořte</a> pomocí PayPal! Již 9 let podporuji tento plugin! Děkuji moc! :)"
+
+#: sitemap-ui.php:837
+msgid "Webserver Configuration"
+msgstr "Konfigurace webového serveru"
+
+#: sitemap-ui.php:838
+msgid "Since you are using Nginx as your web-server, please configure the following rewrite rules in case you get 404 Not Found errors for your sitemap:"
+msgstr "Od té doby co používáte Nginx jako svůj web-server, nastavte prosím následující pravidla přepisování (rewrite rules), v případě když dostanete chyby 404 Nenalezeno pro vaší mapu webu:"
+
+#: sitemap-ui.php:854
+msgid "Basic Options"
+msgstr "Základní možnosti"
+
+#: sitemap-ui.php:856
+msgid "Update notification:"
+msgstr "Oznámení o aktualizaci:"
+
+#: sitemap-ui.php:856 sitemap-ui.php:879 sitemap-ui.php:901 sitemap-ui.php:913
+msgid "Learn more"
+msgstr "Dozvědět se víc"
+
+#: sitemap-ui.php:860
+msgid "Notify Google about updates of your Blog"
+msgstr "Oznamovat Googlu změny na vašem blogu"
+
+#: sitemap-ui.php:861
+msgid "No registration required, but you can join the <a href=\"%s\">Google Webmaster Tools</a> to check crawling statistics."
+msgstr "Registrace není vyžadována, ale může se připojit k <a href=\"%s\">Google Webmaster Tools</a> kvůli kontrole statistik návštěv vyhledávače."
+
+#: sitemap-ui.php:865
+msgid "Notify Bing (formerly MSN Live Search) about updates of your Blog"
+msgstr "Informovat Bing o aktualizacích tohoto webu"
+
+#: sitemap-ui.php:866
+msgid "No registration required, but you can join the <a href=\"%s\">Bing Webmaster Tools</a> to check crawling statistics."
+msgstr "Registrace není vyžadována, ale můžete se připojit k <a href=\"%s\">Bing Webmaster Tools</a> kvůli kontrole statistik návštěv vyhledávače."
+
+#: sitemap-ui.php:871
+msgid "Add sitemap URL to the virtual robots.txt file."
+msgstr "Přidat URL mapy webu k virtuálnímu souboru robots.txt"
+
+#: sitemap-ui.php:875
+msgid "The virtual robots.txt generated by WordPress is used. A real robots.txt file must NOT exist in the blog directory!"
+msgstr "Virtuální robots.txt generovaný WordPressem je používán. V adresáři webu NESMÍ existovat pravý soubor robots.txt!"
+
+#: sitemap-ui.php:879
+msgid "Advanced options:"
+msgstr "Pokročilé možnosti:"
+
+#: sitemap-ui.php:882
+msgid "Try to increase the memory limit to:"
+msgstr "Zkuste navýšit limit paměti na:"
+
+#: sitemap-ui.php:882
+msgid "e.g. \"4M\", \"16M\""
+msgstr "např: \"4M\", \"16M\""
+
+#: sitemap-ui.php:885
+msgid "Try to increase the execution time limit to:"
+msgstr "Zkusit navýšit maximální čas provádění skriptu na:"
+
+#: sitemap-ui.php:885
+msgid "in seconds, e.g. \"60\" or \"0\" for unlimited"
+msgstr "v sekundách, např. \"60\" anebo \"0\" pro nekonečno"
+
+#: sitemap-ui.php:890
+msgid "Try to automatically compress the sitemap if the requesting client supports it."
+msgstr "Pokusit se automaticky komprimovat mapu webu, pokud tuto funkci klient podporuje."
+
+#: sitemap-ui.php:892
+msgid "Disable this option if you get garbled content or encoding errors in your sitemap."
+msgstr "Zakažte tuto funkci pokud se v mapě webu vyskytnou zkomolené výrazy, nebo nastane problém s kódováním"
+
+#: sitemap-ui.php:896
+msgid "Include a XSLT stylesheet:"
+msgstr "Připojit XSLT stylopis:"
+
+#: sitemap-ui.php:897
+msgid "Full or relative URL to your .xsl file"
+msgstr "Adresa k vašemu .xsl souboru"
+
+#: sitemap-ui.php:897
+msgid "Use default"
+msgstr "Použít výchozí"
+
+#: sitemap-ui.php:900
+msgid "Override the base URL of the sitemap:"
+msgstr "Přepsat základní URL mapy webu:"
+
+#: sitemap-ui.php:901
+msgid "Use this if your blog is in a sub-directory, but you want the sitemap be located in the root. Requires .htaccess modification."
+msgstr "Tuto volbu použijte v případě, že je váš web v podadresáři, ale vy chcete mít mapu webu umístěnou v kořenovém adresáři. Vyžaduje upravy v souboru .htaccess"
+
+#: sitemap-ui.php:906
+msgid "Include sitemap in HTML format"
+msgstr "Zahrnout mapu webu ve formátu HTML"
+
+#: sitemap-ui.php:906
+msgid "(The required PHP XSL Module is not installed)"
+msgstr "(Vyžadovaný modul PHP XSL není instalován)"
+
+#: sitemap-ui.php:912
+msgid "Allow anonymous statistics (no personal information)"
+msgstr "Povolit anonymní statistiku (žádné osobní informace)"
+
+#: sitemap-ui.php:921
+msgid "Additional pages"
+msgstr "Stránky navíc"
+
+#: sitemap-ui.php:924
+msgid "Here you can specify files or URLs which should be included in the sitemap, but do not belong to your Blog/WordPress.<br />For example, if your domain is www.foo.com and your blog is located on www.foo.com/blog you might want to include your homepage at www.foo.com"
+msgstr "Zde můžete nastavit URL adresy, které mají být zahrnuty do sitemapy, ale nenáleží k blogu/WordPressu.<br />Například, pokud vaše doména je www.něco.cz a váš blog se nachází na www.něco.cz/blog, možná byste chtěli zahrnout i www.něco.cz"
+
+#: sitemap-ui.php:926 sitemap-ui.php:1140 sitemap-ui.php:1149
+msgid "Note"
+msgstr "Poznámka"
+
+#: sitemap-ui.php:927
+msgid "If your blog is in a subdirectory and you want to add pages which are NOT in the blog directory or beneath, you MUST place your sitemap file in the root directory (Look at the &quot;Location of your sitemap file&quot; section on this page)!"
+msgstr "Je-li váš blog v podsložce a chcete-li přidat stránky, které NEJSOU v adresáři blogu (anebo v podadresářích), MUSÍTE umístit vaši sitemapu do kořenové složky (Viz sekce &quot;Umístění vaší sitemapy&quot; na této stránce)!"
+
+#: sitemap-ui.php:929 sitemap-ui.php:968
+msgid "URL to the page"
+msgstr "URL stránky"
+
+#: sitemap-ui.php:930
+msgid "Enter the URL to the page. Examples: http://www.foo.com/index.html or www.foo.com/home "
+msgstr "Vložte URL (adresu) stránky. Příklady: http://www.něco.cz/index.html nebo www.něco.cz/home "
+
+#: sitemap-ui.php:932 sitemap-ui.php:969
+msgid "Priority"
+msgstr "Priorita"
+
+#: sitemap-ui.php:933
+msgid "Choose the priority of the page relative to the other pages. For example, your homepage might have a higher priority than your imprint."
+msgstr "Vyberte prioritu stránky relativně k ostatním stránkám. Například, vaše titulní stránka by měla mít vyšší prioritu než stránka O mně."
+
+#: sitemap-ui.php:935 sitemap-ui.php:971
+msgid "Last Changed"
+msgstr "Naposledy změněno"
+
+#: sitemap-ui.php:936
+msgid "Enter the date of the last change as YYYY-MM-DD (2005-12-31 for example) (optional)."
+msgstr "Vložte datum poslední změny ve formátu RRRR-MM-DD (například 2007-08-12) (nepovinné)."
+
+#: sitemap-ui.php:970
+msgid "Change Frequency"
+msgstr "Nastavit frekvenci"
+
+#: sitemap-ui.php:972
+msgid "#"
+msgstr "#"
+
+#: sitemap-ui.php:977
+msgid "No pages defined."
+msgstr "Nejsou definovány žádné stránky."
+
+#: sitemap-ui.php:982
+msgid "Add new page"
+msgstr "Přidat novou stránku"
+
+#: sitemap-ui.php:988
+msgid "Post Priority"
+msgstr "Priorita příspěvků"
+
+#: sitemap-ui.php:990
+msgid "Please select how the priority of each post should be calculated:"
+msgstr "Vyberte prosím způsob, kterým má být priorita každého z příspěvků vypočítávána."
+
+#: sitemap-ui.php:992
+msgid "Do not use automatic priority calculation"
+msgstr "Nepoužívat automatický výpočet priority"
+
+#: sitemap-ui.php:992
+msgid "All posts will have the same priority which is defined in &quot;Priorities&quot;"
+msgstr "Všechny příspěvky budou mít stejnou prioritu, která je definována v &quot;Prioritách&quot;"
+
+#: sitemap-ui.php:1003
+msgid "Sitemap Content"
+msgstr "Obsah sitemapy"
+
+#: sitemap-ui.php:1004
+msgid "WordPress standard content"
+msgstr "Běžný obsah WordPressu"
+
+#: sitemap-ui.php:1009
+msgid "Include homepage"
+msgstr "Zahrnout titulní stránku"
+
+#: sitemap-ui.php:1015
+msgid "Include posts"
+msgstr "Zahrnout příspěvky"
+
+#: sitemap-ui.php:1021
+msgid "Include static pages"
+msgstr "Zahrnout statické stránky"
+
+#: sitemap-ui.php:1027
+msgid "Include categories"
+msgstr "Zahrnout rubriky"
+
+#: sitemap-ui.php:1033
+msgid "Include archives"
+msgstr "Zahrnout archivy"
+
+#: sitemap-ui.php:1039
+msgid "Include author pages"
+msgstr "Zahrnout stránky autorů"
+
+#: sitemap-ui.php:1046
+msgid "Include tag pages"
+msgstr "Zahrnout stránky štítků"
+
+#: sitemap-ui.php:1060
+msgid "Custom taxonomies"
+msgstr "Vlastní taxonomie"
+
+#: sitemap-ui.php:1071
+msgid "Include taxonomy pages for %s"
+msgstr "Zahrnout taxonimii stránky pro %s"
+
+#: sitemap-ui.php:1089
+msgid "Custom post types"
+msgstr "Vlastní typy příspěvků"
+
+#: sitemap-ui.php:1100
+msgid "Include custom post type %s"
+msgstr "Zahrnout vlastní typ příspěvku %s"
+
+#: sitemap-ui.php:1112
+msgid "Further options"
+msgstr "Další možnosti:"
+
+#: sitemap-ui.php:1117
+msgid "Include the last modification time."
+msgstr "Zahrnout čas poslední úpravy."
+
+#: sitemap-ui.php:1119
+msgid "This is highly recommended and helps the search engines to know when your content has changed. This option affects <i>all</i> sitemap entries."
+msgstr "Toto je důrazně doporučeno, a pomáhá to zjistit vyhledávačům změnu obsahu. Tato volba ovlivní <i>veškeré</i> sitemap záznamy."
+
+#: sitemap-ui.php:1126
+msgid "Excluded items"
+msgstr "Vyřadit položky"
+
+#: sitemap-ui.php:1128
+msgid "Excluded categories"
+msgstr "Vyřadit kategorie"
+
+#: sitemap-ui.php:1136
+msgid "Exclude posts"
+msgstr "Vyřadit příspěvky"
+
+#: sitemap-ui.php:1138
+msgid "Exclude the following posts or pages:"
+msgstr "Vyřadit tyto příspěvky či stránky:"
+
+#: sitemap-ui.php:1138
+msgid "List of IDs, separated by comma"
+msgstr "Seznam ID oddělených čárkou"
+
+#: sitemap-ui.php:1140
+msgid "Child posts won't be excluded automatically!"
+msgstr "Odvozené příspěvky nebudou automaticky vyloučeny!"
+
+#: sitemap-ui.php:1146
+msgid "Change frequencies"
+msgstr "Nastavení frekvence"
+
+#: sitemap-ui.php:1150
+msgid "Please note that the value of this tag is considered a hint and not a command. Even though search engine crawlers consider this information when making decisions, they may crawl pages marked \"hourly\" less frequently than that, and they may crawl pages marked \"yearly\" more frequently than that. It is also likely that crawlers will periodically crawl pages marked \"never\" so that they can handle unexpected changes to those pages."
+msgstr "Berte prosím na vědomí, že hodnota tohoto štítku je jen zvažována \"jako náznak\", není to příkaz. Přestože vyhledávací roboti berou při rozhodování tuto hodnotu na vědomí, přesto mohou navštěvovat stránky označené jako \"každou hodinu\" méně často, a také mohou stránky označené jako \"ročně\" navštěvovat častěji. Rovněž je pravděpodobné, že roboti budou naštěvovat i stránky označené jako \"nikdy\" aby se mohli vypořádat s nečekanými změnami na těchto stránkách."
+
+#: sitemap-ui.php:1156 sitemap-ui.php:1213
+msgid "Homepage"
+msgstr "Titulní stránka"
+
+#: sitemap-ui.php:1162
+msgid "Posts"
+msgstr "Příspěvky"
+
+#: sitemap-ui.php:1168 sitemap-ui.php:1231
+msgid "Static pages"
+msgstr "Statické stránky"
+
+#: sitemap-ui.php:1174 sitemap-ui.php:1237
+msgid "Categories"
+msgstr "Rubriky"
+
+#: sitemap-ui.php:1180
+msgid "The current archive of this month (Should be the same like your homepage)"
+msgstr "Stávající archiv tohoto měsíce (Měl by být stejný jako vaše titulní stránka)"
+
+#: sitemap-ui.php:1186
+msgid "Older archives (Changes only if you edit an old post)"
+msgstr "Starší archivy (Mění se jen když upravíte starý příspěvek)"
+
+#: sitemap-ui.php:1193 sitemap-ui.php:1250
+msgid "Tag pages"
+msgstr "Stránky štítků"
+
+#: sitemap-ui.php:1200 sitemap-ui.php:1257
+msgid "Author pages"
+msgstr "Stránky autorů"
+
+#: sitemap-ui.php:1208
+msgid "Priorities"
+msgstr "Priority"
+
+#: sitemap-ui.php:1219
+msgid "Posts (If auto calculation is disabled)"
+msgstr "Příspěvky (Když je automatický výpočet vypnutý)"
+
+#: sitemap-ui.php:1225
+msgid "Minimum post priority (Even if auto calculation is enabled)"
+msgstr "Minimální priorita příspěvku (I když je povolený automatický výpočet)"
+
+#: sitemap-ui.php:1243
+msgid "Archives"
+msgstr "Archivy"
+
+#: sitemap-ui.php:1268
+msgid "Update options"
+msgstr "Aktualizovat možnosti"
+
+#: sitemap-ui.php:1269
+msgid "Reset options"
+msgstr "Vynulovat možnosti"
+
+#: sitemap.php:85
+msgid "Your WordPress version is too old for XML Sitemaps."
+msgstr "Vaše verze WordPressu je pro XML Sitemaps příliš zastaralá."
+
+#: sitemap.php:85
+msgid "Unfortunately this release of Google XML Sitemaps requires at least WordPress %4$s. You are using Wordpress %2$s, which is out-dated and insecure. Please upgrade or go to <a href=\"%1$s\">active plugins</a> and deactivate the Google XML Sitemaps plugin to hide this message. You can download an older version of this plugin from the <a href=\"%3$s\">plugin website</a>."
+msgstr "Tato verze Google XML Sitemaps vyžaduje minimálně WordPress %4$s. Aktuálně používáte WordPress verze %2$s, která není podporvána a je nebezpečná. Proveďte prosím upgrade, nebo přejděte mezi <a href=\"%1$s\">aktivní pluginy</a> a deaktivujte plugin Google XML Sitemaps pro skrytí tohoto varování. Starší verzi tohoto pluginu můžete najít na <a href=\"%3$s\">webu pluginu</a>. \t"
+
+#: sitemap.php:95
+msgid "Your PHP version is too old for XML Sitemaps."
+msgstr "Vaše verze PHP je pro XML Sitemaps příliš zastaralá."
+
+#: sitemap.php:95
+msgid "Unfortunately this release of Google XML Sitemaps requires at least PHP %4$s. You are using PHP %2$s, which is out-dated and insecure. Please ask your web host to update your PHP installation or go to <a href=\"%1$s\">active plugins</a> and deactivate the Google XML Sitemaps plugin to hide this message. You can download an older version of this plugin from the <a href=\"%3$s\">plugin website</a>."
+msgstr "Tato verze Google XML Sitemaps vyžaduje minimálně PHP %4$s. Aktuálně používáte PHP verzi %2$s, která není podporvána a je nebezpečná. Požádejte prosím svůj webhosting o aktualizaci PHP, nebo přejděte mezi <a href=\"%1$s\">aktivní pluginy</a> a deaktivujte plugin Google XML Sitemaps pro skrytí tohoto varování. Starší verzi tohoto pluginu můžete najít na <a href=\"%3$s\">webu pluginu</a>."
+
+#. Plugin Name of the plugin/theme
+msgid "Google XML Sitemaps"
+msgstr "Google XML Sitemaps"
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.arnebrachhold.de/redir/sitemap-home/"
+msgstr "http://www.arnebrachhold.de/redir/sitemap-home/"
+
+#. Description of the plugin/theme
+msgid "This plugin will generate a special XML sitemap which will help search engines like Google, Yahoo, Bing and Ask.com to better index your blog."
+msgstr "Tento plugin vygeneruje speciální XML mapu webu, která pomůže vyhledávačům jako Google, Yahoo, Bing a Ask.com lépe indexovat váš web."
+
+#. Author of the plugin/theme
+msgid "Arne Brachhold"
+msgstr "Arne Brachhold"
+
+#. Author URI of the plugin/theme
+msgid "http://www.arnebrachhold.de/"
+msgstr "http://www.arnebrachhold.de/"

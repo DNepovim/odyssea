@@ -1,0 +1,506 @@
+# Translation of Plugins - WP Maintenance Mode - Development (trunk) in Czech
+# This file is distributed under the same license as the Plugins - WP Maintenance Mode - Development (trunk) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2016-12-04 15:29:54+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: GlotPress/2.3.0-alpha\n"
+"Language: cs_CZ\n"
+"Project-Id-Version: Plugins - WP Maintenance Mode - Development (trunk)\n"
+
+#: views/promo-strictthemes.php:8
+msgid "See our WordPress Themes!"
+msgstr "Podívejte se na naše WordPress šablony!"
+
+#: views/promo-strictthemes.php:4
+msgid "We hope you like the WP Maintenance Mode plugin! Now you can buy WordPress Themes directly from us on ThemeForest. We're StrictThemes and we create best designed and coded WordPress Themes."
+msgstr "Doufáme, že se vám plugin WP Maintenance Mode líbí! Nyní si můžete koupit naše WordPress šablony přímo na ThemeForest, kde se jmenujeme StrictThemes a vytváříme WordPress šablony skvělého vzhledu i kódu."
+
+#: views/promo-strictthemes.php:1
+msgid "Premium WordPress Themes from WP Maintenance Mode authors!"
+msgstr "Prémiové WordPress šablony od autorů pluginu WP Maintenance Mode"
+
+#: views/settings.php:425
+msgid "Allowed formats: UA-XXXXXXXX, UA-XXXXXXXX-XXXX. Eg: UA-12345678-1 is valid"
+msgstr "Povolené formáty: UA-XXXXXXXX, UA-XXXXXXXX-XXXX. Např.: UA-12345678-1 je platné ID"
+
+#: includes/classes/wp-maintenance-mode-admin.php:196
+#: includes/classes/wp-maintenance-mode-admin.php:250
+msgid "Security check."
+msgstr "Bezpečnostní ověření"
+
+#: includes/classes/wp-maintenance-mode-admin.php:186
+msgid "The nonce field must not be empty."
+msgstr "Pole nonce nesmí být prázdné."
+
+#: includes/classes/wp-maintenance-mode-admin.php:540
+msgid "If you like <strong>WP Maintenance Mode</strong> please leave us a %s rating. A huge thank you from WP Maintenance Mode makers in advance!"
+msgstr "Pokud máte rádi <strong>WP Maintenance Mode</strong>, ohodnoťte jej %s. Tvůrci WP Maintenance Mode Vám jsou předem nesmírně vděčni!"
+
+#: views/sidebar.php:27
+msgid "Other products"
+msgstr "Další produkty"
+
+#: views/settings.php:301
+msgid "Empty subscribers list"
+msgstr "Prázdný seznam odběratelů"
+
+#: views/settings.php:86
+msgid "If you want to redirect a user (with no access to Dashboard/Backend) to a URL (different from WordPress Dashboard URL) after login, then define a URL (incl. http://)"
+msgstr "Pokud chcete uživatele přesměrovat (bez přístupu na Nástěnku/Administraci) na URL (jinou, než URL Nástěnky WordPressu) po přihlášení, pak zadejte URL (nezapomeňte na http://)"
+
+#: views/settings.php:69
+msgid "Which user role is allowed to access the frontend of this blog? Administrators will always have access."
+msgstr "Jaká uživatelská role bude mít přístup k procházení tohoto webu, Administrátoři budou mít přístup vždy. "
+
+#: views/settings.php:53
+msgid "Which user role is allowed to access the backend of this blog? Administrators will always have access."
+msgstr "Jaká uživatelská role bude mít přístup k administraci tohoto webu, Administrátoři budou mít přístup vždy."
+
+#: views/settings.php:43 views/settings.php:59
+msgid "Select role(s)"
+msgstr "Vyberte role"
+
+#: views/maintenance.php:88 views/maintenance.php:89 views/maintenance.php:94
+msgid "This field is required."
+msgstr "Toto pole je povinné."
+
+#: views/contact.php:79
+msgid "Content:"
+msgstr "Obsah:"
+
+#: views/contact.php:64
+msgid "Email:"
+msgstr "E-mail:"
+
+#: views/contact.php:52
+msgid "Name:"
+msgstr "Jméno:"
+
+#: views/contact.php:34
+msgid "You have been contacted via %s."
+msgstr "Byli jste kontaktováni přes %s."
+
+#: includes/classes/wp-maintenance-mode-admin.php:492
+msgid "Notice key cannot be empty."
+msgstr "Klíč upozornění nemůže být prázdný."
+
+#: includes/classes/wp-maintenance-mode-admin.php:202
+msgid "The tab slug must exist."
+msgstr "Záložka názvu v URL musí existovat."
+
+#: includes/classes/wp-maintenance-mode-admin.php:191
+msgid "The tab slug must not be empty."
+msgstr "Záložka v názvu URL nesmí být prázdná."
+
+#: includes/classes/wp-maintenance-mode-admin.php:121
+#: includes/classes/wp-maintenance-mode-admin.php:159
+#: includes/classes/wp-maintenance-mode-admin.php:181
+msgid "You do not have access to this resource."
+msgstr "Nemáte přístup k tomuto zdroji."
+
+#. Author of the plugin/theme
+msgid "Designmodo"
+msgstr "Designmodo"
+
+#. Description of the plugin/theme
+msgid "Adds a splash page to your site that lets visitors know your site is down for maintenance. It's perfect for a coming soon page."
+msgstr "Přidá úvodní stránku, která návštěvníky upozorní, že stránky prochází údržbou. Je to perfektní pro stránky typu \"již brzy\"."
+
+#. #-#-#-#-#  tmp-wp-maintenance-mode.pot (WP Maintenance Mode 2.0.9) 
+#. #-#-#-#-#
+#. Plugin URI of the plugin/theme
+#. #-#-#-#-#  tmp-wp-maintenance-mode.pot (WP Maintenance Mode 2.0.9) 
+#. #-#-#-#-#
+#. Author URI of the plugin/theme
+msgid "http://designmodo.com/"
+msgstr "http://designmodo.com/"
+
+#: views/sidebar.php:48
+msgid "Resources"
+msgstr "Zdroje"
+
+#: views/sidebar.php:16
+msgid "GitHub"
+msgstr "GitHub"
+
+#: views/sidebar.php:15
+msgid "Twitter"
+msgstr "Twitter"
+
+#: views/sidebar.php:14
+msgid "Website"
+msgstr "Web"
+
+#: views/sidebar.php:13
+msgid "Author"
+msgstr "Autor"
+
+#: views/sidebar.php:3
+msgid "Plugin Info"
+msgstr "Informace o pluginu"
+
+#: views/settings.php:422
+msgid "Tracking code"
+msgstr "ID měření"
+
+#: views/settings.php:413
+msgid "Use Google Analytics?"
+msgstr "Použít Google Analytics?"
+
+#: views/settings.php:408
+msgid "Google Analytics"
+msgstr "Google Analytics"
+
+#: views/settings.php:401
+msgid "Fold - Unfold"
+msgstr "Zavinout - rozvinout"
+
+#: views/settings.php:400
+msgid "Zoom - Zoomed"
+msgstr "Přiblížení - přiblíženo"
+
+#: views/settings.php:399
+msgid "Move top - Move bottom"
+msgstr "Přesunout nahoru - dolů"
+
+#: views/settings.php:396
+msgid "Effects"
+msgstr "Efekty"
+
+#: views/settings.php:390
+msgid "Email address"
+msgstr "E-mailová adresa"
+
+#: views/settings.php:381
+msgid "Show contact?"
+msgstr "Zobrazit kontakt?"
+
+#: views/settings.php:376
+msgid "Contact"
+msgstr "Kontakt"
+
+#: views/settings.php:328
+msgid "Choose how the links will open."
+msgstr "Vyberte jak se budou otevírat odkazy."
+
+#: views/settings.php:326
+msgid "Same page"
+msgstr "Stejná stránka"
+
+#: views/settings.php:325
+msgid "New page"
+msgstr "Nová stránka"
+
+#: views/settings.php:322
+msgid "Links target?"
+msgstr "Cíl odkazu?"
+
+#: views/settings.php:313
+msgid "Show social networks?"
+msgstr "Zobrazit sociální sítě?"
+
+#: views/settings.php:308
+msgid "Social Networks"
+msgstr "Sociální sítě"
+
+#: views/settings.php:300
+msgid "Export as CSV"
+msgstr "Exportovat jako CSV"
+
+#: includes/classes/wp-maintenance-mode-admin.php:165 views/settings.php:295
+msgid "You have %d subscriber(s)"
+msgstr "Máte %d odběratelů"
+
+#: views/settings.php:291
+msgid "Stats"
+msgstr "Statistiky"
+
+#: views/settings.php:275
+msgid "Show subscribe?"
+msgstr "Zobrazit možnost odběru?"
+
+#: views/settings.php:262
+msgid "Color"
+msgstr "Barva"
+
+#: views/settings.php:258
+msgid "Minutes"
+msgstr "Minuty"
+
+#: views/settings.php:257
+msgid "Hours"
+msgstr "Hodiny"
+
+#: views/settings.php:256
+msgid "Days"
+msgstr "Dny"
+
+#: views/settings.php:254
+msgid "Countdown (remaining time)"
+msgstr "Odpočet (zbývající čas)"
+
+#: views/settings.php:248
+msgid "Start date"
+msgstr "Datum spuštění"
+
+#: views/settings.php:239
+msgid "Show countdown?"
+msgstr "Zobrazit odpočet?"
+
+#: views/settings.php:234
+msgid "Countdown"
+msgstr "Odpočet"
+
+#: views/settings.php:201
+msgid "source <a href=\"%s\" target=\"_blank\">Free Photos</a>"
+msgstr "zdroj <a href=\"%\" target=\"_blank\">Free Photos</a>"
+
+#: views/settings.php:199
+msgid "Choose background"
+msgstr "Vyberte pozadí"
+
+#: views/settings.php:194
+msgid "Backgrounds should have 1920x1280 px size."
+msgstr "Pozadí by mělo mít velikost 1920x1280px."
+
+#: views/settings.php:190
+msgid "Upload background"
+msgstr "Nahrajte pozadí"
+
+#: views/settings.php:184
+msgid "Choose color"
+msgstr "Vyberte barvu"
+
+#: views/settings.php:179
+msgid "Predefined background"
+msgstr "Přednastavené pozadí"
+
+#: views/settings.php:178
+msgid "Uploaded background"
+msgstr "Nahrané pozadí"
+
+#: views/settings.php:177
+msgid "Custom color"
+msgstr "Vlastní barva"
+
+#: views/settings.php:174
+msgid "Choose type"
+msgstr "Vyberte typ"
+
+#: views/settings.php:169
+msgid "Background"
+msgstr "Pozadí"
+
+#: views/settings.php:149 views/settings.php:284
+msgid "Text"
+msgstr "Text"
+
+#: views/settings.php:142
+msgid "Heading"
+msgstr "Nadpis"
+
+#: views/settings.php:136
+msgid "Title (HTML tag)"
+msgstr "Název (značka HTML)"
+
+#: views/settings.php:131
+msgid "Content"
+msgstr "Obsah"
+
+#: views/settings.php:126 views/settings.php:229 views/settings.php:434
+msgid "Reset settings"
+msgstr "Obnovit nstavení"
+
+#: views/settings.php:125 views/settings.php:228 views/settings.php:433
+msgid "Save settings"
+msgstr "Uložit nastavení"
+
+#: views/settings.php:117
+msgid "Do you want to add a link to the dashboard on your maintenance mode page?"
+msgstr "Chcete přidat na stránku údržby odkaz na nástěnku (administrace webu)?"
+
+#: views/settings.php:111
+msgid "Dashboard link"
+msgstr "Odkaz nástěnky"
+
+#: views/settings.php:107
+msgid "Do you want to see notices when maintenance mode is activated?"
+msgstr "Chcete vidět upozornění když je aktivován režim údržby?"
+
+#: views/settings.php:101
+msgid "Notice"
+msgstr "Upozornění"
+
+#: views/settings.php:97
+msgid "Exclude feed, pages, archives or IPs from maintenance mode. Add one slug / IP per line!"
+msgstr "Z režimu údržby vyloučete kanály, stránky, archivy, nebo IP adresy. Přidejte jeden název v URL / IP na řádek!"
+
+#: views/settings.php:90
+msgid "Exclude"
+msgstr "Vyloučit"
+
+#: views/settings.php:83
+msgid "Redirection"
+msgstr "Přesměrování"
+
+#: views/settings.php:79
+msgid "The robots meta tag lets you use a granular, page-specific approach to control how an individual page should be indexed and served to users in search results."
+msgstr "Meta tag robots vám umožňí nastavit, jak budou jednotlivé stránky indexovány a vráceny uživatelům ve výsledcích vyhledávání."
+
+#: views/settings.php:73
+msgid "Robots Meta Tag"
+msgstr "Meta Tag Robots"
+
+#: views/settings.php:57
+msgid "Frontend Role"
+msgstr "Webové role"
+
+#: views/settings.php:41
+msgid "Backend Role"
+msgstr "Administrační role"
+
+#: views/settings.php:37
+msgid "Allow Search Bots to bypass maintenance mode?"
+msgstr "Povolit vyhledávacím robotům obejít režim údržby?"
+
+#: views/settings.php:35 views/settings.php:105 views/settings.php:115
+#: views/settings.php:243 views/settings.php:279 views/settings.php:317
+#: views/settings.php:385 views/settings.php:417
+msgid "No"
+msgstr "Ne"
+
+#: views/settings.php:34 views/settings.php:104 views/settings.php:114
+#: views/settings.php:242 views/settings.php:278 views/settings.php:316
+#: views/settings.php:384 views/settings.php:416
+msgid "Yes"
+msgstr "Ano"
+
+#: views/settings.php:31
+msgid "Bypass for Search Bots"
+msgstr "Nepoužívat pro vyhledávací roboty"
+
+#: views/settings.php:27
+msgid "Deactivated"
+msgstr "Deaktivováno"
+
+#: views/settings.php:26
+msgid "Activated"
+msgstr "Aktivováno"
+
+#: views/settings.php:24
+msgid "Status"
+msgstr "Stav"
+
+#: views/settings.php:15
+msgid "Modules"
+msgstr "Moduly"
+
+#: views/settings.php:14
+msgid "Design"
+msgstr "Vzhled"
+
+#: views/settings.php:13
+msgid "General"
+msgstr "Základní nastavení"
+
+#: views/settings.php:6
+msgid "Settings saved."
+msgstr "Nastavení bylo uloženo."
+
+#: views/maintenance.php:110
+msgid "Dashboard"
+msgstr "Nástěnka"
+
+#: views/maintenance.php:105
+msgid "Contact us"
+msgstr "Kontaktujte nás"
+
+#: views/maintenance.php:98
+msgid "Send"
+msgstr "Odeslat"
+
+#: views/maintenance.php:94
+msgid "Your message"
+msgstr "Text zprávy"
+
+#: views/maintenance.php:89
+msgid "E-mail"
+msgstr "E-mail"
+
+#: views/maintenance.php:88 views/sidebar.php:7
+msgid "Name"
+msgstr "Jméno"
+
+#: views/maintenance.php:45 views/settings.php:270
+msgid "Subscribe"
+msgstr "Přihlásit se k odběru"
+
+#: views/maintenance.php:44
+msgid "your e-mail..."
+msgstr "váš e-mail..."
+
+#: views/loginform.php:8
+msgid "Login"
+msgstr "Přihlášení"
+
+#: includes/classes/wp-maintenance-mode.php:786
+msgid "Your email was sent to the website administrator. Thanks!"
+msgstr "Vaše zpráva byla úspěšně odeslána administrátorovi webu. Děkujeme!"
+
+#: includes/classes/wp-maintenance-mode.php:772
+msgid "Message via contact"
+msgstr "Zpráva přes kontakt"
+
+#: includes/classes/wp-maintenance-mode.php:760
+msgid "All fields required."
+msgstr "Všechna pole jsou povinná."
+
+#: includes/classes/wp-maintenance-mode.php:742
+msgid "You successfully subscribed. Thanks!"
+msgstr "Úspěšně jste přihlášeni k odběru. Děkujeme!"
+
+#: includes/classes/wp-maintenance-mode.php:730
+#: includes/classes/wp-maintenance-mode.php:764 views/maintenance.php:89
+msgid "Please enter a valid email address."
+msgstr "Zadejte prosím platnou e-mailovou adresu."
+
+#: includes/classes/wp-maintenance-mode.php:463
+#: includes/classes/wp-maintenance-mode.php:477
+msgid "Maintenance Mode"
+msgstr "Režim údržby"
+
+#: includes/classes/wp-maintenance-mode.php:261
+msgid "WP Maintenance Mode plugin was relaunched and you MUST revise <a href=\"%s\">settings</a>."
+msgstr "Plugin WP Maintenance Mode byl znovu spuštěn a vy MUSÍTE zkontrolvat <a href=\"%s\">nastavení</a>."
+
+#: includes/classes/wp-maintenance-mode.php:122
+msgid "Notify me when it's ready"
+msgstr "Kontaktujte mě až bude údržba dokončena"
+
+#: includes/classes/wp-maintenance-mode.php:104
+msgid "<p>Sorry for the inconvenience.<br />Our website is currently undergoing scheduled maintenance.<br />Thank you for your understanding.</p>"
+msgstr "<p>Omlouváme se za dočasné nepříjemnosti.<br />Na těchto stránkách probíhá plánovaná údržba.<br />Děkujeme za pochopení.</p>"
+
+#: includes/classes/wp-maintenance-mode.php:101
+#: includes/classes/wp-maintenance-mode.php:102
+msgid "Maintenance mode"
+msgstr "Režim údržby"
+
+#: includes/classes/wp-maintenance-mode-admin.php:455
+msgid "The Maintenance Mode is <strong>active</strong>. Please don't forget to <a href=\"%s\">deactivate</a> as soon as you are done."
+msgstr "Režim údržby je <strong>aktivní</strong>. Jakmile budete hotovi, nezapomeňte jej <a href=\"%s\">deaktivovat</a>."
+
+#: includes/classes/wp-maintenance-mode-admin.php:436
+msgid "Settings"
+msgstr "Nastavení"
+
+#. #-#-#-#-#  tmp-wp-maintenance-mode.pot (WP Maintenance Mode 2.0.9) 
+#. #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: includes/classes/wp-maintenance-mode-admin.php:222
+msgid "WP Maintenance Mode"
+msgstr "WP Maintenance Mode"

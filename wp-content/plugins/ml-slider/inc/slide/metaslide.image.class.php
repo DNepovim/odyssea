@@ -13,65 +13,124 @@ class MetaImageSlide extends MetaSlide {
      * Register slide type
      */
     public function __construct() {
-
         parent::__construct();
-
-        add_filter( 'metaslider_get_image_slide', array( $this, 'get_slide' ), 10, 2 );
-        add_action( 'metaslider_save_image_slide', array( $this, 'save_slide' ), 5, 3 );
-        add_action( 'wp_ajax_create_image_slide', array( $this, 'ajax_create_slide' ) );
-        add_action( 'wp_ajax_resize_image_slide', array( $this, 'ajax_resize_slide' ) );
-
+        add_filter('metaslider_get_image_slide', array($this, 'get_slide' ), 10, 2);
+        add_action('metaslider_save_image_slide', array($this, 'save_slide' ), 5, 3);
+        add_action('wp_ajax_create_image_slide', array($this, 'ajax_create_image_slides'));
+        add_action('wp_ajax_resize_image_slide', array($this, 'ajax_resize_slide'));
     }
 
     /**
-     * Create a new slide and echo the admin HTML
+     * Creates one or more slide.
+     * Currently this is used via an ajax call, but plans to keep this only called
+     * by PHP methods, such as in an import situation.
+     *
+     * @param int $slider_id  The id of the slider
+     * @param array $data The data information for the new slide
+     *
+     * @return int | WP_error The status message and if success, the count
      */
-    public function ajax_create_slide() {
-        // security check
-        if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'metaslider_addslide' ) ) {
-            echo "<tr><td colspan='2'>" . __( "Security check failed. Refresh page and try again.", 'ml-slider' ) . "</td></tr>";
-            wp_die();
-        }
+    protected function create_slides($slider_id, $data) {
+        $errors = array();
+        foreach ($data as $slide_data) {
 
-        $slider_id = absint( $_POST['slider_id'] );
-        $selection = $_POST['selection'];
-
-        if ( is_array( $selection ) && count( $selection ) && $slider_id > 0 ) {
-
-            foreach ( $selection as $slide_id ) {
-
-                $this->set_slide( $slide_id );
-                $this->set_slider( $slider_id );
-
-                if ( $this->slide_exists_in_slideshow( $slider_id, $slide_id ) ) {
-
-                    echo "<tr><td colspan='2'>ID: {$slide_id} \"" . get_the_title( $slide_id ) . "\" - " . __( "Failed to add slide. Slide already exists in slideshow.", 'ml-slider' ) . "</td></tr>";
-
-                } else if ( ! $this->slide_is_unassigned_or_image_slide( $slider_id, $slide_id ) ) {
-
-                    echo "<tr><td colspan='2'>ID: {$slide_id} \"" . get_the_title( $slide_id ) . "\" - " . __( "Failed to add slide. Slide is not of type 'image'.", 'ml-slider' ) . "</td></tr>";
-
-                } else if ( ! wp_attachment_is_image( $slide_id ) ) {
-
-                    echo "<tr><td colspan='2'>ID: {$slide_id} \"" . get_the_title( $slide_id ) . "\" - " . __( "Failed to add slide. Slide is not an image.", 'ml-slider' ) . "</td></tr>";
-
-                } else {
-
-                    $this->tag_slide_to_slider();
-                    $this->add_or_update_or_delete_meta( $slide_id, 'type', 'image' );
-
-                    // override the width and height to kick off the AJAX image resizing on save
-                    $this->settings['width'] = 0;
-                    $this->settings['height'] = 0;
-
-                    echo $this->get_admin_slide();
-
-                }
+            // TODO check type and create slides based on that type
+            // $method = 'create_' . $slide['type'] . '_slide';
+            // $this->slider->add_slide($this->{$method}());
+            $message = $this->add_slide($slider_id, $slide_data);
+            if (is_wp_error($message)) {
+                array_push($errors, $message);
             }
         }
 
-        wp_die();
+        // We don't bail on an error, so we need to send back a list of errors, if any
+        if (count($errors)) {
+            $error_response = new WP_Error('create_failed', 'We experienced some errors while adding slides.', array('status' => 409));
+            foreach($errors as $message) {
+                $error_response->add('create_failed', $message, array('status' => 409));
+            }
+            return $error_response;
+        }
+
+        return count($data);
     }
+
+    /**
+     * Adds a single slide.
+     * TODO refactor and put this in a Slider class
+     *
+     * @param int $slider_id  The id of the slider
+     * @param array $data The data information for the new slide
+     *
+     * @return string | WP_error The status message and if success, echo string for now
+     */
+    protected function add_slide($slider_id, $data) {
+        
+        // For now this only handles images, so check it's an image
+        if (!wp_attachment_is_image($data['id'])) {
+
+            // TODO this is the old way to handle errors
+            // Remove this later and handle errors using data returns
+            echo "<tr><td colspan='2'>ID: {$data['id']} \"" . get_the_title( $data['id'] ) . "\" - " . __( "Failed to add slide. Slide is not an image.", 'ml-slider' ) . "</td></tr>";
+
+            return new WP_Error('create_failed', __('This isn\'t an accepted image. Please try again.', 'ml-slider'), array('status' => 409));
+        }
+
+        $slide_id = $this->insert_slide($data['id'], $data['type'], $slider_id);
+        if (is_wp_error($slide_id)) {
+            return $slide_id;
+        }
+
+        // TODO refactor these and investigate why they are needed (legacy?)
+        $this->set_slide($slide_id);
+        $this->set_slider($slider_id);
+        $this->tag_slide_to_slider();
+
+        // TODO investigate if this is really needed
+        $this->settings['width'] = 0;
+        $this->settings['height'] = 0;
+
+        // TODO refactor to have a view file and return data
+        echo $this->get_admin_slide();
+    }
+
+    /**
+     * Ajax wrapper to create multiple slides.
+     * TODO: depricate this in favor of only allowing single slide creation
+     *
+     * @return string The status message and if success, the count of slides added
+     */
+    public function ajax_create_image_slides() {
+
+        if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'metaslider_create_slide')) {
+            return wp_send_json_error(array(
+                'message' => __('The security check failed. Please refresh the page and try again.', 'ml-slider')
+            ), 401);
+        }
+
+        // TODO create a slide object class with data requirements and types
+        function make_image_slide_data($image_id) {
+            return array(
+                'type' => 'image',
+                'id'   => absint($image_id)
+            );
+        }
+
+        $result = $this->create_slides(
+            absint($_POST['slider_id']), array_map('make_image_slide_data',$_POST['selection'])
+        );
+
+        // TODO for now leave these out since it "echos" the slide...
+        // if (is_wp_error($result)) {
+        //     return wp_send_json_error(array(
+        //         'messages' => $result->get_error_messages()
+        //     ), 409);
+        // }
+
+        // return wp_send_json_success($result, 200);
+
+    }
+
 
     /**
      * Create a new slide and echo the admin HTML
@@ -115,24 +174,38 @@ class MetaImageSlide extends MetaSlide {
     protected function get_admin_slide() {
 
         // get some slide settings
-        $imageHelper = new MetaSliderImageHelper( $this->slide->ID, 150, 150, 'false', $this->use_wp_image_editor() );
-        $thumb       = $imageHelper->get_image_url();
+        $thumb       = $this->get_thumb();
         $slide_label = apply_filters( "metaslider_image_slide_label", __( "Image Slide", "ml-slider" ), $this->slide, $this->settings );
-
+   
         // slide row HTML
-        $row  = "<tr class='slide image flex responsive nivo coin'>
+        $row  = "<tr id='slide-{$this->slide->ID}' class='slide image flex responsive nivo coin'>
                     <td class='col-1'>
-                        <div class='thumb' style='background-image: url({$thumb})'>
-                            " . $this->get_delete_button_html() . "
-                            " . $this->get_change_image_button_html() . "
-                            <span class='slide-details'>{$slide_label}</span>
+                        <div class='metaslider-ui-controls ui-sortable-handle'>
+                        <h4 class='slide-details'>{$slide_label}</h4>";
+                        if (metaslider_this_is_trash($this->slide)) {
+                            $row .= '<div class="row-actions trash-btns">';
+                            $row .= "<span class='untrash'>{$this->get_undelete_button_html()}</span>";
+                            // $row .= ' | ';
+                            // $row .= "<span class='delete'>{$this->get_perminant_delete_button_html()}</span>";
+                            $row .= '</div>';
+                        } else {
+                            $row .= $this->get_delete_button_html();
+                            $row .= $this->get_update_image_button_html();
+                        }
+            $row .= "</div>
+                        <div class='metaslider-ui-inner'>
+                            <button class='update-image image-button' data-button-text='" . __("Update slide image", "ml-slider") . "' title='" . __("Update slide image", "ml-slider") . "' data-slide-id='{$this->slide->ID}'>
+                                <div class='thumb' style='background-image: url({$thumb})'></div>
+                            </button>
                         </div>
                     </td>
                     <td class='col-2'>
-                        " . $this->get_admin_slide_tabs_html() . "
-                        <input type='hidden' name='attachment[{$this->slide->ID}][type]' value='image' />
-                        <input type='hidden' class='menu_order' name='attachment[{$this->slide->ID}][menu_order]' value='{$this->slide->menu_order}' />
-                        <input type='hidden' name='resize_slide_id' data-slide_id='{$this->slide->ID}' data-width='{$this->settings['width']}' data-height='{$this->settings['height']}' />
+                        <div class='metaslider-ui-inner'>
+                            " . $this->get_admin_slide_tabs_html() . "
+                            <input type='hidden' name='attachment[{$this->slide->ID}][type]' value='image' />
+                            <input type='hidden' class='menu_order' name='attachment[{$this->slide->ID}][menu_order]' value='{$this->slide->menu_order}' />
+                            <input type='hidden' name='resize_slide_id' data-slide_id='{$this->slide->ID}' data-width='{$this->settings['width']}' data-height='{$this->settings['height']}' />
+                        </div>
                     </td>
                 </tr>";
 
@@ -155,7 +228,7 @@ class MetaImageSlide extends MetaSlide {
         $general_tab = "<textarea name='attachment[{$slide_id}][post_excerpt]' placeholder='" . __( "Caption", "ml-slider" ) . "'>{$caption}</textarea>
                         <input class='url' type='text' name='attachment[{$slide_id}][url]' placeholder='" . __( "URL", "ml-slider" ) . "' value='{$url}' />
                         <div class='new_window'>
-                        <label>" . __( "New Window", "ml-slider" ) . "<input type='checkbox' name='attachment[{$slide_id}][new_window]' {$target} /></label>
+                        <label>" . __( "New Window", "ml-slider" ) . "<input tabindex='0' type='checkbox' name='attachment[{$slide_id}][new_window]' {$target} /></label>
                         </div>";
 
         if ( ! $this->is_valid_image() ) {
@@ -164,10 +237,7 @@ class MetaImageSlide extends MetaSlide {
             $general_tab = "<div class='warning'>{$message}</div>" . $general_tab;
         }
 
-        $seo_tab = "<div class='row'><label>" . __( "Image Title Text", "ml-slider" ) . "</label></div>
-                    <div class='row'><input type='text' size='50' name='attachment[{$slide_id}][title]' value='{$title}' /></div>
-                    <div class='row'><label>" . __( "Image Alt Text", "ml-slider" ) . "</label></div>
-                    <div class='row'><input type='text' size='50' name='attachment[{$slide_id}][alt]' value='{$alt}' /></div>";
+        $seo_tab = sprintf("<div class='row'><label>%s</label><input tabindex='0' type='text' size='50' name='attachment[%s][title]' value='%s'></div><div class='row'><label>%s</label><input tabindex='0' type='text' size='50' name='attachment[%s][alt]' value='%s'></div>", __("Image Title Text", "ml-slider"), $slide_id, $title, __("Image Alt Text", "ml-slider"), $slide_id, $alt);
 
         $tabs = array(
             'general' => array(
@@ -224,7 +294,13 @@ class MetaImageSlide extends MetaSlide {
      */
     public function is_valid_image() {
 
-        $meta = wp_get_attachment_metadata( $this->slide->ID );
+        if ( get_post_type( $this->slide->ID ) === 'attachment' ) {
+            $image_id = $this->slide->ID;
+        } else {
+            $image_id = get_post_thumbnail_id( $this->slide->ID );
+        }
+
+        $meta = wp_get_attachment_metadata( $image_id );
 
         $is_valid = isset( $meta['width'], $meta['height'] );
 
@@ -242,6 +318,7 @@ class MetaImageSlide extends MetaSlide {
         return apply_filters( 'metaslider_use_image_editor', $this->is_valid_image(), $this->slide );
 
     }
+
 
     /**
      * Returns the HTML for the public slide
@@ -262,6 +339,12 @@ class MetaImageSlide extends MetaSlide {
 
         $thumb = $imageHelper->get_image_url();
 
+        if ( $this->detect_self_metaslider_shortcode( $this->slide->post_excerpt ) ) {
+            $caption = str_replace( array( "[metaslider", "[ml-slider" ), "[metaslider-disabled", $this->slide->post_excerpt );
+        } else {
+            $caption = $this->slide->post_excerpt;
+        }
+
         // store the slide details
         $slide = array(
             'id' => $this->slide->ID,
@@ -273,8 +356,8 @@ class MetaImageSlide extends MetaSlide {
             'width' => $this->settings['width'],
             'height' => $this->settings['height'],
             'alt' => __( get_post_meta( $this->slide->ID, '_wp_attachment_image_alt', true ) ),
-            'caption' => __( html_entity_decode( do_shortcode( $this->slide->post_excerpt ), ENT_NOQUOTES, 'UTF-8' ) ),
-            'caption_raw' => __( do_shortcode( $this->slide->post_excerpt ) ),
+            'caption' => __( html_entity_decode( do_shortcode( $caption ), ENT_NOQUOTES, 'UTF-8' ) ),
+            'caption_raw' => __( do_shortcode( $caption ) ),
             'class' => "slider-{$this->slider->ID} slide-{$this->slide->ID}",
             'rel' => "",
             'data-thumb' => ""
@@ -407,7 +490,13 @@ class MetaImageSlide extends MetaSlide {
      */
     private function flex_smart_pad( $atts, $slide ) {
 
-        $meta = wp_get_attachment_metadata( $slide['id'] );
+        if ( get_post_type( $slide['id'] ) === 'attachment' ) {
+            $slide_id = $slide['id'];
+        } else {
+            $slide_id = get_post_thumbnail_id( $slide['id'] );
+        }
+
+        $meta = wp_get_attachment_metadata( $slide_id );
 
         if ( isset( $meta['width'], $meta['height'] ) ) {
 
@@ -419,17 +508,11 @@ class MetaImageSlide extends MetaSlide {
             $new_image_height = $image_height * ( $container_width / $image_width );
 
             if ( $new_image_height < $container_height ) {
-
                 $margin_top_in_px = ( $container_height - $new_image_height ) / 2;
-
                 $margin_top_in_percent = ( $margin_top_in_px / $container_width ) * 100;
-
                 return 'margin-top: ' . $margin_top_in_percent . '%';
-
             } else {
-
                 return 'margin: 0 auto; width: ' . ( $container_height / $new_image_height ) * 100 . '%';
-
             }
 
         }

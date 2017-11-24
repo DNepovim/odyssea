@@ -19,16 +19,23 @@ define(
 
 class M_NextGen_Basic_Gallery extends C_Base_Module
 {
-    function define()
+    function define($id = 'pope-module',
+                    $name = 'Pope Module',
+                    $description = '',
+                    $version = '',
+                    $uri = '',
+                    $author = '',
+                    $author_uri = '',
+                    $context = FALSE)
     {
         parent::define(
             'photocrati-nextgen_basic_gallery',
             'NextGEN Basic Gallery',
             "Provides NextGEN Gallery's basic thumbnail/slideshow integrated gallery",
-            '0.13',
-            'http://www.nextgen-gallery.com',
-            'Photocrati Media',
-            'http://www.photocrati.com'
+            '0.16',
+            'https://www.imagely.com/wordpress-gallery-plugin/nextgen-gallery/',
+            'Imagely',
+            'https://www.imagely.com'
         );
 
 		C_Photocrati_Installer::add_handler($this->module_id, 'C_NextGen_Basic_Gallery_Installer');
@@ -334,7 +341,7 @@ function nggShowSlideshow($galleryID, $width, $height)
 
 class C_NextGen_Basic_Gallery_Installer extends C_Gallery_Display_Installer
 {
-	function install()
+	function install($reset = FALSE)
 	{
 		$this->install_display_type(NGG_BASIC_THUMBNAILS,
 			array(
@@ -342,7 +349,12 @@ class C_NextGen_Basic_Gallery_Installer extends C_Gallery_Display_Installer
 				'entity_types'			=>	array('image'),
 				'preview_image_relpath'	=>	'photocrati-nextgen_basic_gallery#thumb_preview.jpg',
 				'default_source'		=>	'galleries',
-				'view_order' => NGG_DISPLAY_PRIORITY_BASE
+				'view_order'            =>  NGG_DISPLAY_PRIORITY_BASE,
+                'aliases'               =>  array(
+                    'basic_thumbnail',
+                    'basic_thumbnails',
+                    'nextgen_basic_thumbnails',
+                )
 			)
 		);
 
@@ -352,7 +364,11 @@ class C_NextGen_Basic_Gallery_Installer extends C_Gallery_Display_Installer
 				'entity_types'			=>	array('image'),
 				'preview_image_relpath'	=>	'photocrati-nextgen_basic_gallery#slideshow_preview.jpg',
 				'default_source'		=>	'galleries',
-				'view_order' => NGG_DISPLAY_PRIORITY_BASE + 10
+				'view_order'            => NGG_DISPLAY_PRIORITY_BASE + 10,
+                'aliases'               =>  array(
+                    'basic_slideshow',
+                    'nextgen_basic_slideshow'
+                )
 			)
 		);
 	}

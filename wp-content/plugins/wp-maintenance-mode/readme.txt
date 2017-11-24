@@ -6,8 +6,7 @@ Author: Designmodo
 Author URI: http://designmodo.com/
 Tags: maintenance mode, admin, administration, unavailable, coming soon, multisite, landing page, under construction, contact form, subscribe, countdown
 Requires at least: 3.5
-Tested up to: 4.0.0
-Stable tag: 2.0.3
+Tested up to: 4.7
 License: GPL-2.0+
 
 Adds a splash page to your site that lets visitors know your site is down for maintenance. It's perfect for a coming soon page.
@@ -39,9 +38,8 @@ Also works with WordPress Multisite installs (each blog from the network has it'
 Please give us feedback, contribute and file technical bugs on [GitHub Repo](https://github.com/Designmodocom/WP-Maintenance-Mode).
 
 = Credits =
-Developed by [Designmodo](http://designmodo.com)
 
-WordPress Theme: [Startup Framework for WordPress](http://designmodo.com/startup-wordpress/)
+Developed by [Designmodo](http://designmodo.com) & [StrictThemes – WordPress Themes](http://strictthemes.com/)
 
 == Installation ==
 
@@ -71,6 +69,57 @@ WP Maintenance Mode can be unstable due the cache plugins, we recommend to deact
 If you change your login url, please add the new slug (url: http://domain.com/newlogin, then you should add: newlogin) to Exclude list from plugin settings -> General Tab.
 
 == Changelog ==
+
+= 2.0.9 (29/11/2016) = 
+* new hook (`wpmm_after_body`) in maintenance mode template (thanks @ [Karolína Vyskočilová](https://github.com/vyskoczilova))
+* pt_PT (portuguese) language update (thanks @ [Pedro Mendonça](https://github.com/pedro-mendonca))
+* maintenance mode template can also be loaded from theme/child-theme folder (thanks @ [Florian Tiar](https://github.com/Mahjouba91) and [Lachlan Heywood](https://github.com/lachieh))
+* new hooks for contact form (if you want to add new fields): `wpmm_contact_form_start`, `wpmm_contact_form_before_message`, `wpmm_contact_form_after_message`, `wpmm_contact_form_end`
+* new hook for contact form validation (if you want to validate new fields): `wpmm_contact_validation`
+* new hooks for contact form template (if you want to display new fields): `wpmm_contact_template_start`, `wpmm_contact_template_before_message`, `wpmm_contact_template_after_message`, `wpmm_contact_template_end`
+* some javascript improvements
+* small css fix for contact form (thanks @ [frontenddev](https://wordpress.org/support/topic/please-fix-modal-window-of-contact-form/))
+
+= 2.0.8 (09/09/2016) = 
+* add wp_scripts() function (in helpers.php) to maintain backward compatibility (for those with WP < 4.2.0)
+* css fix for subscribe button on maintenance page
+* fix multisite administrator access issue
+* pt_PT (portuguese) language update (thanks @ Pedro Mendonça)
+* new hooks for Contact module: `wpmm_contact_template`, `wpmm_contact_subject`, `wpmm_contact_headers`
+* jQuery (google cdn) path fix when SCRIPT_DEBUG is true
+
+= 2.0.7 (06/07/2016) =
+* reset_settings _wpnonce check (thanks # Wordfence)
+* modules > google analytics code sanitization (thanks @ Wordfence)
+* move sidebar banners from our servers to plugin folder... as WordPress staff requested
+* Subscribe button error on Mobile version (thanks @ Hostílio Thumbo)
+* replace $wp_scripts global with wp_scripts() function
+* de_DE language file update (thanks @ tt22tt)
+
+= 2.0.6 (20/06/2016) =
+* notifications update
+* languages update
+
+= 2.0.5 (17/06/2016) =
+* roles (array) fix
+
+= 2.0.4 (17/06/2016) =
+* fixed issue: responsive subscribe form
+* fixed issue: jQuery was loaded from a different folder on some WP installations
+* fixed issue: errors after update (strstr on empty strings because of saving empty lines on exclude list)
+* fixed issue: if "Redirection" from "General" tab is active, also redirects ajax calls
+* fixed issue: settings page title was wrong placed
+* "contact" feature update - nice email template + reply-to email header
+* refactoring for some methods
+* all assets are now minified
+* rewrite count db records function (used on subscribers count)
+* compatible with https://github.com/afragen/github-updater
+* compatible with wp-cli http://wp-cli.org/
+* improved responsivity
+* improved roles access; now you can set multiple roles (editor, author, subscriber, contributor) and administrator will always have access to backend and frontend
+* it_IT translation by benedettogit (https://github.com/benedettogit)
+* updated all language files (need help for 100% translation)
+
 
 = 2.0.3 (07/10/2014) =
 * WP_Super_Cache issue was fixed

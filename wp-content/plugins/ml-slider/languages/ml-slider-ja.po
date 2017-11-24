@@ -35,8 +35,8 @@ msgstr ""
 "X-Poedit-SearchPath-1: ..\n"
 
 #: ../inc/metaslider.widget.class.php:18
-msgid "Meta Slider"
-msgstr "Meta Slider"
+msgid "MetaSlider"
+msgstr "MetaSlider"
 
 #: ../inc/metaslider.widget.class.php:108
 msgid "Title:"
@@ -614,8 +614,8 @@ msgid "Add slider"
 msgstr "スライダーを追加"
 
 #: ../ml-slider.php:1499
-msgid "Insert Meta Slider"
-msgstr "Meta Slider を挿入"
+msgid "Insert MetaSlider"
+msgstr "MetaSlider を挿入"
 
 #: ../ml-slider.php:1501
 msgid "Choose slideshow"
@@ -626,8 +626,8 @@ msgid "Go Pro"
 msgstr "Pro 版へアップグレード"
 
 #: ../ml-slider.php:1581
-msgid "Upgrade to Pro $19"
-msgstr "$19でプロ版へアップグレード"
+msgid "Upgrade to Pro $39"
+msgstr "$39でプロ版へアップグレード"
 
 #~ msgid "Responsive"
 #~ msgstr "レシポンシブ"

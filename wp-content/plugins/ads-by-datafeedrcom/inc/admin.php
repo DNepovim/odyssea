@@ -51,46 +51,7 @@ class DFADS_Admin {
 			<h2>Ads Admin Panel</h2>
 			<div class="metabox-holder has-right-sidebar">		
 				<div class="inner-sidebar">
-					<div class="postbox">
-						<h3 class="dfads_admin"><span>Welcome!</span></h3>
-						<div class="inside">
-							<?php $name = (wp_get_current_user()->user_firstname != '') ? wp_get_current_user()->user_firstname : wp_get_current_user()->user_login; ?>
-							<p>
-								<a href="https://wordpress.org/support/view/plugin-reviews/ads-by-datafeedrcom" target="_blank" title="Learn more about datafeedr.com" id="datafeedr-avatar">
-									<img src="<?php echo DFADS_PLUGIN_URL; ?>img/eric.jpg" alt="Eric @ datafeedr.com" width="50" height="50" />
-								</a>
-								Hi, <?php echo $name; ?>!
-							</p>
-							<p>Thanks for using the <em>Ads</em> plugin!</p>
-							<p>Eric</p>
-						</div>
-					</div>
- 					
- 					<!--
-					<div class="postbox">
-						<h3 class="dfads_admin"><span>Sell Products on your Blog</span></h3>
-						<div class="inside">
-							<p>
-								<a href="http://www.datafeedr.com/ads-by-datafeedr" target="_blank" title="Learn more about datafeedr.com" id="datafeedr-logo">
-									<img src="<?php echo DFADS_PLUGIN_URL; ?>img/datafeedr-logo.png" alt="Learn more about datafeedr.com" width="234" height="57" />
-								</a>
-							</p>
-							<p>
-								Increase your blog's earnings!<br />
-								Add a store to your WordPress blog.<br />
-								<a href="http://www.datafeedr.com/ads-by-datafeedr" target="_blank" title="Learn more about datafeedr.com">Learn More!</a>
-							</p>
-						</div>
-					</div>
- 					
-					<div class="postbox">
-						<h3 class="dfads_admin"><span>Datafeedr Affiliate Program</span></h3>
-						<div class="inside">
-							<p>Earn <strong>35% Recurring Commissions</strong> with the datafeedr affiliate program! Get started in minutes.
-							<a href="http://www.datafeedr.com/affiliate-program/" target="_blank" title="Learn more about datafeedr's affiliate program">Sign up now!</a></p>
-						</div>
-					</div>
-					-->
+
 				</div> <!-- .inner-sidebar -->
  
 				<div id="post-body">
@@ -175,7 +136,7 @@ class DFADS_Admin {
 	// Admin impression count checkbox option.
     public function dfads_enable_count() {
     	$output = get_option( 'dfads-settings' );
-    	$output['dfads_enable_shortcodes_in_widgets'] = isset( $output['dfads_enable_shortcodes_in_widgets'] ) ? $output['dfads_enable_shortcodes_in_widgets'] : 0;
+    	$output['dfads_enable_count_for_admin'] = isset( $output['dfads_enable_count_for_admin'] ) ? $output['dfads_enable_count_for_admin'] : 0;
     	echo '
     	<fieldset class="check">
     		<label>

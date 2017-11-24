@@ -1,23 +1,23 @@
 <?php
-
-/***
- {
-	Module: photocrati-datamapper,
-	Depends: { photocrati-validation }
- }
-***/
 class M_DataMapper extends C_Base_Module
 {
-	function define()
+	function define($id = 'pope-module',
+                    $name = 'Pope Module',
+                    $description = '',
+                    $version = '',
+                    $uri = '',
+                    $author = '',
+                    $author_uri = '',
+                    $context = FALSE)
 	{
 		parent::define(
 			'photocrati-datamapper',
 			'DataMapper',
 			'Provides a database abstraction layer following the DataMapper pattern',
-			'0.9',
-			'http://www.photocrati.com',
-			'Photocrati Media',
-			'http://www.photocrati.com'
+			'0.10',
+            'https://www.imagely.com/wordpress-gallery-plugin/nextgen-gallery/',
+            'Imagely',
+            'https://www.imagely.com'
 		);
 
 		C_Photocrati_Installer::add_handler($this->module_id, 'C_Datamapper_Installer');
@@ -31,10 +31,10 @@ class M_DataMapper extends C_Base_Module
 
 	function _register_hooks()
 	{
-		add_filter('posts_request', array(&$this, 'set_custom_wp_query'), 50, 2);
-		add_filter('posts_fields', array(&$this, 'set_custom_wp_query_fields'), 50, 2);
-		add_filter('posts_where', array(&$this, 'set_custom_wp_query_where'), 50, 2);
-        add_filter('posts_groupby', array(&$this, 'set_custom_wp_query_groupby'), 50, 2);
+		add_filter('posts_request', array($this, 'set_custom_wp_query'), 50, 2);
+		add_filter('posts_fields', array($this, 'set_custom_wp_query_fields'), 50, 2);
+		add_filter('posts_where', array($this, 'set_custom_wp_query_where'), 50, 2);
+        add_filter('posts_groupby', array($this, 'set_custom_wp_query_groupby'), 50, 2);
 	}
 
 
@@ -45,7 +45,7 @@ class M_DataMapper extends C_Base_Module
 	 * @param WP_Query $wp_query
 	 * @return string
 	 */
-	function set_custom_wp_query($sql, &$wp_query)
+	function set_custom_wp_query($sql, $wp_query)
 	{
 		if ($wp_query->get('datamapper')) {
 
@@ -71,7 +71,7 @@ class M_DataMapper extends C_Base_Module
 	 * @param WP_Query $wp_query
 	 * @return string
 	 */
-	function set_custom_wp_query_fields($fields, &$wp_query)
+	function set_custom_wp_query_fields($fields, $wp_query)
 	{
 		if ($wp_query->get('datamapper')) {
 			if (($custom_fields = $wp_query->get('fields')) && $custom_fields != 'ids') {
@@ -89,7 +89,7 @@ class M_DataMapper extends C_Base_Module
 	 * @param WP_Query $wp_query
 	 * @return string
 	 */
-	function set_custom_wp_query_where($where, &$wp_query)
+	function set_custom_wp_query_where($where, $wp_query)
 	{
 		if ($wp_query->get('datamapper')) {
 			$this->add_post_title_where_clauses($where, $wp_query);
@@ -106,7 +106,7 @@ class M_DataMapper extends C_Base_Module
      * @param WP_Query $wp_query
      * @return string
      */
-    function set_custom_wp_query_groupby($groupby, &$wp_query)
+    function set_custom_wp_query_groupby($groupby, $wp_query)
     {
         $retval = $groupby;
         $group_by_columns = $wp_query->get('group_by_columns');

@@ -7,7 +7,7 @@
 class DFADS_Meta_Boxes {
 	
 	// Call the necessary hooks.
-	function DFADS_Meta_Boxes() {
+	public function __construct() {
 		add_action( 'init', array( $this, 'initialize_cmb_meta_boxes' ) );
 		add_filter( 'cmb_meta_boxes', array( $this, 'date_range' ) );
 		add_filter( 'cmb_meta_boxes', array( $this, 'impression_limit' ) );

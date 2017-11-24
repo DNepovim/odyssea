@@ -9,13 +9,23 @@
  *
  * This module is loaded once by the 'wassup_install' hook function when plugin is installed/upgraded.
  */
-//no direct request for this plugin module
-if(!defined('ABSPATH') || empty($GLOBALS['wp_version']) || (!empty($_SERVER['SCRIPT_FILENAME'])&& realpath(preg_replace('/\\\\/','/',__FILE__))===realpath($_SERVER['SCRIPT_FILENAME']))){
-	if(!headers_sent()){header('Location: /?p=404page&err=wassup403');exit;
-	}elseif(function_exists('wp_die')){wp_die("Bad Request: ".esc_attr(wp_kses(preg_replace('/(&#37;|&amp;#37;|%)(?:[01][0-9A-F]|7F)/i','',$_SERVER['REQUEST_URI']),array())));exit;
-	}else{die("Bad Request: ".htmlspecialchars(preg_replace('/(&#37;|&amp;#37;|%)(?:[01][0-9A-F]|7F)/i','',$_SERVER['REQUEST_URI'])));exit;}
-	exit;
+//abort if this is direct uri request for file
+if(!empty($_SERVER['SCRIPT_FILENAME']) && realpath($_SERVER['SCRIPT_FILENAME'])===realpath(preg_replace('/\\\\/','/',__FILE__))){
+	//try track this uri request
+	if(!headers_sent()){
+		//triggers redirect to 404 error page so Wassup can track this attempt to access itself (original request_uri is lost)
+		header('Location: /?p=404page&werr=wassup403'.'&wf='.basename(__FILE__));
+		exit;
+	}else{
+		//'wp_die' may be undefined here
+		die('<strong>Sorry. Unable to display requested page.</strong>');
+	}
+//abort if no WordPress
+}elseif(!defined('ABSPATH') || empty($GLOBALS['wp_version'])){
+	//show escaped bad request on exit
+	die("Bad Request: ".htmlspecialchars(preg_replace('/(&#0*37;?|&amp;?#0*37;?|&#0*38;?#0*37;?|%)(?:[01][0-9A-F]|7F)/i','',$_SERVER['REQUEST_URI'])));
 }
+//-------------------------------------------------
 function log_me($message) {
     if ( WP_DEBUG === true ) {
         if ( is_array($message) || is_object($message) ) {
@@ -96,41 +106,41 @@ function wassup_settings_install($wassup_table=""){
 
 	if(empty($wassup_table) || !wassupDb::table_exists($wassup_table)) $wassup_table=$wassup_options->wassup_table;
 	if(empty($wassup_table)){
-		if(function_exists('is_network_admin') && is_network_admin()) $wassup_table=$wpdb->base_prefix."wassup";
+		if(is_network_admin()) $wassup_table=$wpdb->base_prefix."wassup";
 		else $wassup_table=$wpdb->prefix."wassup";
 	}
-	//check the upgrade timestamp to prevent repeat of this script
-	if(empty($wassup_options->wassup_upgraded) || time() - (int)$wassup_options->wassup_upgraded >90){
-		//Reset some wassup settings
-		//reset 'dbengine' MySQL setting with each upgrade...because host server settings can change
-		$wassup_options->wassup_dbengine = $wassup_options->defaultSettings('wassup_dbengine');
-		//reschedule optimization after table upgrade
-		$wassup_options->wassup_optimize=$wassup_options->defaultSettings('wassup_optimize');
-		//update settings for 'spamcheck'
-		if (empty($wassup_options->wassup_spamcheck)) {
-			$wassup_options->wassup_spamcheck = "0";
-			//#set wassup_spamcheck=1 if either wassup_refspam=1 or wassup_spam=1
-			if($wassup_options->wassup_spam == "1" || $wassup_options->wassup_refspam =="1") $wassup_options->wassup_spamcheck="1";
-		}
-		$wassup_options->whash =$wassup_options->get_wp_hash();
+	//Reset some wassup settings
+	//reset 'dbengine' MySQL setting with each upgrade...because host server settings can change
+	$wassup_options->wassup_dbengine = $wassup_options->defaultSettings('wassup_dbengine');
+	//reschedule optimization after table upgrade
+	$wassup_options->wassup_optimize=$wassup_options->defaultSettings('wassup_optimize');
+	//update settings for 'spamcheck'
+	if (empty($wassup_options->wassup_spamcheck)) {
+		$wassup_options->wassup_spamcheck = "0";
+		//#set wassup_spamcheck=1 if either wassup_refspam=1 or wassup_spam=1
+		if($wassup_options->wassup_spam == "1" || $wassup_options->wassup_refspam =="1") $wassup_options->wassup_spamcheck="1";
+	}
+	$wassup_options->whash =$wassup_options->get_wp_hash();
 
-		//do compatibility checks after upgrade/activation
-		$compat_notice="";
-		if (empty($wassup_options->wassup_alert_message) || stristr($wassup_options->wassup_alert_message,'error')===false){
+	//do compatibility checks after upgrade/activation
+	$compat_notice="";
+	if (empty($wassup_options->wassup_alert_message) || stristr($wassup_options->wassup_alert_message,'error')===false){
 		if(!is_multisite() || is_network_admin() || is_main_site()){
-			//New in v1.9: Compatibility test for mysql
+			//compatibility test for mysql @since v1.9
 			if(wassup_compatCheck('mysqldb')==false){
 				$compat_notice=__("COMPATIBILITY WARNING: non-MySQL database type detected!","wassup")." ".__("WassUp uses complex MySQL queries that may not run on a different database type.","wassup");
 			}elseif(wassup_compatCheck("WP_CACHE")==true){
 				$compat_notice = __("WassUp cannot generate accurate statistics with page caching enabled.","wassup")." ".__("If your cache plugin stores whole Wordpress pages/posts as static HTML, then WassUp won't run properly. Please deactivate your cache plugin and remove \"WP_CACHE\" from \"wp_config.php\" or switch to a different statistics plugin.","wassup");
 			}else{
-				//New in v1.9: show warning when 'WP_MEMORY_LIMIT' < 64MB
+				//show warning when 'WP_MEMORY_LIMIT' < 64MB @since v1.9
 				$mem=wassup_compatCheck("WP_MEMORY_LIMIT");
 				if($mem !==true){
 					if(version_compare($wp_version,'3.8','>')) $recmem="64M";
 					else $recmem="40M";
 					$compat_notice=sprintf(__("WARNING: Insufficient memory: %s found! A minimum allocation of %s is recommended for WassUp and Wordpress.","wassup"),$mem."M",$recmem);
-					$compat_notice .="  ".sprintf(__("See %s for information about increasing Wordpress memory.","wassup"),'[https://codex.wordpress.org/Editing_wp-config.php#Increasing_memory_allocated_to_PHP]');
+					if(version_compare($wp_version,'4.0','<')) $compat_link='[https://codex.wordpress.org/Editing_wp-config.php#Increasing_memory_allocated_to_PHP]';
+					else $compat_link='[codex document "Editing wp-config.php"](https://codex.wordpress.org/Editing_wp-config.php#Increasing_memory_allocated_to_PHP)';
+					$compat_notice .="  ".sprintf(__("See %s for information about increasing Wordpress memory.","wassup"),$compat_link);
 				}
 			}
 			if(!empty($compat_notice)) $wassup_options->wassup_alert_message=$compat_notice;
@@ -145,12 +155,9 @@ function wassup_settings_install($wassup_table=""){
 				}
 			}
 		} //!is_multisite
-		//clear table status cache for table upgrade
-		$result=wassupDb::clear_cache('_table_status');
-		} //end if wassup_alert_message
-		$wassup_options->wassup_table= $wassup_table;
-		$wassup_options->wassup_upgraded= time();
-	} //end if wassup_upgraded
+	} //end if wassup_alert_message
+	$wassup_options->wassup_table= $wassup_table;
+	$wassup_options->wassup_upgraded= time();
 } //end wassup_settings_install
 
 /**
@@ -164,7 +171,7 @@ function wassup_tableInstaller($wassup_table=""){
 	//set wassup table names
 	if(empty($wassup_table))$wassup_table=$wassup_options->wassup_table;
 	if(empty($wassup_table)){
-		if(function_exists('is_network_admin') && is_network_admin()) $wassup_table=$wpdb->base_prefix."wassup";
+		if(is_network_admin()) $wassup_table=$wpdb->base_prefix."wassup";
 		else $wassup_table=$wpdb->prefix."wassup";
 		$wassup_options->wassup_table=$wassup_table;
 	}
@@ -174,11 +181,14 @@ function wassup_tableInstaller($wassup_table=""){
 	$wsuccess=false;
 	//CREATE/UPGRADE table
 	if(wassupDb::table_exists($wassup_table)){
-		//New in v1.9: Extend php script execution time to 10.1 minutes to prevent the 'script timeout' error that can cause activation failure when wp_wassup table is very large.
+		//extend php script execution time to 10.1 minutes to prevent the 'script timeout' error that can cause activation failure when wp_wassup table is very large. @since v1.9
 		//Note: browser timeout (blank screen, no error) can still occur when table upgrade takes a long time.
-		if(!ini_get('safe_mode')){
-			$stimeout=ini_get("max_execution_time");
-			if(!is_numeric($stimeout) || (int)$stimeout < 610) set_time_limit(610);
+		$stimeout=ini_get("max_execution_time");
+		if(is_numeric($stimeout) && $stimeout>0 && (int)$stimeout < 610){
+			$disabled_funcs=ini_get('disable_functions');
+			if((empty($disabled_funcs) || strpos($disabled_funcs,'set_time_limit')===false) && !ini_get('safe_mode')){
+				@set_time_limit(610);
+			}
 		}
 		$wcharset=false;
 		$wsuccess=wassup_updateTable($wassup_table);
@@ -226,7 +236,7 @@ function wassup_createTable($wtable="",$withcharset=true) {
 	global $wpdb, $current_user, $wassup_options, $wdebug_mode;
 
 	if (empty($wassup_options->wassup_table)) {
-		if(function_exists('is_network_admin') && is_network_admin()) $wassup_table=$wpdb->base_prefix . "wassup";
+		if(is_network_admin()) $wassup_table=$wpdb->base_prefix . "wassup";
 		else $wassup_table = $wpdb->prefix . "wassup";
 		$wassup_options->wassup_table=$wassup_table;
 	}else{
@@ -262,6 +272,8 @@ function wassup_createTable($wtable="",$withcharset=true) {
 		//add collate only when charset is specified
 		if (!empty($wpdb->collate)) $charset_collate .= ' COLLATE '.$wpdb->collate;
 	}
+	//table builds should not be interrupted, so run in background in case of browser timeout
+	ignore_user_abort(1);
 
 	//wassup table structure
 	if ($wtable_name == $wassup_table || $wtable_name == $wassup_tmp_table) {
@@ -286,18 +298,18 @@ function wassup_createTable($wtable="",$withcharset=true) {
   `username` varchar(50) default NULL,
   `comment_author` varchar(50) default NULL,
   `spam` varchar(5) default '0',
-  `url_wpid` varchar(50) default NULL,
+  `url_wpid` varchar(50) default '0',
   `subsite_id` mediumint(9) unsigned default 0,
   UNIQUE KEY `id` (`id`),
   KEY `idx_wassup` (`wassup_id`(32)),
   KEY `ip` (`ip`),
   KEY `timestamp` (`timestamp`)) %s;",$wtable_name,$charset_collate);
 	//Note: index (username,ip) was removed because of problems with non-romanic language display
-	//Since v1.8: Increased 'ip' col width to 50 for ipv6 support
-	//New in v1.9: New index on 'ip' col
-	//New in v1.9: New col 'subsite_id' added for multisite support
-	//New in v1.9: Dropped 'os' and 'browser' indices.
-	//New in v1.9: Dropped combined index '(wassup_id, timestamp)' and replaced with single index on 'wassup_id' to reduce overall table size
+	//since v1.8: Increased 'ip' col width to 50 for ipv6 support
+	//since v1.9: New index on 'ip' col
+	//since v1.9: New col 'subsite_id' added for multisite support
+	//since v1.9: Dropped 'os' and 'browser' indices.
+	//since v1.9: Dropped combined index '(wassup_id, timestamp)' and replaced with single index on 'wassup_id' to reduce overall table size
 
 	//...Include a first record if new table (not temp table)
 	$sql_firstrecord = '';
@@ -308,15 +320,16 @@ function wassup_createTable($wtable="",$withcharset=true) {
 		if (empty($current_user->user_login)) get_currentuserinfo();
 		$logged_user = (!empty($current_user->user_login)? $current_user->user_login: "");
 		$screen_res="";
-		if (isset($_COOKIE['wassup_screen_res'.COOKIEHASH])) {
-			$screen_res = esc_attr(trim($_COOKIE['wassup_screen_res'.COOKIEHASH]));
-			if ($screen_res == "x") $screen_res = "";
+		$sessionhash=$wassup_options->whash;
+		if(isset($_COOKIE['wassup_screen_res'.$sessionhash])){
+			$screen_res=esc_attr(trim($_COOKIE['wassup_screen_res'.$sessionhash]));
+			if($screen_res == "x") $screen_res="";
 		}
 		$currentLocale = get_locale();
 		$locale = preg_replace('/^[a-z]{2}_/','',strtolower($currentLocale));
 		$subsite_id=0;
 		if(!empty($GLOBALS['current_blog']->blog_id)) $subsite_id=$GLOBALS['current_blog']->blog_id;
-		$sql_firstrecord = sprintf("INSERT INTO $wassup_table (`wassup_id`, `timestamp`, `ip`, `hostname`, `urlrequested`, `agent`, `referrer`, `search`, `searchpage`, `os`, `browser`, `language`, `screen_res`, `searchengine`, `spider`, `feed`, `username`, `comment_author`, `spam`,`subsite_id`) VALUES ('%032s','%s','%s','%s','%s','%s','%s','','','%s','%s','%s','%s','','','','%s','','0','%s')",
+		$sql_firstrecord = sprintf("INSERT INTO `$wassup_table` (`wassup_id`, `timestamp`, `ip`, `hostname`, `urlrequested`, `agent`, `referrer`, `search`, `searchpage`, `os`, `browser`, `language`, `screen_res`, `searchengine`, `spider`, `feed`, `username`, `comment_author`, `spam`,`url_wpid`, `subsite_id`) VALUES ('%032s','%s','%s','%s','%s','%s','%s','','','%s','%s','%s','%s','','','','%s','','0','0','%s')",
 			1, current_time('timestamp'),
 			'127.0.0.1', 'localhost', 
 			'[404] '.__('Welcome to WassUP','wassup'), 
@@ -328,17 +341,14 @@ function wassup_createTable($wtable="",$withcharset=true) {
 
 	//...create/upgrade wassup table
 
-	//Since v1.8.3: Don't use Wordpress' "dbdelta" function on
-	//  pre-existing "wp_wassup" table because "dbDelta" fails to 
-	//  upgrade wp_wassup's large table structure in Wordpress 3.1+
-	//  (throws MySQL ALTER TABLE error).
+	//Don't use Wordpress' "dbdelta" function on pre-existing "wp_wassup" table because "dbDelta" fails to upgrade wp_wassup's large table structure in Wordpress 3.1+ (throws MySQL ALTER TABLE error). @since v1.8.3
 	$result=false;
 	if ($wtable_name != $wassup_table) {
 		$result = dbDelta($sql_createtable);
 	} elseif (!empty($sql_firstrecord)) {
 		$result = dbDelta(array($sql_createtable,$sql_firstrecord));
 	} 
-	//New in v1.9: try create table with wpdb::query if dbDelta failed
+	//try create table with wpdb::query if dbDelta failed. @since v1.9
 	if(!wassupDb::table_exists($wtable_name)){
 		$result=$wpdb->query("$sql_createtable");
 		if(!wassupDb::table_exists($wtable_name)){
@@ -361,7 +371,7 @@ function wassup_createTable($wtable="",$withcharset=true) {
 		}
 	}
 	} //end if wassup_table
-	//Since v1.8: "wassup_meta" table to extend wassup. Used as a temporary data cache and to capture additional visitor data
+	//"wassup_meta" table to extend wassup. Used as a temporary data cache and to capture additional visitor data. @since v1.8
 	if ($wtable == "") $wtable_name = $wassup_meta_table;
 	if ($wtable_name == $wassup_meta_table) {
 
@@ -386,7 +396,7 @@ function wassup_createTable($wtable="",$withcharset=true) {
 			$result=$wpdb->query("$sql_createtable");
 			if(!wassupDb::table_exists($wtable_name)){
 				$error_msg="\n<br/>".sprintf(__("An error occurred during the install of table %s.","wassup"),$wtable_name)."\n<br/>";
-				if(is_wp_error($result)){
+				if(!empty($result) && is_wp_error($result)){
 					$errno=$result->get_error_code();
 					if((int)$errno > 0){
 						$error_msg.=" Error# $errno: ".$result->get_error_message()."\n";
@@ -411,153 +421,209 @@ function wassup_createTable($wtable="",$withcharset=true) {
  * @param none
  * @return boolean
  */
-function wassup_updateTable($wassup_table="") {
-	global $wpdb, $wp_version, $wassup_options, $wdebug_mode;
-
-	if(empty($wassup_table) || !wassupDb::table_exists($wassup_table)){
+function wassup_updateTable($wtable=""){
+	global $wpdb,$wp_version,$wassup_options,$wdebug_mode;
+	if(!empty($wtable) && wassupDb::table_exists($wtable)){
+		$wassup_table=$wtable;
+		$wassup_options->wassup_table=$wtable;
+	}else{
 		if(empty($wassup_options->wassup_table)){
-			if(function_exists('is_network_admin') && is_network_admin()) $wassup_table=$wpdb->base_prefix . "wassup";
+			if(is_network_admin()) $wassup_table=$wpdb->base_prefix . "wassup";
 			else $wassup_table = $wpdb->prefix . "wassup";
 			$wassup_options->wassup_table=$wassup_table;
 		}else{
-			$wassup_table =$wassup_options->wassup_table;
+			$wassup_table=$wassup_options->wassup_table;
 		}
-	}
-	//abort if bad wassup table name
-	if(!wassupDb::table_exists($wassup_table)){
-		echo __FUNCTION__." ERROR: $wassup_table does NOT exist!";
-		exit(1);
+		//abort if bad wassup table name
+		if(!wassupDb::table_exists($wassup_table)){
+			echo __FUNCTION__." ERROR: $wassup_table does NOT exist!";
+			exit(1);
+		}
 	}
 	$wassup_tmp_table = $wassup_table."_tmp";
 	$wassup_meta_table = $wassup_table."_meta";
-	//New in v1.9: Extend php script execution time to 10.5 minutes to prevent the 'script timeout' error that can cause activation failure when wp_wassup table is very large.
+	//Extend php script execution time to 10.5 minutes to prevent the 'script timeout' error that can cause activation failure when wp_wassup table is very large. @since v1.9
 	$stimer_start=time();
-	if(!ini_get('safe_mode')){
-		$stimeout=ini_get("max_execution_time");
-		if(!is_numeric($stimeout) || (int)$stimeout < 630)
-			set_time_limit(630);
+	$stimeout=ini_get("max_execution_time");
+	if(is_numeric($stimeout)){
+		if($stimeout>0 && (int)$stimeout < 630){
+			$disabled_funcs=ini_get('disable_functions');
+			if((empty($disabled_funcs) || strpos($disabled_funcs,'set_time_limit')===false) && !ini_get('safe_mode')){
+				$result=@set_time_limit(630);
+				if($result) $stimeout=630;
+			}
+		}elseif($stimeout==0){ //unlimited/server maximum
+			$stimeout=630;
+		}else{
+			$stimeout=0;
+		}
+	}else{
+		$stimeout=0;
 	}
-	//increase mysql session timeout to 10 minutes for upgrade
+	if(empty($stimeout)) $stimeout=58; //use default timeout minus 2 secs
+	//get wait timeout length and size of wassup_table in mysql
 	$mtimeout=$wpdb->get_var("SELECT @@session.wait_timeout FROM dual");
-	if(is_numeric($mtimeout) && $mtimeout< 600) $result=$wpdb->query("SET wait_timeout=600");
+	$rows=$wpdb->get_var("SELECT COUNT(*) AS rows FROM `$wassup_table`");
 	$error_msg="";
 	$error_count=0;
+	//wassup_version must be valid version#, so reset if needed
+	$from_version=$wassup_options->wassup_version;
+	if(empty($from_version) || !is_numeric($from_version) || version_compare($from_version,WASSUPVERSION,">")){
+		$from_version=0;
+	}
 	$mysqlversion=$wpdb->get_var("SELECT version() as version");
 	$sql="";
 	//Do the upgrades
 	$dbtasks=array();
 	$dbtask_keys=array();
-	//New in v1.9: table structure upgrades done separately from retroactive data updates
-	//Since v1.8.3 and Wordpress 3.1: 'wassup_createTable' no longer upgrades "wp_wassup" table structure because of an ALTER TABLE error in the "dbDelta" function.
-	// Note that "wp_wassup_meta" table structure is still upgraded by wassup_createTable
+	//create wp-cron action for background updates 
+	//Note that 'LOW_PRIORITY' is strictly for separate cron/ajax processes only..otherwise it will cause long waits when site is busy
+	$low_priority="";
+	if(version_compare($wp_version,'3.0','>')){
+		$low_priority="LOW_PRIORITY";
+		add_action('wassup_upgrade_dbtasks',array('wassupDb','scheduled_dbtask'),10,1);
+		if(empty($wassup_options->wassup_googlemaps_key)){
+			add_action('wassup_scheduled_api_upg',array('wassupOptions','lookup_apikey'),10,1);
+		}
+	}
+	//Since Wordpress 3.1, 'wassup_createTable' no longer upgrades "wp_wassup" table structure because of an ALTER TABLE error in the "dbDelta" function. @since v1.8.3
 	//Do table structure upgrades
-	// Upgrade from version < 1.3.9:
-	// -add 'spam' field to table
-	$col=$wpdb->get_row(sprintf("SHOW COLUMNS FROM `%s` LIKE 'spam'",$wassup_table));
-	if(empty($col)){
-		$result=$wpdb->query(sprintf("ALTER TABLE `%s` ADD COLUMN `spam` VARCHAR(5) DEFAULT '0'",$wassup_table));
+	//skip some upgrade checks when script timeout is small number @since v1.9.1
+	if($stimeout >180){
+	// Upgrade from version < v1.8.4:
+	// -add 'spam' field to table - v1.3.9
+	// -increase 'wassup_id' field size - v1.5.1
+	// -increase size of 'searchengine' + 'spider' fields - v1.7
+	// -add field 'url_wpid' column for post_id tracking - v1.8.3
+	// -increase size of 'ip' field for IPv6 addresses - v1.8.3
+	if((!empty($from_version) && version_compare($from_version,"1.8.4","<"))){
+		//add 'spam' field to table
+		$col=$wpdb->get_row(sprintf("SHOW COLUMNS FROM `%s` LIKE 'spam'",$wassup_table));
+		if(empty($col)){
+			$result=$wpdb->query(sprintf("ALTER TABLE `%s` ADD COLUMN `spam` VARCHAR(5) DEFAULT '0'",$wassup_table));
+		}
+		//increase 'wassup_id' field size
+		$col=$wpdb->get_row(sprintf("SHOW COLUMNS FROM `%s` LIKE 'wassup_id'",$wassup_table));
+		if(!empty($col->Type) && $col->Type !="varchar(60)"){
+			$result=$wpdb->query(sprintf("ALTER TABLE `%s` MODIFY `wassup_id` varchar(60) NOT NULL",$wassup_table));
+		}
+		//increase size of 'searchengine' and 'spider' fields
+		$col=$wpdb->get_row(sprintf("SHOW COLUMNS FROM `%s` LIKE 'searchengine'",$wassup_table));
+		if(!empty($col->Type) && $col->Type !="varchar(25)"){
+			$result=$wpdb->query(sprintf("ALTER TABLE `%s` MODIFY `searchengine` varchar(25) DEFAULT NULL",$wassup_table));
+		}
+		$col=$wpdb->get_row(sprintf("SHOW COLUMNS FROM `%s` LIKE 'spider'",$wassup_table));
+		if(!empty($col->Type) && $col->Type !="varchar(50)"){
+			$wpdb->query(sprintf("ALTER TABLE `%s` MODIFY `spider` varchar(50) DEFAULT NULL",$wassup_table));
+		}
+		//add field 'url_wpid' column for post_id tracking 
+		$col=$wpdb->get_var(sprintf("SHOW COLUMNS FROM `%s` LIKE 'url_wpid'",$wassup_table));
+		if(empty($col)){
+			$result=$wpdb->query(sprintf("ALTER TABLE `%s` ADD COLUMN `url_wpid` varchar(50) DEFAULT NULL",$wassup_table));
+		}
+		//increase size of 'ip' field for IPv6 addresses
+		$col=$wpdb->get_row(sprintf("SHOW COLUMNS FROM `%s` LIKE 'ip'",$wassup_table));
+		if(!empty($col->Type) && $col->Type !="varchar(50)"){
+			$result=$wpdb->query(sprintf("ALTER TABLE `%s` MODIFY `ip` varchar(50) DEFAULT NULL",$wassup_table));
+		}
 	}
-	// Upgrade from version <= 1.5.1:
-	// -increase 'wassup_id' field size
-	$col=$wpdb->get_row(sprintf("SHOW COLUMNS FROM `%s` LIKE 'wassup_id'",$wassup_table));
-	if(!empty($col->Type) && $col->Type !="varchar(60)"){
-		$result=$wpdb->query(sprintf("ALTER TABLE `%s` MODIFY `wassup_id` varchar(60) NOT NULL",$wassup_table));
-	}
-	// Upgrade from verson <=1.7:
-	// -increase size of 'searchengine' and 'spider' fields
-	$col=$wpdb->get_row(sprintf("SHOW COLUMNS FROM `%s` LIKE 'searchengine'",$wassup_table));
-	if(!empty($col->Type) && $col->Type !="varchar(25)"){
-		$result=$wpdb->query(sprintf("ALTER TABLE `%s` MODIFY `searchengine` varchar(25) DEFAULT NULL",$wassup_table));
-	}
-	$col=$wpdb->get_row(sprintf("SHOW COLUMNS FROM `%s` LIKE 'spider'",$wassup_table));
-	if(!empty($col->Type) && $col->Type !="varchar(50)"){
-		$wpdb->query(sprintf("ALTER TABLE `%s` MODIFY `spider` varchar(50) DEFAULT NULL",$wassup_table));
-
-	}
-	// Upgrade from < 1.8.3:
-	// -add field 'url_wpid' column for post_id tracking 
-	// -increase 'ip' field size
-	$col=$wpdb->get_var(sprintf("SHOW COLUMNS FROM `%s` LIKE 'url_wpid'",$wassup_table));
-	if(empty($col)){
-		$result=$wpdb->query(sprintf("ALTER TABLE `%s` ADD COLUMN `url_wpid` varchar(50) DEFAULT NULL",$wassup_table));
-	}
-	//increase size of 'ip' field for IPv6 addresses
-	$col=$wpdb->get_row(sprintf("SHOW COLUMNS FROM `%s` LIKE 'ip'",$wassup_table));
-	if(!empty($col->Type) && $col->Type !="varchar(50)"){
-		$result=$wpdb->query(sprintf("ALTER TABLE `%s` MODIFY `ip` varchar(50) DEFAULT NULL",$wassup_table));
-	}
-	// Upgrade from < v1.9:
+	}//end if stimeout >180
+	$result=false;
+	$error_msg="";
+	// Upgrade from v1.8.7:
 	// -add new field, `subsite_id` for multisite compatibility
 	// -drop indices on 'os', 'browser', and (wassup_id,timestamp)
 	// -add index on 'ip' column indices on 'os', 'browser', and (wassup_id,timestamp)
-	$result=false;
-	$error_msg="";
-	//add table column, 'subsite_id'
-	$col=$wpdb->get_var(sprintf("SHOW COLUMNS FROM `%s` LIKE 'subsite_id'",$wassup_table));
-	if(empty($col)){
-		$result=$wpdb->query("ALTER TABLE `$wassup_table` ADD COLUMN `subsite_id` mediumint(9) UNSIGNED DEFAULT 0");
-	}
-	//drop indices on 'os','browser', and (wassup_id,timestamp) columns
-	$wkeys=$wpdb->get_results("SHOW INDEX FROM `$wassup_table` WHERE Column_name='browser' OR Column_name='os' OR (Column_name='timestamp' AND Key_name LIKE 'idx_wassup%')");
-	if(!empty($wkeys)){
-		if(is_array($wkeys) && !empty($wkeys[0]->Key_name)){
-			foreach($wkeys AS $dropkey){
-				$keyresult=$wpdb->query(sprintf("DROP INDEX `%s` ON `$wassup_table`",$dropkey->Key_name));
+	//if(empty($from_version) || version_compare($from_version,'1.8.7','<=')){
+		//add table column, 'subsite_id' for multisite
+		$col=$wpdb->get_var(sprintf("SHOW COLUMNS FROM `%s` LIKE 'subsite_id'",$wassup_table));
+		if(empty($col)){
+			$result=$wpdb->query("ALTER TABLE `$wassup_table` ADD COLUMN `subsite_id` mediumint(9) UNSIGNED DEFAULT 0");
+		}
+		//drop indices on 'os','browser', and (wassup_id+timestamp) columns
+		$wkeys=$wpdb->get_results("SHOW INDEX FROM `$wassup_table` WHERE Column_name='browser' OR Column_name='os' OR (Column_name='timestamp' AND Key_name LIKE 'idx_wassup%')");
+		if(!empty($wkeys)){
+			if(is_array($wkeys) && !empty($wkeys[0]->Key_name)){
+				foreach($wkeys AS $dropkey){
+					$keyresult=$wpdb->query(sprintf("DROP INDEX `%s` ON `$wassup_table`",$dropkey->Key_name));
+				}
 			}
 		}
-	}
-	//add new index on ip...add to index rebuild queue
-	$wkey=$wpdb->get_results(sprintf("SHOW INDEX FROM `%s` WHERE Column_name='ip'",$wassup_table));
-	if(empty($wkey)){
-		//add to index rebuild queue
-		$dbtask_keys['ip']=sprintf("ALTER TABLE `%s` ADD INDEX `ip` (`ip`)",$wassup_table);
+		//add new index on ip...add to index rebuild queue
+		$wkey=$wpdb->get_results(sprintf("SHOW INDEX FROM `%s` WHERE Column_name='ip'",$wassup_table));
+		if(empty($wkey)){
+			//add to index rebuild queue
+			$dbtask_keys['ip']=sprintf("ALTER TABLE `%s` ADD INDEX `ip` (`ip`)",$wassup_table);
+		}
+	//}
+	// Upgrade from v1.9:
+	// -remove all Wassup 1.9 scheduled actions from wp-cron
+	if(!empty($from_version) && $from_version=="1.9"){
+		remove_action('wassup_scheduled_optimize',array('wassupDb','scheduled_dbtask'));
+		remove_action('wassup_scheduled_dbtasks',array('wassupDb','scheduled_dbtask'));
+		remove_action('wassup_scheduled_cleanup','wassup_temp_cleanup');
+		remove_action('wassup_scheduled_purge','wassup_auto_cleanup');
+		wp_clear_scheduled_hook('wassup_scheduled_optimize');
+		wp_clear_scheduled_hook('wassup_scheduled_purge');
+		wp_clear_scheduled_hook('wassup_scheduled_cleanup');
 	}
 	//log errors
 	if($wdebug_mode && !empty($result) && is_wp_error($result)){
 		$errno=$result->get_error_code();
 		if(!empty($errno)){
-			$error_msg .=__FUNCTION__.' ERROR: "subsite_id" column was NOT created';
-			$error_msg .=" SQL error# $errno: ".$result->get_error_message();
+			$error_msg .="\n".__FUNCTION__.' ERROR: "subsite_id" column was NOT created';
+			$error_msg .="\t SQL error# $errno: ".$result->get_error_message();
 		}
 	}
 	// For all upgrades:
-	// -check that wassup table structure was updated
-	// -add wassup_meta table if not exists
-	// -drop and re-recreate wp_wassup_tmp table
-	// Check that table structure is updated or abort here
-	if(!wassup_upgradeCheck($wassup_table)){
-		if(!empty($error_msg)){
-			echo $error_msg;
-			exit(1);
-		}else{
-			return false;
-		}
-	}
+	// - drop wassup_tmp table
+	// - clear all cached records from wassup_meta table, or
+	// - create wassup_meta table, if missing
+	// - drop and rebuild all indices except 'id' and 'meta_id'
+	// - recreate wassup_tmp table
+	// note that wassup_meta_table and wassup_tmp_table are also added by 'wassup_Tableinstaller' function after script ends, if needed
 	// Drop wassup_tmp table
 	if(version_compare($wp_version,"2.8","<")){
 		$result=mysql_query(sprintf("DROP TABLE IF EXISTS `%s`",$wassup_tmp_table));
 	}else{
 		 $result=$wpdb->query(sprintf("DROP TABLE IF EXISTS `%s`",$wassup_tmp_table));
+		if($wdebug_mode && !empty($result) && is_wp_error($result)){
+			$errno=$result->get_error_code();
+			if(!empty($errno)){
+				$error_msg .="\n".__FUNCTION__.' ERROR: problem dropping wassup_tmp table';
+				$error_msg .="\t SQL error# $errno: ".$result->get_error_message();
+			}
+		}
 	}
-	// Update wassup_meta_table structure if needed
-	$indices_tables=array($wassup_table); //for index rebuilds
-	if(wassupDb::table_exists($wassup_meta_table)){
-		$indices_tables[]=$wassup_meta_table;
-	}else{
+	if(!empty($error_msg)){
+		echo $error_msg;
+		exit(1);
+	}
+	//index rebuild could take a long time, so finish process in background in case of a browser timeout
+	ignore_user_abort(1);
+	$indices_tables=array($wassup_table); //for index rebuild below
+	// Create wassup_meta table, if missing
+	if(!wassupDb::table_exists($wassup_meta_table)){
 		wassup_createTable($wassup_meta_table,true);
+	}else{
+		//or clear cached records from wassup_meta...
+		$sql=sprintf("DELETE FROM %s WHERE `meta_expire`>0",$wassup_meta_table);
+		$result=$wpdb->query($sql);
+		if($wdebug_mode && !empty($result) && is_wp_error($result)){
+			$errno=$result->get_error_code();
+			if(!empty($errno)){
+				$error_msg .="\n".__FUNCTION__.' ERROR: clear cache/wassup_meta table problem';
+				$error_msg .="\t SQL error# $errno: ".$result->get_error_message();
+			}
+			echo $error_msg;
+			exit(1);
+		}
+		$indices_tables[]=$wassup_meta_table;
 	}
-	// Rebuild wp_wassup_tmp table
-	if(version_compare($mysqlversion,'4.1.0','>')){
-		$result=$wpdb->query(sprintf("CREATE TABLE `%s` LIKE `$wassup_table`",$wassup_tmp_table));
-	}
-	if(!wassupDb::table_exists($wassup_tmp_table)){
-		wassup_createTable($wassup_tmp_table);
-	}
-	//Do Table indices repair/rebuild (also optimizes)
-	// - drop and rebuild all indices except 'id' and 'meta_id'
 	// Drop wassup tables indices
-	foreach ($indices_tables AS $wtbl) {
-		//# get list of all wassup indices except id
+	if($stimeout >90 || $rows < 25000){
+	foreach ($indices_tables AS $wtbl){
+		//get list of all wassup indices except id
 		$wkeys=$wpdb->get_col(sprintf("SHOW INDEX FROM `%s` WHERE Key_name NOT LIKE '%%id'",$wtbl),2);
 		if(!empty($wkeys) && is_array($wkeys)){
 			//note: "show index" lists keys multiple time for indices on more than 1 column
@@ -565,76 +631,100 @@ function wassup_updateTable($wassup_table="") {
 				$result=$wpdb->query(sprintf("DROP INDEX `%s` ON `%s`",$idx,$wtbl));
 				//queue the indices rebuild
 				//..don't rebuild duplicate keys or idx_wassup
-				if(preg_match('/^[a-z\-_]+\d+$/i',$idx)==0 && $idx != "idx_wassup"){
+				if(preg_match('/^[a-z][a-z\-_]+\d+$/i',$idx)==0 && $idx != "idx_wassup"){
 					$dbtask_keys[$idx]=sprintf("ALTER TABLE `%s` ADD INDEX `%s` (`%s`)",$wtbl,$idx,$idx); //index name included to prevent duplicate keys being created
 				}
 			} //end foreach(2)
 		} //end if !wkeys
 	}
+	} //end if stimeout
 	// Rebuild indices
-	//index rebuild could take a long time, so finish process in background in case of a browser timeout
-	ignore_user_abort(1);
+	//increase mysql session timeout to 10 minutes for index rebuild
+	if(is_numeric($mtimeout) && $mtimeout< 600) $result=$wpdb->query("SET wait_timeout=600");
+	$result=false;
+	//rebuild wassup_id index first, in case of script timeout @since v1.9.1
+	$wkey=$wpdb->get_results(sprintf("SHOW INDEX FROM `%s` WHERE Column_name='wassup_id'",$wassup_table));
+	if(empty($wkey)) $result=$wpdb->query(sprintf("ALTER TABLE `%s` ADD KEY idx_wassup (wassup_id(32))",$wassup_table));
+	if($wdebug_mode && !empty($result) && is_wp_error($result)){
+		$error_msg .="\n".__FUNCTION__.' ERROR: create wassup_id index on '.$wassup_table.' problem';
+		$errno=$result->get_error_code();
+		if(!empty($errno)) $error_msg .="\t SQL error# $errno: ".$result->get_error_message();
+		echo $error_msg;
+		exit(1);
+	}
+	//rebuild other indices
 	if(!empty($dbtask_keys)){
 		foreach ($dbtask_keys AS $sql_create_idx) {
 			$result=$wpdb->query($sql_create_idx);
+			if($wdebug_mode && !empty($result) && is_wp_error($result)){
+				$error_msg .="\n".__FUNCTION__.' ERROR: create index problem';
+				$errno=$result->get_error_code();
+				if(!empty($errno)) $error_msg .="\t SQL error# $errno: ".$result->get_error_message();
+			}
 		}
 		$dbtask_keys=array();
 	}
-	// Rebuild wassup_id index separately
-	$wkey=$wpdb->get_results(sprintf("SHOW INDEX FROM `%s` WHERE Column_name='wassup_id'",$wassup_table));
-	if(empty($wkey)) $result=$wpdb->query(sprintf("ALTER TABLE `%s` ADD KEY idx_wassup (wassup_id(32))",$wassup_table));
+	// Re-create wassup_tmp table
+	wassup_createTable($wassup_tmp_table,true);
 
 	//Do retroactive data updates by version#
-	//wassup_version must be valid version#, so reset if needed
-	$from_version=$wassup_options->wassup_version;
-	if(empty($from_version) || !is_numeric($from_version) || version_compare($from_version,WASSUPVERSION,">")){
-		$from_version=0;
-	}
+	//Retroactive data updates are run separately from table structure upgrades (via wp_cron). @since v1.9
 	//For upgrade from < v1.8:
 	// -retroactively fix incorrect OS "win2008" (="win7") in table
 	if(version_compare($from_version,"1.8","<")){
 		$upd_timestamp=strtotime("1 January 2009");
 		//queue the table data fixes
-		$dbtasks[]=sprintf("UPDATE LOW_PRIORITY `$wassup_table` SET `os`='win7' WHERE `timestamp`>'%d' AND `os`='win2008'",$upd_timestamp);
-		$dbtasks[]=sprintf("UPDATE LOW_PRIORITY `$wassup_table` SET `os`='win7 x64' WHERE `timestamp`>'%d' AND `os`='win2008 x64'",$upd_timestamp);
+		$dbtasks[]=sprintf("UPDATE $low_priority `$wassup_table` SET `os`='win7' WHERE `timestamp`>'%d' AND `os`='win2008'",$upd_timestamp);
+		$dbtasks[]=sprintf("UPDATE $low_priority `$wassup_table` SET `os`='win7 x64' WHERE `timestamp`>'%d' AND `os`='win2008 x64'",$upd_timestamp);
 	}
-	//For upgrade from < v1.9 (current version):
+	//For upgrade from <= v1.9:
 	// -retroactively update data to replace the old "NA" text in `os` and `browser` fields with null
 	// -retroactively update search engine data to use "_notprovided_" instead of null as keywords from Google secure search
 	// -retroactively fix os and browser data for win8, win10, and ie11
-	if(version_compare($from_version,"1.9","<") || $from_version == WASSUPVERSION){
+	if(version_compare($from_version,"1.9","<=")){
 		//retroactively update data to replace old "NA" text
-		$dbtasks[]=sprintf("UPDATE LOW_PRIORITY `$wassup_table` SET `os`='' WHERE `timestamp`<'%d' AND (`os`='NA' OR `os`='N/A')",strtotime("1 January 2007"));
-		$dbtasks[]=sprintf("UPDATE LOW_PRIORITY `$wassup_table` SET `browser`='' WHERE `timestamp`<'%d' AND (`browser`='NA' OR `browser`='N/A')",strtotime("1 January 2007"));
+		$dbtasks[]=sprintf("UPDATE $low_priority `$wassup_table` SET `os`='' WHERE `timestamp`<'%d' AND (`os`='NA' OR `os`='N/A')",strtotime("1 January 2007"));
+		$dbtasks[]=sprintf("UPDATE $low_priority `$wassup_table` SET `browser`='' WHERE `timestamp`<'%d' AND (`browser`='NA' OR `browser`='N/A')",strtotime("1 January 2007"));
 		//retroactively insert "_notprovided_" keyword in empty search field from Google Secure Search after Dec 2012
-		$dbtasks[]=sprintf("UPDATE LOW_PRIORITY `$wassup_table` SET `search`='_notprovided_',`searchengine`='Google' WHERE `timestamp`>='%d' AND `search`='' AND `searchengine`='' AND `referrer`!='' AND `referrer` LIKE 'https://www.google.%%'",strtotime("1 December 2012"));
+		$dbtasks[]=sprintf("UPDATE $low_priority `$wassup_table` SET `search`='_notprovided_',`searchengine`='Google' WHERE `timestamp`>='%d' AND `search`='' AND `searchengine`='' AND `referrer`!='' AND (`referrer` LIKE 'https://www.google.%%' OR `referrer` LIKE 'https://%%_.google.com')",strtotime("1 December 2012"));
 		//fix misnamed newer os and browsers versions
-		$dbtasks[]=sprintf("UPDATE LOW_PRIORITY `$wassup_table` SET `os`='Win8' WHERE `timestamp`>='%d' AND (`os`='WinNT 6.3' OR `os`='WinNT 6.2')",strtotime("1 January 2013"));
-		$dbtasks[]=sprintf("UPDATE LOW_PRIORITY `$wassup_table` SET `os`='Win8 x64' WHERE `timestamp`>='%d' AND (`os`='WinNT 6.3 x64' OR `os`='WinNT 6.2 x64')",strtotime("1 January 2013"));
-		$dbtasks[]=sprintf("UPDATE LOW_PRIORITY $wassup_table SET `browser`='IE 11' WHERE `timestamp`>='%d' AND `browser`='' AND (`os` LIKE 'WinNT 6.3%%' OR `os` LIKE 'Win8%%') AND `agent` LIKE '%%; rv:11.0%%'",strtotime("1 January 2013"));
-		$dbtasks[]=sprintf("UPDATE LOW_PRIORITY `$wassup_table` SET `os`='Win10' WHERE `timestamp`>='%d' AND (`os`='WinNT 10' OR `os`='WinNT 10.0')",strtotime("1 January 2015"));
-		$dbtasks[]=sprintf("UPDATE LOW_PRIORITY `$wassup_table` SET `os`='Win10 x64' WHERE `timestamp`>='%d' AND (`os`='WinNT 10 x64' OR `os`='WinNT 10.0 x64')",strtotime("1 January 2015"));
-		$dbtasks[]=sprintf("UPDATE LOW_PRIORITY `$wassup_table` SET `browser`='IE 11' WHERE `timestamp`>='%d' AND `browser`='' AND (`os` LIKE 'Win10%%' OR `os` LIKE 'WinNT 10%%') AND `agent` LIKE '%% Edge%%'",strtotime("1 January 2015"));
+		$dbtasks[]=sprintf("UPDATE $low_priority `$wassup_table` SET `os`='Win8' WHERE `timestamp`>='%d' AND (`os`='WinNT 6.3' OR `os`='WinNT 6.2')",strtotime("1 January 2013"));
+		$dbtasks[]=sprintf("UPDATE $low_priority `$wassup_table` SET `os`='Win8 x64' WHERE `timestamp`>='%d' AND (`os`='WinNT 6.3 x64' OR `os`='WinNT 6.2 x64')",strtotime("1 January 2013"));
+		$dbtasks[]=sprintf("UPDATE $low_priority $wassup_table SET `browser`='IE 11' WHERE `timestamp`>='%d' AND `browser`='' AND (`os` LIKE 'WinNT 6.3%%' OR `os` LIKE 'Win8%%') AND `agent` LIKE '%%; rv:11.0%%'",strtotime("1 January 2013"));
+		$dbtasks[]=sprintf("UPDATE $low_priority `$wassup_table` SET `os`='Win10' WHERE `timestamp`>='%d' AND (`os`='WinNT 10' OR `os`='WinNT 10.0')",strtotime("1 January 2015"));
+		$dbtasks[]=sprintf("UPDATE $low_priority `$wassup_table` SET `os`='Win10 x64' WHERE `timestamp`>='%d' AND (`os`='WinNT 10 x64' OR `os`='WinNT 10.0 x64')",strtotime("1 January 2015"));
+		$dbtasks[]=sprintf("UPDATE $low_priority `$wassup_table` SET `browser`='IE 11' WHERE `timestamp`>='%d' AND `browser`='' AND (`os` LIKE 'Win10%%' OR `os` LIKE 'WinNT 10%%') AND `agent` LIKE '%% Edge%%'",strtotime("1 January 2015"));
 	} //end if 1.9
 
+	//For all upgrades: 
+	// New in v1.9.4: get a new api key
+	if(empty($wassup_options->wassup_googlemaps_key)){
+		if(!empty($low_priority)){
+			wp_schedule_single_event(time()+600,'wassup_scheduled_api_upg');
+		}else{
+			$key=wassupOptions::lookup_apikey();
+		}
+	}
 	//Queue the retroactive updates
 	//schedule retroactive updates via cron so it dosen't slow down activation
 	if(count($dbtasks)>0){
-		add_action('wassup_upgrade_dbtasks',array('wassupDb','scheduled_dbtask'),10,1);
 		$arg=array('dbtasks'=>$dbtasks);
-		wp_schedule_single_event(time()+300,'wassup_upgrade_dbtasks',$arg);
+		if(!empty($low_priority)){
+			wp_schedule_single_event(time()+300,'wassup_upgrade_dbtasks',$arg);
+		}else{
+			wassupDb::scheduled_dbtask($arg);
+		}
 	}
+
 	//Lastly, check for browser timeout..may not work because of output redirection in Wordpress during plugin install, so also use timer.
-	//...1 min is normal http request keepAlive time
-	//echo chr(0); //send null to check if browser is still alive
-	if(connection_aborted() || time() - $stimer_start > 57){
-		//run 'wassup_settings_install' on browser abort
+	//'echo chr(0);' to send null to browser to check if it is still alive - doesn't work
+	//...after 1 minute (normal http request keepAlive time) or browser abort, run 'wassup_settings_install' and save settings
+	if(connection_aborted() || (time() - $stimer_start) > 57){
 		$wassup_options->wassup_alert_message="Wassup ".WASSUPVERSION.": ".__("Database created/upgraded successfully","wassup");
-		//get site settings
 		wassup_settings_install($wassup_table);
-		//set version_version and start recording after update
+		$wassup_options->wassup_upgraded=time();
 		$wassup_options->wassup_version=WASSUPVERSION;
-		$wassup_options->wassup_active=1;
+		//$wassup_options->wassup_active=1;
 		$wassup_options->saveSettings();
 	}
 	return true;
@@ -644,11 +734,10 @@ function wassup_updateTable($wassup_table="") {
  * Check for wassup tables structure problems.
  * @since v1.9
  */
-function wassup_upgradeCheck($table=""){
+function wassup_upgradeCheck($wtable=""){
 	global $wpdb,$wassup_options;
-
 	if(empty($wassup_options->wassup_table)){
-		if(function_exists('is_network_admin') && is_network_admin()) $wassup_table=$wpdb->base_prefix . "wassup";
+		if(is_network_admin()) $wassup_table=$wpdb->base_prefix . "wassup";
 		else $wassup_table = $wpdb->prefix . "wassup";
 		$wassup_options->wassup_table=$wassup_table;
 	}else{
@@ -659,13 +748,15 @@ function wassup_upgradeCheck($table=""){
 	$upg_ok=true;
 	$msg="";
 	//check for tables and structural updates to wassup tables
-	if(!empty($table) && $table != $wassup_table){
-		if(!table_exists($table)) $upg_ok=false;
+	if(!empty($wtable) && $wtable != $wassup_table){
+		if(!table_exists($wtable)) $upg_ok=false;
 	}else{
 		if(wassupDb::table_exists($wassup_table)){
 			//check if 'subsite_id' column exists
-			$col=$wpdb->get_row("SHOW COLUMNS FROM `$wassup_table` LIKE 'subsite_id'");
-			if(empty($col) || is_wp_error($col)) $upg_ok=false;
+			if(is_multisite()){
+				$col=$wpdb->get_row("SHOW COLUMNS FROM `$wassup_table` LIKE 'subsite_id'");
+				if(empty($col) || is_wp_error($col)) $upg_ok=false;
+			}
 		}else{
 			$upg_ok=false;
 		}
@@ -706,17 +797,17 @@ function wassup_compatCheck($item_to_check) {
 		if (defined('WP_CACHE') && WP_CACHE!==false && trim(WP_CACHE)!=="") {
 			$result=true;
 		}
-	//New in v1.9: check for MySQL database
-	}elseif($item_to_check=="mysqldb"){
+	//check for MySQL database @since v1.9
+	} elseif($item_to_check=="mysqldb") {
 		$result=true;
-		if(version_compare($wp_version,'3.3','>')&& empty($wpdb->is_mysql))$result=false;
-	//New in v1.9: check for adequate Wordpress Memory
+		if(version_compare($wp_version,'3.3','>')&& empty($wpdb->is_mysql)) $result=false;
+	//check for adequate Wordpress Memory @since v1.9
 	} elseif ($item_to_check == "WP_MEMORY_LIMIT") {
 		$result=true;
 		if(defined('WP_MEMORY_LIMIT')) $wp_memory=WP_MEMORY_LIMIT;
 		else $wp_memory=@ini_get('memory_limit');
 		$mem=0;
-		if(preg_match('/^(\d+)(\s?\w)?/',$wp_memory,$match)>0){
+		if(preg_match('/^(\-?\d+)(\s?\w)?/',$wp_memory,$match)>0){
 			$mem = (int)$match[1]; 
 			if (!empty($match[2]) && strtolower($match[2])=='g') $mem = (int)$match[1]*1024;
 		}

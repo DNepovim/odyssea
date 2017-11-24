@@ -1,0 +1,83 @@
+<?php
+global $photonic_instagram_options;
+
+$photonic_instagram_options = array(
+	array("name" => "Instagram settings",
+		"desc" => "Control settings for Instagram",
+		"category" => "instagram-settings",
+		"type" => "section",),
+
+	array("name" => "Instagram Access Token",
+		"desc" => "Enter your Instagram Access Token. You can get this from <em>Photonic &rarr; Helpers</em> by clicking on <em>Login and get Access Token</em>",
+		"id" => "instagram_access_token",
+		"grouping" => "instagram-settings",
+		"type" => "text",
+		"std" => ""),
+
+	array("name" => "Disable lightbox linking",
+		"desc" => "Check this to disable linking the photo title in the lightbox to the original photo page.",
+		"id" => "instagram_disable_title_link",
+		"grouping" => "instagram-settings",
+		"type" => "checkbox",
+		"std" => ""),
+
+	array("name" => "Expanded size",
+		"desc" => "Image size to show when you click on a thumbnail:",
+		"id" => "instagram_main_size",
+		"grouping" => "instagram-settings",
+		"type" => "select",
+		"options" => array("low_resolution" => "Low Resolution - 306x306px, or 320x320px", "standard_resolution" => "Standard Resolution - 612x612px or 640x640px", 's1080x1080' => '1080x1080px - Not available for older photos', 's1080x1350' => '1080x1350px - Not always available', 's1080x566' => '1080x566px - Not always available'),
+		"std" => "standard_resolution"),
+
+	array("name" => "Title Display",
+		"desc" => "How do you want the title of the photo thumbnail?",
+		"id" => "instagram_photo_title_display",
+		"grouping" => "instagram-settings",
+		"type" => "radio",
+		"options" => photonic_title_styles(),
+		"std" => "tooltip"),
+
+	array("name" => "Constrain Photos Per Row",
+		"desc" => "How do you want the control the number of photo thumbnails per row by default? This can be overridden by adding the '<code>columns</code>' parameter to the '<code>gallery</code>' shortcode.",
+		"id" => "instagram_photos_per_row_constraint",
+		"grouping" => "instagram-settings",
+		"type" => "select",
+		"options" => array("padding" => "Fix the padding around the thumbnails",
+			"count" => "Fix the number of thumbnails per row",
+		),
+		"std" => "padding"),
+
+	array("name" => "Constrain by padding",
+		"desc" => " If you have constrained by padding above, enter the number of pixels here to pad the thumbs by",
+		"id" => "instagram_photos_constrain_by_padding",
+		"grouping" => "instagram-settings",
+		"type" => "text",
+		"hint" => "Enter the number of pixels here (don't enter 'px'). Non-integers will be ignored.",
+		"std" => "15"),
+
+	array("name" => "Constrain by number of thumbnails",
+		"desc" => " If you have constrained by number of thumbnails per row above, enter the number of thumbnails",
+		"id" => "instagram_photos_constrain_by_count",
+		"grouping" => "instagram-settings",
+		'type' => 'select',
+		'options' => photonic_selection_range(1, 25),
+		"std" => 5),
+
+	array("name" => "Photo Thumbnail Border",
+		"id" => "instagram_photo_thumb_border",
+		"grouping" => "instagram-settings",
+		"type" => 'border',
+		"options" => array(),
+		"std" => photonic_default_border(),
+	),
+
+	array("name" => "Photo Thumbnail - Padding between border and image",
+		"desc" => "Setup the padding between the photo thumbnail and its border.",
+		"id" => "instagram_photo_thumb_padding",
+		"grouping" => "instagram-settings",
+		'type' => 'padding',
+		'options' => array(),
+		'std' => photonic_default_padding(),
+	),
+
+);

@@ -1,19 +1,19 @@
 === T(-) Countdown ===
 
 Contributors: twinpictures, baden03
-Donate link: http://plugins.twinpictures.de/plugins/t-minus-countdown/
-Tags: countdown, timer, clock, ticker, widget, event, counter, count down, twinpictures, t minus, t-minus, plugin-oven, pluginoven, G2, spaceBros, littlewebtings, jQuery, javascript
+Donate link: https://plugins.twinpictures.de/plugins/t-minus-countdown/
+Tags: countdown, timer, clock, ticker, widget, event, counter, count down, twinpictures, t minus, t-minus, t(-), t(-) countdown, t-countdown, t (-) countdown, plugin-oven, pluginoven, G2, spaceBros, littlewebtings, jQuery, javascript
 Requires at least: 4.0
-Tested up to: 4.5
-Stable tag: 2.3.11
+Tested up to: 4.8
+Stable tag: 2.3.17
 License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 T(-) Countdown will display a highly customizable, HTML5 countdown timer as a sidebar widget or in a post or page using a shortcode.
 
 == Description ==
 
-T(-) Countdown will display a highly customizable HTML5 countdown timer as a sidebar widget or in a post or page using a shortcode. Perfect for informing one's website visitors of an upcoming event, such as a pending space voyage. Using Jedi Mind-tricks and CSS... but mostly CSS, the countdown timer is highly customizable for your viewing pleasure. A <a href='http://plugins.twinpictures.de/plugins/t-minus-countdown/documentation/'>complete listing of shortcode options</a> are available, as well as <a href='http://wordpress.org/support/plugin/jquery-t-countdown-widget'>free community</a> support. This plug-in was inspired by littlewebthings' CountDown jQuery plugin. Intergalactic planetary thanks to g2.de, siliconstudio.com and be.net/arturex for the included css styles.
+T(-) Countdown will display a highly customizable HTML5 countdown timer as a sidebar widget or in a post or page using a shortcode. Perfect for informing one's website visitors of an upcoming event, such as a pending space voyage. Using Jedi Mind-tricks and CSS... but mostly CSS, the countdown timer is highly customizable for your viewing pleasure. A <a href='https://plugins.twinpictures.de/plugins/t-minus-countdown/documentation/'>complete listing of shortcode options</a> are available, as well as <a href='https://wordpress.org/support/plugin/jquery-t-countdown-widget'>free community</a> support. This plug-in was inspired by littlewebthings' CountDown jQuery plugin. Intergalactic planetary thanks to g2.de, siliconstudio.com and be.net/arturex for the included css styles.
 
 == Installation ==
 
@@ -26,18 +26,18 @@ T(-) Countdown will display a highly customizable HTML5 countdown timer as a sid
 1. Test that the this plugin meets your demanding needs.
 1. Tweak the css files for premium enjoyment.
 1. Rate the plugin and verify that it works at wordpress.org.
-1. Leave a comment regarding bugs, feature request or cocktail recipes at http://wordpress.org/tags/jquery-t-countdown-widget
+1. Leave a comment regarding bugs, feature request or cocktail recipes at https://wordpress.org/tags/jquery-t-countdown-widget
 
 == Frequently Asked Questions ==
 
 = How does one use the shortcode, exactly? =
-A <a href='http://plugins.twinpictures.de/plugins/t-minus-countdown/documentation/'>complete list of shortcode options</a> has been provided to answer this exact question.
+A <a href='https://plugins.twinpictures.de/plugins/t-minus-countdown/documentation/'>complete list of shortcode options</a> has been provided to answer this exact question.
 
 = Where can I fork this plugin and contribute changes? =
-<a href='http://github.com/baden03/t-minus-countdown'>github</a>
+<a href='https://github.com/baden03/t-minus-countdown'>github</a>
 
 = Where can I translate this plugin into my favorite langauge? =
-<a href='http://translate.twinpictures.de/projects/t-countdown'>Community translation for T(-) Countdown</a> has been set up. You are <a href='http://translate.twinpictures.de/wordpress/wp-login.php?action=register'>welcome to join</a>.
+<a href='https://translate.wordpress.org/projects/wp-plugins/jquery-t-countdown-widget'>Community translation for T(-) Countdown</a> has been set up.
 
 = How does one pronounce T Minus? =
 * Tee&mdash;As in Tea for Two, or Tee off time
@@ -45,10 +45,10 @@ A <a href='http://plugins.twinpictures.de/plugins/t-minus-countdown/documentatio
 * T Minus&mdash;As in "This is Apollo Saturn Launch Control. We've passed the 11-minute mark. Now T minus 10 minutes 54 seconds on our countdown for Apollo 11."
 
 = I am a Social Netwookiee, does Twinpictures have a Facebook page? =
-Yes, yes... <a href='http://www.facebook.com/twinpictures'>Twinpictures is on Facebook</a>.
+Yes, yes... <a href='https://www.facebook.com/twinpictures'>Twinpictures is on Facebook</a>.
 
 = Does Twinpictures do the Twitter? =
-Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> is on the Twitter.
+Ah yes! <a href='https://twitter.com/#!/twinpictures'>@Twinpictures</a> is on the Twitter.
 
 = Where may one enjoy U.S. news that gives giggle? =
 * The Daily Show with <i>Trevor Noah</i>
@@ -64,6 +64,37 @@ Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> is on the
 1. Plugin options page with Custom CSS section
 
 == Changelog ==
+
+= 2.3.17 =
+* scripts do not load on customize.php page
+* removed now.php from js
+* fully tested with WordPress 4.8
+
+= 2.3.16 =
+* no longer requires now.php
+* widget now accepts only expected values
+* all links now https
+* fully tested with WordPress 4.7.3
+
+= 2.3.15 =
+* widget scripts are only called on widget page
+* updated method jQuery datepicker was being called in Widget
+
+= 2.3.14 =
+* accepts numTransObj as object that holds number translations non arabic numerals
+* fully tested with WordPress 4.6.1
+
+= 2.3.13 =
+* updated version and method of loading remote jQuery UI from google cdn
+* widget now uses esc_attr for the title
+* cloud-city digits have more space between digits for smaller viewports
+* updated jquery-ui-timepicker to version 1.6.3
+* added jquery-ui-timepicker css
+* only triggers callback when required
+
+= 2.3.12 =
+* replaced top and bottom class names to tc_top and tc_bottom to prevent conflicts
+* renamed js functions to prevent conflict with the theme: Avada
 
 = 2.3.11 =
 * Removed included language files in favour of WordPress Language Packs
@@ -153,12 +184,12 @@ Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> is on the
 * added French language
 
 = 2.2.12 =
-* added cloud-city style which is a clone of vintage that came with vintage wedding theme: http://wordpress.org/support/topic/cannot-see-boxes
+* added cloud-city style which is a clone of vintage that came with vintage wedding theme: https://wordpress.org/support/topic/cannot-see-boxes
 
 = 2.2.11 =
 * When setting jsplacment to inline, script is forced to print after countdown elements.
 * Escape characters no longer converted in widget tile
-* Fixed 'Top Scroll' issue: http://wordpress.org/support/topic/timer-working-but-top-scroll-feature-conflicting?replies=7
+* Fixed 'Top Scroll' issue: https://wordpress.org/support/topic/timer-working-but-top-scroll-feature-conflicting?replies=7
 
 = 2.2.10 =
 * only load jQuery datepicker and related css on widgets admin page
@@ -176,7 +207,7 @@ Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> is on the
 = 2.2.7 =
 * Added I18n localization support
 * Added German translation
-* Added source to Github: http://github.com/baden03/t-minus-countdown
+* Added source to Github: https://github.com/baden03/t-minus-countdown
 
 = 2.2.6 =
 * Fixed issue with flashing animations on inactive tabs (again)
@@ -272,4 +303,4 @@ Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> is on the
 * The plugin came to be.
 
 == Upgrade Notice ==
-fully tested with WordPress 4.5. Uses WordPress Language Packs
+scripts do not load on customize.php page & removed now.php from js. fully tested with WordPress 4.8

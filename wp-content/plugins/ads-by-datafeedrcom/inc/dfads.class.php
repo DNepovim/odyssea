@@ -160,7 +160,7 @@ class DFADS {
 	
 	// Build the ORDER BY portion of the SQL statement.
 	function sql_get_orderby() {
-		$orderby_defaults = $this->orderby_array();
+		$orderby_defaults = self::orderby_array();
 		return $orderby_defaults[$this->args['orderby']]['sql'];
 	}
 
@@ -170,7 +170,7 @@ class DFADS {
 	}
 	
 	// A set of possibly values for the ORDER BY part of the SQL query.
-	function orderby_array() {
+	public static function orderby_array() {
 		return array(
 			'ID' => array( 'name'=>'ID', 'sql'=>'p.ID' ),
 			'post_title' => array( 'name'=>'Ad Title', 'sql'=>'p.post_title' ),
@@ -202,10 +202,12 @@ class DFADS {
 		// we have to avoid the impression being counted twice.  So we store this
 		// ad groups unique "block_id" as a transient value to check subsequent calls
 		// for the same ad block.  If it's already set, we don't count again.
-		if ( get_transient( 'dfad_'.$this->args['_block_id'] ) ) {
-			return;
-		} else {
-			set_transient ( 'dfad_'.$this->args['_block_id'], true, 5 );
+		if ( isset( $this->args['_block_id'] ) ) {
+			if ( get_transient( 'dfad_' . $this->args['_block_id'] ) ) {
+				return;
+			} else {
+				set_transient( 'dfad_' . $this->args['_block_id'], true, 5 );
+			}
 		}
 		
 		foreach ($ads as $ad) {

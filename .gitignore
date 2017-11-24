@@ -22,3 +22,17 @@ vendor/
 
 odyssea.sublime-project
 odyssea.sublime-workspace
+
+
+# Legacy stuff that shouldn't be in git
+focmanovo/
+fofli/
+grafika/
+lobovo/
+log/
+nebudovce/
+static/
+zalohy/
+
+index.html
+info.php

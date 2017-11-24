@@ -48,6 +48,7 @@ $this->start_element('nextgen_gallery.gallery_container', 'container', $displaye
                data-image-id="<?php echo esc_attr($image->{$image->id_field}); ?>"
                data-title="<?php echo esc_attr($image->alttext); ?>"
                data-description="<?php echo esc_attr(stripslashes($image->description)); ?>"
+               data-image-slug="<?php echo esc_attr($image->image_slug); ?>"
                <?php echo $effect_code ?>>
                 <img
                     title="<?php echo esc_attr($image->alttext)?>"
@@ -55,7 +56,7 @@ $this->start_element('nextgen_gallery.gallery_container', 'container', $displaye
                     src="<?php echo esc_attr($storage->get_image_url($image, $thumbnail_size_name, TRUE))?>"
                     width="<?php echo esc_attr($thumb_size['width'])?>"
                     height="<?php echo esc_attr($thumb_size['height'])?>"
-                    style="max-width:none;"
+                    style="max-width:100%;"
                 />
             </a>
         </div>

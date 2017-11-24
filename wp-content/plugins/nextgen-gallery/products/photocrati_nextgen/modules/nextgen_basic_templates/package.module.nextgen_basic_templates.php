@@ -1,4 +1,9 @@
 <?php
+/**
+ * Class A_NextGen_Basic_Template_Form
+ * @mixin C_Form
+ * @adapts I_Form
+ */
 class A_NextGen_Basic_Template_Form extends Mixin
 {
     /**
@@ -7,7 +12,7 @@ class A_NextGen_Basic_Template_Form extends Mixin
      * @param $display_type
      * @return mixed
      */
-    public function _render_nextgen_basic_templates_template_field($display_type)
+    function _render_nextgen_basic_templates_template_field($display_type)
     {
         switch ($display_type->name) {
             case 'photocrati-nextgen_basic_singlepic':
@@ -37,6 +42,8 @@ class A_NextGen_Basic_Template_Form extends Mixin
         if (!isset($templates[$display_type->settings['template']])) {
             $templates[$display_type->settings['template']] = $display_type->settings['template'];
         }
+        // add <default> template that acts the same way as having no template specified
+        $templates['default'] = __('Default', 'nggallery');
         return $this->object->render_partial('photocrati-nextgen_basic_templates#nextgen_basic_templates_settings_template', array('display_type_name' => $display_type->name, 'template_label' => __('Template', 'nggallery'), 'template_text' => __('Use a legacy template when rendering (not recommended).', 'nggallery'), 'chosen_file' => $display_type->settings['template'], 'templates' => $templates), True);
     }
     /**
@@ -46,7 +53,7 @@ class A_NextGen_Basic_Template_Form extends Mixin
      * is array(file_abspath => label)
      * @return array
      */
-    public function _get_available_templates($prefix = FALSE)
+    function _get_available_templates($prefix = FALSE)
     {
         $templates = array();
         foreach (C_Legacy_Template_Locator::get_instance()->find_all($prefix) as $label => $files) {
@@ -67,7 +74,7 @@ class A_NextGen_Basic_Template_Form extends Mixin
      *
      * @return array
      */
-    public function prepare_legacy_parameters($images, $displayed_gallery, $params = array())
+    function prepare_legacy_parameters($images, $displayed_gallery, $params = array())
     {
         // setup
         $image_map = C_Image_Mapper::get_instance();
@@ -147,28 +154,34 @@ class A_NextGen_Basic_Template_Form extends Mixin
         } else {
             $return['pagination'] = NULL;
         }
-        $return['next'] = $params['next'];
-        $return['prev'] = $params['prev'];
+        if (!empty($params['next'])) {
+            $return['next'] = $params['next'];
+        } else {
+            $return['next'] = FALSE;
+        }
+        if (!empty($params['prev'])) {
+            $return['prev'] = $params['prev'];
+        } else {
+            $return['prev'] = FALSE;
+        }
         return $return;
     }
-    public function enqueue_static_resources()
+    function enqueue_static_resources()
     {
-        wp_enqueue_style('ngg_template_settings', $this->get_static_url('photocrati-nextgen_basic_templates#ngg_template_settings.css'), FALSE, NGG_SCRIPT_VERSION);
-        wp_enqueue_script('ngg_template_settings', $this->get_static_url('photocrati-nextgen_basic_templates#ngg_template_settings.js'), array('ngg_select2'), NGG_SCRIPT_VERSION, TRUE);
+        wp_enqueue_style('ngg_template_settings', $this->get_static_url('photocrati-nextgen_basic_templates#ngg_template_settings.css'));
+        wp_enqueue_script('ngg_template_settings', $this->get_static_url('photocrati-nextgen_basic_templates#ngg_template_settings.js'), array('ngg_select2'), TRUE);
         wp_localize_script('ngg_template_settings', 'ngg_template_settings', array('placeholder_text' => __('No template selected')));
-        $atp = C_Attach_Controller::get_instance();
-        if ($atp != null) {
-            $atp->mark_script('ngg_template_settings');
-        }
     }
 }
 /**
  * Provides a utility to locate legacy templates
+ * @mixin Mixin_Legacy_Template_Locator
+ * @implements I_Legacy_Template_Locator
  */
 class C_Legacy_Template_Locator extends C_Component
 {
     static $_instances = array();
-    public function define($context = FALSE)
+    function define($context = FALSE)
     {
         parent::define($context);
         $this->add_mixin('Mixin_Legacy_Template_Locator');
@@ -193,7 +206,7 @@ class Mixin_Legacy_Template_Locator extends Mixin
      *
      * @return array Template storing directories
      */
-    public function get_template_directories()
+    function get_template_directories()
     {
         return apply_filters('ngg_legacy_template_directories', array('Child Theme' => get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'nggallery' . DIRECTORY_SEPARATOR, 'Parent Theme' => get_template_directory() . DIRECTORY_SEPARATOR . 'nggallery' . DIRECTORY_SEPARATOR, 'NextGEN Legacy' => NGGALLERY_ABSPATH . 'view' . DIRECTORY_SEPARATOR, 'NextGEN Overrides' => implode(DIRECTORY_SEPARATOR, array(WP_CONTENT_DIR, 'ngg', 'legacy', 'templates'))));
     }
@@ -202,7 +215,7 @@ class Mixin_Legacy_Template_Locator extends Mixin
      *
      * @return array All available template files
      */
-    public function find_all($prefix = FALSE)
+    function find_all($prefix = FALSE)
     {
         $files = array();
         foreach ($this->object->get_template_directories() as $label => $dir) {
@@ -220,7 +233,7 @@ class Mixin_Legacy_Template_Locator extends Mixin
      * @param string $dir Directory
      * @return array All php files in $dir
      */
-    public function get_templates_from_dir($dir, $prefix = FALSE)
+    function get_templates_from_dir($dir, $prefix = FALSE)
     {
         if (!is_dir($dir)) {
             return;
@@ -250,7 +263,7 @@ class Mixin_Legacy_Template_Locator extends Mixin
      * Find a particular template by name
      * @param $template
      */
-    public function find($template_name)
+    function find($template_name)
     {
         $template_abspath = FALSE;
         // hook into the render feature to allow other plugins to include templates
@@ -268,11 +281,11 @@ class Mixin_Legacy_Template_Locator extends Mixin
                 if ($template_abspath) {
                     break;
                 }
-                $filename = implode(DIRECTORY_SEPARATOR, array(rtrim($dir, '/\\'), $custom_template));
+                $filename = implode(DIRECTORY_SEPARATOR, array(rtrim($dir, "/\\"), $custom_template));
                 if (@file_exists($filename)) {
                     $template_abspath = $filename;
                 } elseif (strpos($custom_template, '-template') === FALSE) {
-                    $filename = implode(DIRECTORY_SEPARATOR, array(rtrim($dir, '/\\'), str_replace('.php', '', $custom_template) . '-template.php'));
+                    $filename = implode(DIRECTORY_SEPARATOR, array(rtrim($dir, "/\\"), str_replace('.php', '', $custom_template) . '-template.php'));
                     if (@file_exists($filename)) {
                         $template_abspath = $filename;
                     }
@@ -285,6 +298,12 @@ class Mixin_Legacy_Template_Locator extends Mixin
         return $template_abspath;
     }
 }
+/**
+ * Class Mixin_NextGen_Basic_Templates
+ * @mixin C_Display_Type_Controller
+ *
+ * Provides a mixin that other display type controllers can use to render the ngglegacy templates
+ */
 class Mixin_NextGen_Basic_Templates extends Mixin
 {
     /**
@@ -295,9 +314,9 @@ class Mixin_NextGen_Basic_Templates extends Mixin
      * @param bool $callback
      * @param bool $return
      */
-    public function legacy_render($template_name, $vars = array(), $return = FALSE, $prefix = NULL)
+    function legacy_render($template_name, $vars = array(), $return = FALSE, $prefix = NULL)
     {
-        $retval = '[Not a valid template]';
+        $retval = "[Not a valid template]";
         $template_locator = C_Legacy_Template_Locator::get_instance();
         // search first for files with their prefix
         $template_abspath = $template_locator->find($prefix . '-' . $template_name);

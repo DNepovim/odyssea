@@ -9,16 +9,23 @@
 
 class M_NextGen_Data extends C_Base_Module
 {
-    function define()
+    function define($id = 'pope-module',
+                    $name = 'Pope Module',
+                    $description = '',
+                    $version = '',
+                    $uri = '',
+                    $author = '',
+                    $author_uri = '',
+                    $context = FALSE)
     {
         parent::define(
             'photocrati-nextgen-data',
             'NextGEN Data Tier',
             "Provides a data tier for NextGEN gallery based on the DataMapper module",
-            '0.10',
-            'http://www.photocrati.com',
-            'Photocrati Media',
-            'http://www.photocrati.com'
+            '0.15',
+            'https://www.imagely.com/wordpress-gallery-plugin/nextgen-gallery/',
+            'Imagely',
+            'https://www.imagely.com'
         );
 
 		C_Photocrati_Installer::add_handler($this->module_id, 'C_NextGen_Data_Installer');
@@ -43,6 +50,7 @@ class M_NextGen_Data extends C_Base_Module
     function get_type_list()
     {
         return array(
+            'C_Exif_Writer_Wrapper' => 'class.exif_writer_wrapper.php',
             'A_Attachment_Datamapper' => 'adapter.attachment_datamapper.php',
             'A_Customtable_Sorting_Datamapper' => 'adapter.customtable_sorting_datamapper.php',
             'A_Nextgen_Data_Factory' => 'adapter.nextgen_data_factory.php',
@@ -114,7 +122,7 @@ class M_NextGen_Data extends C_Base_Module
 			$retval = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $retval );
 			$retval= preg_replace('/[\r\n\t ]+/', ' ', $retval);
 		}
-		$retval = preg_replace("/\son[^=]+=/", '', $retval);
+		$retval = preg_replace("/\\son[^\\s=]+=/", '', $retval);
 
 		return $retval;
 	}

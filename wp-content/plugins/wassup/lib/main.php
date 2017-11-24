@@ -5,15 +5,27 @@
  * @package WassUp Real-time Analytics
  * @subpackage main.php module
  */
-//no direct request for this plugin module
-if(!defined('ABSPATH')|| empty($GLOBALS['wp_version'])|| (!empty($_SERVER['SCRIPT_FILENAME'])&& realpath(preg_replace('/\\\\/','/',__FILE__))===realpath($_SERVER['SCRIPT_FILENAME']))){
-	if(!headers_sent()){header('Location: /?p=404page&err=wassup403');exit;
-	}elseif(function_exists('wp_die')){wp_die("Bad Request: ".esc_attr(wp_kses(preg_replace('/(&#37;|&amp;#37;|%)(?:[01][0-9A-F]|7F)/i','',$_SERVER['REQUEST_URI']),array())));exit;
-	}else{die("Bad Request: ".htmlspecialchars(preg_replace('/(&#37;|&amp;#37;|%)(?:[01][0-9A-F]|7F)/i','',$_SERVER['REQUEST_URI'])));exit;}
-	exit;
+//abort if this is direct uri request for file
+if(!empty($_SERVER['SCRIPT_FILENAME']) && realpath($_SERVER['SCRIPT_FILENAME'])===realpath(preg_replace('/\\\\/','/',__FILE__))){
+	//try track this uri request
+	if(!headers_sent()){
+		//triggers redirect to 404 error page so Wassup can track this attempt to access itself (original request_uri is lost)
+		header('Location: /?p=404page&werr=wassup403'.'&wf='.basename(__FILE__));
+		exit;
+	}else{
+		//'wp_die' may be undefined here
+		die('<strong>Sorry. Unable to display requested page.</strong>');
+	}
+//abort if no WordPress
+}elseif(!defined('ABSPATH') || empty($GLOBALS['wp_version'])){
+	//show escaped bad request on exit
+	die("Bad Request: ".htmlspecialchars(preg_replace('/(&#0*37;?|&amp;?#0*37;?|&#0*38;?#0*37;?|%)(?:[01][0-9A-F]|7F)/i','',$_SERVER['REQUEST_URI'])));
 }
+//-------------------------------------------------
 if(!class_exists('wassup_pagination')){
-//Digg Style Paginator Class based on the work of Victor De La Rocha - http://www.mis-algoritmos.com
+/**
+ * Digg style paginator class based on the work of Victor De La Rocha - http://www.mis-algoritmos.com.
+ */
 class wassup_pagination{
 	var $total_pages;
 	var $limit;
@@ -30,8 +42,8 @@ class wassup_pagination{
 	var $urlF;
 	var $calculate;
 	var $pagination;
-	//constructor
-	function wassup_pagination(){	//moved here for readability
+	//PHP4 constructor
+	function wassup_pagination(){
 		$this->total_pages=null;
 		$this->limit=null;
 		$this->target="";
@@ -39,16 +51,13 @@ class wassup_pagination{
 		$this->adjacents=2;
 		$this->showCounter=false;
 		$this->className="pagination";
-		//New in v1.9: renamed parameter to "pp" because a similar "page" parameter is already used in Wordpress admin
-		$this->parameterName="pp";
-
-		/*Buttons next and previous*/
+		$this->parameterName="pp";	//formerly pages
+		//Buttons next and previous
 		$this->nextT=__("Next","wassup");
-		$this->nextI="&#187;"; //&#9658;
+		$this->nextI="&#187;";	//&#9658;
 		$this->prevT=__("Previous","wassup");
-		$this->prevI="&#171;"; //&#9668;
-
-		$this->urlF=false;//urlFriendly
+		$this->prevI="&#171;";	//&#9668;
+		$this->urlF=false;	//urlFriendly
 		$this->calculate=false;
 		$this->pagination="";
 	}
@@ -58,17 +67,16 @@ class wassup_pagination{
 	function currentPage($value){$this->page=intval($value);}
 	function adjacents($value){$this->adjacents=intval($value);}
 	function showCounter($value=""){$this->showCounter=($value===true)?true:false;}
-	//to change the class name of the pagination div
+	//to change the pagination '<div>' css class
 	function changeClass($value=""){$this->className=$value;}
 	function nextLabel($value){$this->nextT = $value;}
 	function nextIcon($value){$this->nextI = $value;}
 	function prevLabel($value){$this->prevT = $value;}
 	function prevIcon($value){$this->prevI = $value;}
-	//to change the class name of the pagination div
 	function parameterName($value=""){$this->parameterName=$value;}
 	//to change urlFriendly
 	function urlFriendly($value="%"){
-		//New in v1.9: PHP4 'eregi' deprecated, replaced with preg_match
+		//"preg_match" replaces deprecated "eregi" function @since v1.9
 		if(preg_match('/^ *$/i',$value)>0){
 			$this->urlF=false;
 			return false;
@@ -92,7 +100,6 @@ class wassup_pagination{
 	}
 	function calculate(){
 		$this->pagination="";
-		//$this->calculate == true; //v1.9 bugfix
 		$error=false;
 		if($this->urlF && $this->urlF !='%' && strpos($this->target,$this->urlF)===false){
 			echo 'Especificaste un wildcard para sustituir, pero no existe en el target<br />';
@@ -165,9 +172,9 @@ class wassup_pagination{
 
 if(!class_exists('wDetector')){
 /**
- * Tracking class for simple user agent detection
- *  -loosely based on Detector class by Mohammad Hafiz bin Ismail (info@mypapit.net)
- *  -New in v1.9: renamed to 'wDetector' for compatibility with other plugins, removed unused/unneeded methods, and updated detection to include newer versions of windows and IE.
+ * Class for lightweight user agent detection
+ *  - Loosely based on Detector class by Mohammad Hafiz bin Ismail (info@mypapit.net)
+ *  - Renamed to 'wDetector' (from 'Detector') for better compatibility with other plugins @since v1.9
  */
 class wDetector{
 	var $browser;
@@ -183,23 +190,27 @@ class wDetector{
 	function check_os($useragent){
 		$os=""; 
 		$version="";
-		if(preg_match("/Windows NT 10\.0/",$useragent,$match)){$os="Win10";$version="";}
-		elseif(preg_match("/Windows NT 6\.3/",$useragent,$match)){$os="Win8";$version="";}
-		elseif(preg_match("/Windows NT 6\.2/",$useragent,$match)){$os="Win8";$version="";}
-		elseif(preg_match("/Windows NT 6\.1/",$useragent,$match)){$os="Win7";$version="";}
-		elseif(preg_match("/Windows NT 6\.0/",$useragent,$match)){$os="WinVista";$version="";}
-		elseif(preg_match("/Windows NT 5\.2/",$useragent,$match)){$os="Win2003";$version="";}
-		elseif(preg_match("/Windows NT 5\.1/",$useragent,$match)){$os="WinXP";$version="";}
-		elseif(preg_match("/(?:Windows NT 5\.0|Windows 2000)/",$useragent,$match)){$os="Win2000";$version="";}
+		if(preg_match("/Xbox; Xbox/",$useragent,$match)){$os="Xbox";}
+		elseif(preg_match("/Windows NT 10\.0/",$useragent,$match)){$os="Win10";}
+		elseif(preg_match("/Windows NT 6\.3/",$useragent,$match)){$os="Win8";}
+		elseif(preg_match("/Windows NT 6\.2/",$useragent,$match)){$os="Win8";}
+		elseif(preg_match("/Windows NT 6\.1/",$useragent,$match)){$os="Win7";}
+		elseif(preg_match("/Windows NT 6\.0/",$useragent,$match)){$os="WinVista";}
+		elseif(preg_match("/Windows NT 5\.2/",$useragent,$match)){$os="Win2003";}
+		elseif(preg_match("/Windows NT 5\.1/",$useragent,$match)){$os="WinXP";}
+		elseif(preg_match("/(?:Windows NT 5\.0|Windows 2000)/",$useragent,$match)){$os="Win2000";}
 		elseif(preg_match("/(?:WinNT|Windows\s?NT)\s?([0-4\.]+)?/",$useragent,$match)){$os="WinNT";$version=$match[1];}
-		elseif(preg_match("/Windows ME/",$useragent,$match)){$os="WinME";$version="";}
-		elseif(preg_match("/Mac OS X/",$useragent,$match)){$os="MacOSX";$version="";}
-		elseif(preg_match("/(Mac_PowerPC|Macintosh)/",$useragent,$match)){$os="MacPPC";$version="";}
-		elseif(preg_match("/(?:Windows95|Windows 95|Win95|Win 95)/",$useragent,$match)){$os="Win95";$version="";}
-		elseif(preg_match("/(?:Windows98|Windows 98|Win98|Win 98|Win 9x)/",$useragent,$match)){$os="Win98";$version="";}
-		elseif(preg_match("/(?:WindowsCE|Windows CE|WinCE|Win CE)/",$useragent,$match)){$os="WinCE";$version="";}
+		elseif(preg_match("/Windows\sPhone\s(8|10)\./",$useragent,$match)){$os="Win".$match[1].' Mobile';}
+		elseif(preg_match("/Mac OS X/",$useragent,$match)){$os="MacOSX";}
+		elseif(preg_match("/(Mac_PowerPC|Macintosh)/",$useragent,$match)){$os="MacPPC";}
+		elseif(preg_match("/Windows ME/",$useragent,$match)){$os="WinME";}
+		elseif(preg_match("/(?:Windows95|Windows 95|Win95|Win 95)/",$useragent,$match)){$os="Win95";}
+		elseif(preg_match("/(?:Windows98|Windows 98|Win98|Win 98|Win 9x)/",$useragent,$match)){$os="Win98";}
+		elseif(preg_match("/(?:WindowsCE|Windows CE|WinCE|Win CE)/",$useragent,$match)){$os="WinCE";}
+		elseif(preg_match("/Windows\sPhone\sOS\s\d+/",$useragent,$match)){$os="WinCE";}
 		elseif(preg_match("/PalmOS/",$useragent,$match)){$os="PalmOS";}
 		elseif(preg_match("/\(PDA(?:.*)\)(.*)Zaurus/",$useragent,$match)){$os="Sharp Zaurus";}
+		elseif(preg_match("/Android\s*([0-9\.]+)/",$useragent,$match)){$os="Android";$version=$match[1];}
 		elseif(preg_match("/Linux\s*((?:i[0-9]{3})?\s*(?:[0-9]\.[0-9]{1,2}\.[0-9]{1,2})?\s*(?:i[0-9]{3})?)?/",$useragent,$match)){$os="Linux";$version=$match[1];}
 		elseif(preg_match("/NetBSD\s*((?:i[0-9]{3})?\s*(?:[0-9]\.[0-9]{1,2}\.[0-9]{1,2})?\s*(?:i[0-9]{3})?)?/",$useragent,$match)){$os="NetBSD";$version=$match[1];}
 		elseif(preg_match("/OpenBSD\s*([0-9\.]+)?/",$useragent,$match)){$os="OpenBSD";$version=$match[1];}
@@ -216,10 +227,13 @@ class wDetector{
 	function check_browser($useragent) {
 		$browser="";
 		$version="";
-		if(strstr($useragent,' Edge/12.0')!==false){
-			$browser="IE";$version="11";
-		}elseif(strstr($useragent,' Gecko/')==false && preg_match("#^Mozilla\/\d\.\d\s\(Windows\sNT\s\d\.\d;(?:\s[0-9A-Za-z./]+;)+\srv\:([0-9\.]+)\)#",$useragent,$match)){
+		$match=array();
+		if(strpos($useragent,' Gecko/')>0 && preg_match("#^Mozilla\/[0-9.\s]+\(Windows\s(?:NT|Phone)\s[0-9.]+.+\).+(?:\sChrome|Safari)\/[0-9.]+.+\sEdge\/([0-9\.]+)#",$useragent,$match)){
+			$browser="Edge";
+			$version=$match[1];
+		}elseif(preg_match("#^Mozilla\/[0-9.\s]+\(Windows\sNT\s[0-9.]+;.+;\s?rv\:([0-9.]+)\)#",$useragent,$match)){
 			$browser="IE";
+			$version=$match[1];
 		}elseif(preg_match("/^Mozilla(?:.*)compatible;\sMSIE\s(?:.*)Opera\s([0-9\.]+)/",$useragent,$match)){
 			$browser = "Opera";
 		}elseif(preg_match("/^Opera\/([0-9\.]+)/",$useragent,$match)){
@@ -297,7 +311,7 @@ class wDetector{
 		}elseif(preg_match("/^SonyEricsson([0-9a-zA-Z\-.]+)\/([a-zA-Z0-9\.]+)/i",$useragent,$match)){
 			$browser="SonyEricsson";
 		}
-		if(empty($version) && preg_match("/^\d+(\.\d+)?/",$match[1],$pcs)>0){
+		if(empty($version) && !empty($match[1]) && preg_match("/^\d+(\.\d+)?/",$match[1],$pcs)>0){
 			$version=$pcs[0];
 		}
 		$this->browser=$browser;
@@ -306,8 +320,8 @@ class wDetector{
 } //end class wDetector
 
 /**
- * Tracking class to check for previous comment spam activity
- *  -checks for previous spammer comment from IP or referrer url
+ * Class to check for previous comment spam activity
+ *  - Looks for previous spammer comment from IP or referrer url
  */
 class wassup_checkComment{
 	/** check for previous comment spam */
@@ -334,43 +348,46 @@ class wassup_checkComment{
 } //end Class
 } //end if !class_exists('wDetector')
 
-//Truncate $input string to a length of $max
-function stringShortener($input, $max=0, $separator="(...)", $exceedFromEnd=0){
-	if(!$input || !is_string($input)){return false;};
-
-	//Replace all %-hex chars with literals and trim the input string 
-	//  of whitespaces ...because it's shorter and more legible. 
-	//  -Helene D. 11/18/07
-	$instring = trim(stripslashes(rawurldecode(html_entity_decode(wassupURI::disarm_attack($input))))," +\t");
-
+/** Truncate $input string to a length of $max */
+function stringShortener($input,$max=0,$sep='(...)',$exceedFromEnd=0){
+	//check for valid input
+	$strng=rtrim($input);
+	if(empty($strng) || !is_string($input)){
+		return esc_attr($input);	//v1.9.4 bugfix
+	}
+	//temporarily replace all %-hex chars with literals and trim the input string of whitespaces...re-encoded after truncation
+	$instring=rtrim(stripslashes(rawurldecode(html_entity_decode(wassupURI::disarm_attack($input))))," +\t");
+	if(empty($instring)) $instring=$input;	//v1.9.4 bugfix
 	$inputlen=strlen($instring);
 	$max=(is_numeric($max))?(integer)$max:$inputlen;
 	if($max <$inputlen){
-		$separator=($separator)?$separator:"(...)";
+		$separator=($sep)?$sep:'(...)';
 		$modulus=(($max%2));
 		$halfMax=floor($max/2);
 		$begin="";
-		if(!$modulus){$begin=substr($instring, 0, $halfMax);}
-		else{$begin=(!$exceedFromEnd)? substr($instring, 0, $halfMax+1) : substr($instring, 0, $halfMax);}
-		$end="";
-		if(!$modulus){$end=substr($instring,$inputlen-$halfMax);}
-		else{$end=($exceedFromEnd)? substr($instring,$inputlen-$halfMax-1) :substr($instring,$inputlen-$halfMax);}
-		$extracted=substr($instring, strpos($instring,$begin)+strlen($begin), $inputlen-$max );
-		$outstring = $begin.$separator.$end;
-		if (strlen($outstring) >= $inputlen) {  //Because "Fir(...)fox" is longer than "Firefox"
-			$outstring = $instring;
+		if(!$modulus){
+			$begin=substr($instring, 0, $halfMax);
+		}else{
+			$begin=(!$exceedFromEnd)? substr($instring, 0, $halfMax+1) : substr($instring, 0, $halfMax);
 		}
-		// use 'esc_attr' and 'esc_html' to make malicious 
-		//  code harmless when echoed to the screen
+		$end="";
+		if(!$modulus){
+			$end=substr($instring,$inputlen-$halfMax);
+		}else{
+			$end=($exceedFromEnd)? substr($instring,$inputlen-$halfMax-1) :substr($instring,$inputlen-$halfMax);
+		}
+		//$extracted=substr($instring, strpos($instring,$begin)+strlen($begin),$inputlen-$max); //not used here
+		$outstring=$begin.$separator.$end;
+		if(strlen($outstring) >= $inputlen){  //Because "Fir(...)fox" is longer than "Firefox"
+			$outstring=$instring;
+		}
+		// uses 'esc_attr' and 'esc_html' to make malicious code harmless when echoed to the screen
 		$outstring=esc_attr(esc_html($outstring,ENT_QUOTES));
 	} else {
-		$outstring = esc_attr(esc_html($instring,ENT_QUOTES));
+		$outstring=esc_attr(esc_html($instring,ENT_QUOTES));
 	}
 	return $outstring;
 } //end function stringShortener
-
-//functions 'url_rootcheck','wAddSiteurl' and 'wCleanUrl' moved and renamed as wassupURI methods, 'wassupURI::is_root_url', 'wassupURI::add_siteurl' and 'wassupURI::cleanURL' in 'wassup.class.php' module.
-
 
 /**
  * Display a single wassup record as a "raw" list of fields
@@ -432,7 +449,7 @@ function wassup_rawdataView($args=array()){
 			$result=$wpdb->get_var(sprintf("SELECT `post_title` from {$wpdb->prefix}posts WHERE `ID`=%d",(int)$rk->url_wpid));
 			if(empty($result) || is_wp_error($result)) $p_title=" ** ". __("none or deleted post","wassup")." ** ";
 			else $p_title=$result;
-			if(!empty($p_title)) echo '</span><nobr> &nbsp; &nbsp; '.__("Post/page Title","wassup").': </nobr><span class="raw">'.esc_attr($p_title);
+			if(!empty($p_title)) echo '</span><nobr> &nbsp; &nbsp; '.__("Title","wassup").': </nobr><span class="raw">'.esc_attr($p_title);
 		}?></span></li>
 		<li><span class="field"><?php echo __("Referrer","wassup");?>:</span><span class="raw"><?php echo wassupURI::cleanURL($rk->referrer);?></span></li><?php
 		if(!empty($rk->search) || !empty($rk->searchengine) || !empty($rk->searchpage)){
@@ -448,7 +465,7 @@ function wassup_rawdataView($args=array()){
 		}?>
 		<li><span class="field"><?php echo __("OS","wassup");?>:</span><span class="raw"><?php echo esc_attr($rk->os);?></span></li>
 		<li><span class="field"><?php echo __("Locale/Language","wassup")?>:</span><span class="raw"><?php echo esc_attr($rk->language);?></span></li>
-		<li><span class="field"><?php echo __("Screen Resolution","wassup");?>:</span><span class="raw"><?php echo esc_attr($rk->screen_res);?></span></li><?php
+		<li><span class="field"><?php echo __("Screen Resolution","wassup");?>:</span><span class="raw"><?php if(!empty($rk->resolution)) echo esc_attr($rk->resolution);elseif(!empty($rk->screen_res)) echo $rk->screen_res;?></span></li><?php
 		if(trim($rk->login_name,', ')!=""){
 			echo "\n";?>
 		<li><span class="field"><?php echo __("Username","wassup");?>:</span><span class="raw"><?php echo esc_attr(trim($rk->login_name,', '));?></span></li><?php
@@ -496,10 +513,16 @@ function wassup_rawdataView($args=array()){
 	} //end if rk
 } //end wassup_rawdataView
 
-//Output wassup records in the old Digg spy style...
+/**
+ * Retrieve newest data, geolocate visitors, format and display as html.
+ *  - For 'spia.js', an ajax/jQuery plugin that shows live activity
+ *  - Output html is displayed/streamed in the old Digg Spy style (2008)
+ */
 function wassup_spiaView ($from_date="",$rows=0,$spytype="",$spy_datasource="") {
 	global $wpdb,$wp_version,$current_user,$wassup_options,$wdebug_mode;
-	if(!class_exists('wassupOptions')) wassup_init();
+	if(!class_exists('wassupOptions')){
+		if(!wassup_init()) return;	//nothing to do
+	}
 	if(empty($wassup_options)) $wassup_options=new wassupOptions;
 	$wassup_table=$wassup_options->wassup_table;
 	if(!is_object($current_user) || empty($current_user->ID)) $user=wp_get_current_user();
@@ -536,8 +559,7 @@ function wassup_spiaView ($from_date="",$rows=0,$spytype="",$spy_datasource="") 
 	$geo_markers=0;
 	if($spy_datasource == $wassup_table) $qryC = $wpdb->get_results(sprintf("SELECT `id`, `wassup_id`, `timestamp`, `ip`, `hostname`, `searchengine`, `urlrequested`, `agent`, `referrer`, `spider`, `feed`, `username`, `comment_author`, `language`, `spam` FROM %s WHERE `timestamp` >'%d' %s ORDER BY `timestamp` DESC LIMIT %d",$spy_datasource,$from_date,$whereis,$rows));
 	else $qryC = $wpdb->get_results(sprintf("SELECT `id`, `wassup_id`, `timestamp`, `ip`, `hostname`, `searchengine`, `urlrequested`, `agent`, `referrer`, `spider`, `feed`, `username`, `comment_author`, `language`, `spam` FROM %s WHERE `timestamp` >'%d' %s ORDER BY `timestamp` LIMIT %d",$spy_datasource,$from_date,$whereis,$rows));
-	if(!is_wp_error($qryC)){
-	if(!empty($qryC)){
+	if(!empty($qryC) && !is_wp_error($qryC)){
 		$qrows=count($qryC);
 		$row_count=0;
 		$char_len=$max_char_len*.9;
@@ -560,7 +582,7 @@ function wassup_spiaView ($from_date="",$rows=0,$spytype="",$spy_datasource="") 
 		$requesturl=wassupURI::url_link($cv->urlrequested,$char_len,$cv->spam);
 		if($cv->hostname !="" && $cv->hostname !="unknown") $hostname=$cv->hostname; 
 		else $hostname=__("unknown");
-		if(!empty($cv->spam)){ 	//v1.9 bugfix (was rk)
+		if(!empty($cv->spam)){
 			$unclass="sum-box-spam";
 			$ulclass="spider";
 			$map_icon="pinbot";
@@ -616,7 +638,7 @@ function wassup_spiaView ($from_date="",$rows=0,$spytype="",$spy_datasource="") 
 				$flag='<img src="'.WASSUPURL.'/img/flags/'.$locale.'.png" title="'.$flag_title.'" />';
 				//update language/locale code when different from geoip country code (not us)
 				if(empty($cv->language) || ($cv->language =="us" && $locale!="us")){
-					$wassup_dbtask[]=sprintf("UPDATE LOW_PRIORITY `$wassup_table` SET `language`='%s' WHERE `wassup_id`='%s' AND `language`='%s'",$locale,$cv->wassup_id,$cv->language);
+					$wassup_dbtask[]=sprintf("UPDATE `$wassup_table` SET `language`='%s' WHERE `wassup_id`='%s' AND `language`='%s'",$locale,$cv->wassup_id,$cv->language);
 				}
 			}
 		}
@@ -636,7 +658,7 @@ function wassup_spiaView ($from_date="",$rows=0,$spytype="",$spy_datasource="") 
 			}
 			$markerHtml='<div><div class="bubble">'.$visitor.'<br />IP: '.$ip."<br />".__("Country:","wassup").' '.$flag.' '.$location."<br />".__("URL Request:","wassup")." $timef - $requesturl".'<br /></div></div>';
 			$markerjs=wAdd_GeoMarker('spiamap',$cv->id,$lat,$lon,$markerHtml,$map_icon,true);
-			//New in v1.9: clickable ip repositions and zooms map at ip marker
+			//clickable ip repositions and zooms map at ip marker @since v1.9
 			$ipclick='<a href="#spia_map" onclick="showMarkerinfo(spiamap,'.$lat.','.$lon.',marker'.(int)$cv->id.',minfo'.(int)$cv->id.');return false;"><span class="sum-box-ip '.$unclass.'">'.$ip.'</span></a>';
 		} //end if spy_map
 		echo "\n";?>
@@ -665,39 +687,39 @@ function wassup_spiaView ($from_date="",$rows=0,$spytype="",$spy_datasource="") 
 				wp_schedule_single_event(time()+30,'wassup_scheduled_dbtasks',$args);
 			}
 		}
-	}elseif(!empty($wdebug_mode) && $to_date - $from_date >90 && $to_date%23 == 0){
-		//display a "no activity" message occasionally in wdebug_mode as visual indicator that spia.js javascript is running
-		echo "\n"; ?>
+	}else{
+		if(!is_wp_error($qryC) && !empty($wdebug_mode) && $to_date - $from_date >90 && $to_date%23 == 0){
+			//display a "no activity" message occasionally in wdebug_mode as visual indicator that spia.js javascript is running
+			echo "\n";?>
 	<div class="sum-spy">
 	<div class="sum-rec sum-nav-spy" style="width:auto;padding:3px;">
 		<span class="det3"><?php
-		if ($wassup_options->wassup_time_format == "12") {
-	   		echo gmdate('h:i:s A', $to_date);
-		} else {
-	   		echo gmdate('H:i:s', $to_date);
-		}
-		echo ' - '.__("No visitor activity","wassup");?> &nbsp; &nbsp; :-( &nbsp; </span>
+			if($wassup_options->wassup_time_format == "12"){
+				echo gmdate('h:i:s A',$to_date);
+			}else{
+				echo gmdate('H:i:s',$to_date);
+			}
+			echo ' - '.__("No visitor activity","wassup");?> &nbsp; &nbsp; :-( &nbsp; </span>
 	</div>
 	</div><?php
+		}
 		echo "\n";
 	} //end if !empty($qryC)
-	} //end if is_wp_error
 } //end function wassup_spiaView
 
-/**
- * return javascript to add a marker to a google map
- * @since v1.8
- */
+/** Return javascript to add a marker to a google map. @since v1.8 */
 function wAdd_GeoMarker($map,$item_id,$lat,$lon,$markerHtml,$map_icon,$pan=true) {
 	$markerjs='<script type="text/javascript">var pos=new google.maps.LatLng('.$lat.','.$lon.');var marker'.$item_id.'=new google.maps.Marker({map:'.$map.',position:pos,icon:'.$map_icon.',animation:google.maps.Animation.DROP});var mcontent=\''.str_replace('\'','"',$markerHtml).'\';var minfo'.$item_id.'=new google.maps.InfoWindow({content:mcontent});';
 	$markerjs .='google.maps.event.addListener(marker'.$item_id.',"click",function(){minfo'.$item_id.'.open('.$map.',marker'.$item_id.')});'.$map.'.setZoom(3);';
 	if($pan)$markerjs .=$map.'.panTo(pos);';
 	$markerjs .='</script>';
 	return $markerjs;
-} //end wAdd_GeoMarker
+}
 
-//return a location name formatted for wassup_spiaView from array argument
-//@since v1.8
+/**
+ * return a location name formatted for wassup_spiaView from array argument
+ * @since v1.8
+ */
 function wGetLocationname($geoip_rec=array()) {
 	$country_code="";
 	if(!empty($geoip_rec['country_code']))$country_code=strtoupper($geoip_rec['country_code']);
@@ -730,7 +752,7 @@ function wGetLocationname($geoip_rec=array()) {
 }
 
 /** 
- * get geographic location and coordinates for an IP address and cache the data in 'wassup_meta' table.
+ * Return geographic location and coordinates for an IP address and cache the data in 'wassup_meta' table.
  * Since version 1.8
  * @param array (ip address or hostname)
  * @return array (ip, location, latitude, longitude, country)
@@ -793,20 +815,24 @@ function wGeolocateIP($ip) {
  * Return an associative array containing the top statistics results from MySql query
  * parameters are: stat_type, limit, from-condition (mysql)
  * return array keys('top_count','top_item','visit_timestamp",["top_group","top_link"])
- * @author Helene D. 2009-03-04
+ * function renamed from 'wGetStats' to avoid name conflicts
+ * @author Helene D. 2009-03-0$hostname=@gethostbyaddr($IP);4
  * @param string, integer, string
  * @return array
  */
-function wGetStats($stat_type, $stat_limit=10, $stat_condition="",$return_sql=false) {
+function get_wassupstat($stat_type, $stat_limit=10, $stat_condition="",$return_sql=false) {
 	global $wpdb, $wassup_options, $wdebug_mode;
 	if(!class_exists('wassupOptions')){
-		wassup_init();
+		if(!wassup_init()) return;	//nothing to do
 		$wassup_options=new wassupOptions;
 	}elseif(empty($wassup_options)){
 		$wassup_options=new wassupOptions;
 	}
-	if (!is_array($wassup_options->wassup_top10)) $top_ten = unserialize(html_entity_decode($wassup_options->wassup_top10));
-	else $top_ten=$wassup_options->wassup_top10;
+	if(!is_array($wassup_options->wassup_top10)){
+		$top_ten = unserialize(html_entity_decode($wassup_options->wassup_top10));
+	}else{
+		$top_ten=$wassup_options->wassup_top10;
+	}
 	$wpurl= strtolower(wassupURI::get_wphome());
 	$blogurl= strtolower(wassupURI::get_sitehome());
 	$wassup_table=$wassup_options->wassup_table;
@@ -819,8 +845,8 @@ function wGetStats($stat_type, $stat_limit=10, $stat_condition="",$return_sql=fa
 	}
 	$sql="";
 	//top search phrases...
-	if ($stat_type == "searches" || $stat_type=="search") {
-		$sql=sprintf("SELECT count(*) AS top_count, `search` AS top_item, max(`timestamp`) AS visit_timestamp, `referrer` AS top_link FROM $wassup_table WHERE %s AND `search`!='' AND `spam`='0' GROUP BY 2 ORDER BY 1 DESC, 3 DESC LIMIT %d",$stat_condition,$stat_limit);
+	if($stat_type == "searches" || $stat_type=="search"){
+		$sql=sprintf("SELECT count(*) AS top_count, `search` AS top_item, max(`timestamp`) AS visit_timestamp, `referrer` AS top_link FROM `$wassup_table` WHERE %s AND `search`!='' AND `spam`='0' GROUP BY 2 ORDER BY 1 DESC, 3 DESC LIMIT %d",$stat_condition,$stat_limit);
 
 	//Top external referrers...
 	}elseif($stat_type=="referrers" || $stat_type=="referrer"){
@@ -844,10 +870,10 @@ function wGetStats($stat_type, $stat_limit=10, $stat_condition="",$return_sql=fa
 		foreach ($exclude_array as $exclude_domain) {
 			$www='www\\.';
 			if(preg_match('#^(www\d?\.)(.+)#i',$exclude_domain,$pcs)>0){
-				if(!empty($pcs[1]))$www=str_replace('.','\\.',$pcs[1]);
+				if(!empty($pcs[1])) $www=str_replace('.','\\.',$pcs[1]);
 				$exclude_domain=$pcs[2];
 			}
-			//New in v1.9: wildcard(*) allowed in domain
+			//wildcard(*) allowed in domain @since v1.9
 			if(empty($regex_domains)) $regex_domains=str_replace(array('.','*'),array('\\.','.*'),rtrim(trim($exclude_domain),'*,'));
 			else $regex_domains.="|".str_replace(array('.','*'),array('\\.','.*'),rtrim(trim($exclude_domain),'*,'));
 		} //end foreach
@@ -856,28 +882,28 @@ function wGetStats($stat_type, $stat_limit=10, $stat_condition="",$return_sql=fa
 		}
 		//exclude the major search engines from referrers
 		$exclude_referrers .=" AND TRIM(LEADING 'http://' FROM TRIM(LEADING 'https://' FROM `referrer`)) NOT RLIKE '^(".$www.")?".'([0-9]|[a-z]|\\-|\\.|_)*\\.?(google'.'\\.'."com|yahoo".'\\.'."com|bing".'\\.'."com)'";
-		$sql=sprintf("SELECT count(*) AS top_count, TRIM(LEADING '//' FROM TRIM(LEADING 'http:' FROM TRIM(LEADING 'https:' FROM `referrer`))) AS top_item, max(`timestamp`) AS visit_timestamp, `referrer` AS top_link FROM $wassup_table WHERE %s AND `referrer`!='' AND `search`='' AND `spam`='0' %s GROUP BY 2 ORDER BY 1 DESC, 3 DESC LIMIT %d", $stat_condition, $exclude_referrers, $stat_limit);
+		$sql=sprintf("SELECT count(*) AS top_count, TRIM(LEADING '//' FROM TRIM(LEADING 'http:' FROM TRIM(LEADING 'https:' FROM `referrer`))) AS top_item, max(`timestamp`) AS visit_timestamp, `referrer` AS top_link FROM `$wassup_table` WHERE %s AND `referrer`!='' AND `search`='' AND `spam`='0' %s GROUP BY 2 ORDER BY 1 DESC, 3 DESC LIMIT %d", $stat_condition, $exclude_referrers, $stat_limit);
 
 	//top url requests...
-	} elseif ($stat_type == "urlrequested" || $stat_type=="requests"){
-		//New in v1.9: removed labels ('#xxxx') and query parameters except for '[?&]p=xx' from url for better url matching in MySQL
+	}elseif($stat_type == "urlrequested" || $stat_type=="requests"){
 		$stat_condition1=$stat_condition." AND `urlrequested` NOT LIKE '%?p=%' AND `urlrequested` NOT LIKE '%&p=%'";
 		$stat_condition2=$stat_condition." AND `urlrequested` LIKE '%?p=%' OR `urlrequested` LIKE '%&p=%'";
-		$sql=sprintf("SELECT count(*) AS top_count, LOWER(TRIM(TRAILING '/' FROM SUBSTRING_INDEX(SUBSTRING_INDEX(`urlrequested`, '/index.php', 1), '#', 1))) AS top_group, max(`timestamp`) AS visit_timestamp, LOWER(urlrequested) AS top_item, SUBSTRING_INDEX(`urlrequested`, '#', 1) AS top_link FROM $wassup_table WHERE %s AND `spam`='0' GROUP BY 2 UNION SELECT count(*) AS top_count, LOWER(TRIM(TRAILING '&' FROM SUBSTRING_INDEX(`urlrequested`, '#', 1))) AS top_group, max(`timestamp`) AS visit_timestamp, LOWER(urlrequested) AS top_item, SUBSTRING_INDEX(`urlrequested`, '#', 1) AS top_link FROM $wassup_table WHERE %s AND `spam`='0' GROUP BY 2 ORDER BY 1 DESC, 3 DESC LIMIT %d",$stat_condition1, $stat_condition2, $stat_limit);
+		//exclude labels ('#xxxx') and query parameters from url except for '[?&]p=xx' to better match urls in MySQL @since v1.9
+		$sql=sprintf("SELECT count(*) AS top_count, LOWER(TRIM(TRAILING '/' FROM SUBSTRING_INDEX(SUBSTRING_INDEX(`urlrequested`, '/index.php', 1), '#', 1))) AS top_group, max(`timestamp`) AS visit_timestamp, LOWER(`urlrequested`) AS top_item, SUBSTRING_INDEX(`urlrequested`, '#', 1) AS top_link FROM `$wassup_table` WHERE %s AND `spam`='0' GROUP BY 2 UNION SELECT count(*) AS top_count, LOWER(TRIM(TRAILING '&' FROM SUBSTRING_INDEX(`urlrequested`, '#', 1))) AS top_group, max(`timestamp`) AS visit_timestamp, LOWER(`urlrequested`) AS top_item, SUBSTRING_INDEX(`urlrequested`, '#', 1) AS top_link FROM `$wassup_table` WHERE %s AND `spam`='0' GROUP BY 2 ORDER BY 1 DESC, 3 DESC LIMIT %d",$stat_condition1, $stat_condition2, $stat_limit);
 	//top browser...
-	} elseif ($stat_type == "browser" || $stat_type=="browsers"){
-		$sql=sprintf("SELECT count(DISTINCT `wassup_id`) AS top_count, SUBSTRING_INDEX(SUBSTRING_INDEX(`browser`, ' 0.', 1), '.', 1) AS top_item, max(`timestamp`) AS visit_timestamp FROM $wassup_table WHERE %s AND `browser`!='' AND `spam`='0' GROUP BY 2 ORDER BY 1 DESC, 3 DESC LIMIT %d",$stat_condition, $stat_limit);
+	}elseif($stat_type == "browser" || $stat_type=="browsers"){
+		$sql=sprintf("SELECT count(DISTINCT `wassup_id`) AS top_count, SUBSTRING_INDEX(SUBSTRING_INDEX(`browser`, ' 0.', 1), '.', 1) AS top_item, max(`timestamp`) AS visit_timestamp FROM `$wassup_table` WHERE %s AND `browser`!='' AND `spam`='0' GROUP BY 2 ORDER BY 1 DESC, 3 DESC LIMIT %d",$stat_condition, $stat_limit);
 	//top os...
-	} elseif ($stat_type == "os") {
-		$sql=sprintf("SELECT count(DISTINCT `wassup_id`) as top_count, `os` AS top_item, max(`timestamp`) AS visit_timestamp FROM $wassup_table WHERE %s AND `os`!='' AND `spam`='0' GROUP BY 2 ORDER BY 1 DESC, 3 DESC LIMIT %d",$stat_condition,$stat_limit);
+	}elseif($stat_type == "os"){
+		$sql=sprintf("SELECT count(DISTINCT `wassup_id`) as top_count, `os` AS top_item, max(`timestamp`) AS visit_timestamp FROM `$wassup_table` WHERE %s AND `os`!='' AND `spam`='0' GROUP BY 2 ORDER BY 1 DESC, 3 DESC LIMIT %d",$stat_condition,$stat_limit);
 	//top language/locale..
-	} elseif ($stat_type == "language" || $stat_type=="locale"){
-		$sql=sprintf("SELECT count(DISTINCT `wassup_id`) as top_count, LOWER(`language`) as top_item, max(`timestamp`) AS visit_timestamp FROM $wassup_table WHERE %s AND language!='' AND `spam`='0' GROUP BY 2 ORDER BY 1 DESC, 3 DESC LIMIT %d",$stat_condition, $stat_limit);
+	}elseif($stat_type == "language" || $stat_type=="locale"){
+		$sql=sprintf("SELECT count(DISTINCT `wassup_id`) as top_count, LOWER(`language`) as top_item, max(`timestamp`) AS visit_timestamp FROM `$wassup_table` WHERE %s AND `language`!='' AND `spam`='0' GROUP BY 2 ORDER BY 1 DESC, 3 DESC LIMIT %d",$stat_condition, $stat_limit);
 	//top visitors...
 	} elseif ($stat_type == "visitor" || $stat_type=="visitors"){
-		$sql=sprintf("SELECT count(DISTINCT `wassup_id`) as top_count, `username` as top_item, '1loggedin_user' as visitor_type, max(`timestamp`) as visit_timestamp FROM $wassup_table WHERE %s AND `username`!='' AND `spam`='0' GROUP BY 2 UNION SELECT count(DISTINCT `wassup_id`) as top_count, comment_author as top_item, '2comment_author' as visitor_type, max(`timestamp`) as visit_timestamp FROM $wassup_table WHERE %s AND `username`='' AND comment_author!='' AND `spam`='0' GROUP BY 2 UNION SELECT count(DISTINCT `wassup_id`) as top_count, `hostname` as top_item, '3hostname' as visitor_type, max(`timestamp`) as visit_timestamp FROM $wassup_table WHERE %s AND `username`='' AND comment_author='' AND `spam`='0' GROUP BY 2 ORDER BY 1 DESC, 3, 2 LIMIT %d",$stat_condition,$stat_condition,$stat_condition,$stat_limit);
+		$sql=sprintf("SELECT count(DISTINCT `wassup_id`) as top_count, `username` as top_item, '1loggedin_user' as visitor_type, max(`timestamp`) as visit_timestamp FROM `$wassup_table` WHERE %s AND `username`!='' AND `spam`='0' GROUP BY 2 UNION SELECT count(DISTINCT `wassup_id`) as top_count, `comment_author` as top_item, '2comment_author' as visitor_type, max(`timestamp`) as visit_timestamp FROM `$wassup_table` WHERE %s AND `username`='' AND `comment_author`!='' AND `spam`='0' GROUP BY 2 UNION SELECT count(DISTINCT `wassup_id`) as top_count, `hostname` as top_item, '3hostname' as visitor_type, max(`timestamp`) as visit_timestamp FROM `$wassup_table` WHERE %s AND `username`='' AND `comment_author`='' AND `spam`='0' GROUP BY 2 ORDER BY 1 DESC, 3, 2 LIMIT %d",$stat_condition,$stat_condition,$stat_condition,$stat_limit);
 	//top postid (post|page)
-	} elseif ($stat_type == "postid" || $stat_type == "article" || $stat_type=="articles" || $stat_type=="url_wpid") {
+	}elseif($stat_type == "postid" || $stat_type == "article" || $stat_type=="articles" || $stat_type=="url_wpid"){
 		$exclude_frontpage="";
 		if(!empty($top_ten['top_nofrontpage'])){
 			$front_pageid=0;
@@ -885,12 +911,12 @@ function wGetStats($stat_type, $stat_limit=10, $stat_condition="",$return_sql=fa
 			if($show_on_front=="page") $front_pageid=get_option('page_on_front');
 			if(!empty($front_pageid) && is_numeric($front_pageid)) $exclude_frontpage=sprintf("AND `url_wpid`!='%d'",$front_pageid);
 		}
-		$sql=sprintf("SELECT count(*) AS top_count, `url_wpid` AS top_group, max(`timestamp`) as visit_timestamp, `post_title` AS top_item, SUBSTRING_INDEX(`urlrequested`, '#', 1) AS top_link FROM $wassup_table, {$wpdb->prefix}posts WHERE %s AND `spam`='0' AND `url_wpid`!='' AND `url_wpid`>'0' %s AND `url_wpid`={$wpdb->prefix}posts.ID GROUP BY 2 ORDER BY 1 DESC, 3 DESC LIMIT %d",$stat_condition,$exclude_frontpage,$stat_limit);
-	//New in v1.9: stats on any column that exists in wassup table
+		$sql=sprintf("SELECT count(*) AS top_count, `url_wpid` AS top_group, max(`timestamp`) as visit_timestamp, `post_title` AS top_item, SUBSTRING_INDEX(`urlrequested`, '#', 1) AS top_link FROM `$wassup_table`, {$wpdb->prefix}posts WHERE %s AND `spam`='0' AND `url_wpid`!='' AND `url_wpid`>'0' %s AND `url_wpid`={$wpdb->prefix}posts.ID GROUP BY 2 ORDER BY 1 DESC, 3 DESC LIMIT %d",$stat_condition,$exclude_frontpage,$stat_limit);
+	//do stats on any column in wp_wassup table @since v1.9
 	}elseif(!empty($stat_type)){
 		$col=$wpdb->get_row(sprintf("SHOW COLUMNS FROM %s LIKE '%s'",$wtable_name,wassupDb::esc_like(esc_attr($stat_type))));
 		if(!is_wp_error($col) && !empty($col)){
-			$sql=sprintf("SELECT count(DISTINCT `wassup_id`) AS top_count, `$stat_type` AS top_item, max(`timestamp`) as visit_timestamp  FROM $wassup_table WHERE %s AND `$stat_type`!='' AND `spam`='0' GROUP BY 2 ORDER BY 1 DESC, 3 DESC LIMIT %d",$stat_condition,$stat_limit);
+			$sql=sprintf("SELECT count(DISTINCT `wassup_id`) AS top_count, `$stat_type` AS top_item, max(`timestamp`) as visit_timestamp  FROM `$wassup_table` WHERE %s AND `$stat_type`!='' AND `spam`='0' GROUP BY 2 ORDER BY 1 DESC, 3 DESC LIMIT %d",$stat_condition,$stat_limit);
 		}else{
 			$error_msg=" column does not exist in table ".$stat_type;
 		}
@@ -919,18 +945,17 @@ function wGetStats($stat_type, $stat_limit=10, $stat_condition="",$return_sql=fa
 		if($wdebug_mode)echo "\n<!-- ".__FUNCTION__." ERROR: ".$error_msg." -->";
 	}
 	return false;
-} //end function wGetStats
+} //end function get_wassupstat
 
 /**
  * Display the top 10 stats in table columns
- * @access public
  * @param string(4)
  * @return none
  */
 function wassup_top10view ($from_date="",$to_date="",$res="",$top_limit=0,$title=false) {
 	global $wpdb,$wp_version,$wassup_options,$wdebug_mode;
 	if(!class_exists('wassupOptions')){
-		wassup_init();
+		if(!wassup_init()) return;	//nothing to do
 		$wassup_options=new wassupOptions;
 	}elseif(empty($wassup_options)){
 		$wassup_options=new wassupOptions;
@@ -938,25 +963,31 @@ function wassup_top10view ($from_date="",$to_date="",$res="",$top_limit=0,$title
 		$wassup_options->loadSettings();
 	}
 	$wassup_table=$wassup_options->wassup_table;
-	if(!is_array($wassup_options->wassup_top10)) $top_ten=maybe_unserialize(html_entity_decode($wassup_options->wassup_top10));
-	else $top_ten=$wassup_options->wassup_top10;
-	if(empty($top_ten) || !is_array($top_ten))$top_ten=$wassup_options->defaultSettings("top10");
+	if(!is_array($wassup_options->wassup_top10)){
+		$top_ten=maybe_unserialize(html_entity_decode($wassup_options->wassup_top10));
+	}else{
+		$top_ten=$wassup_options->wassup_top10;
+	}
+	if(empty($top_ten) || !is_array($top_ten)){
+		$top_ten=$wassup_options->defaultSettings("top10");
+	}
 	$wassup_table=$wassup_options->wassup_table;
-	$blogurl =  wassupURI::get_sitehome();
-	$url = parse_url($blogurl);
-	$sitedomain = preg_replace('/^www\./i','',$url['host']);
+	$blogurl=wassupURI::get_sitehome();
+	$url=parse_url($blogurl);
+	$sitedomain=preg_replace('/^www?[0-9a-z]\./i','',$url['host']);
 
 	//extend php script timeout length for large tables
-	if (!ini_get('safe_mode')) {
-		$php_timeout = @ini_get("max_execution_time");
-		if (is_numeric($php_timeout) && (int)$php_timeout < 120) {
-			@set_time_limit(2*60); 	//  ...to 2 minutes
+	$stimeout=ini_get("max_execution_time");
+	if(is_numeric($stimeout) && $stimeout >0 && $stimeout <180){
+		$disabled_funcs=ini_get('disable_functions');
+		if((empty($disabled_funcs) || strpos($disabled_funcs,'set_time_limit')===false) && !ini_get('safe_mode')){
+			@set_time_limit(3*60); 	//3 minutes timeout
 		}
 	}
 	$col_count=array_sum($top_ten);
 	//extend page width to make room for more than 5 columns
-	if(empty($res))$res=$wassup_options->wassup_screen_res;
-	if($res < 640 && $col_count >3)$res=640;
+	if(empty($res)) $res=$wassup_options->wassup_screen_res;
+	if($res < 640 && $col_count >3) $res=640;
 	$char_len=(int)($res/$col_count);
 	$min_width=(($char_len < 90)?90:$char_len);
 	//Since v1.8.3: top_limit in top10 array
@@ -968,23 +999,28 @@ function wassup_top10view ($from_date="",$to_date="",$res="",$top_limit=0,$title
 	$multisite_condition="";
 	//for multisite/network activation
 	if($wassup_options->network_activated_plugin()){
-		if(!is_network_admin() && !empty($GLOBALS['current_blog']->blog_id)) $multisite_condition = sprintf(" AND `subsite_id`=%d",(int)$GLOBALS['current_blog']->blog_id);
+		if(!is_network_admin() && !empty($GLOBALS['current_blog']->blog_id)){
+			$multisite_condition = sprintf(" AND `subsite_id`=%d",(int)$GLOBALS['current_blog']->blog_id);
+		}
 	}
-	if(empty($from_date))$from_date=$wpdb->get_var(sprintf("SELECT MIN(`timestamp`) FROM %s WHERE `timestamp`>0 %s",$wassup_table,$multisite_condition));
-	if(empty($to_date))$to_date=current_time("timestamp");
+	if(empty($from_date)) $from_date=$wpdb->get_var(sprintf("SELECT MIN(`timestamp`) FROM %s WHERE `timestamp`>0 %s",$wassup_table,$multisite_condition));
+	if(empty($to_date)) $to_date=current_time("timestamp");
 	$top_condition = "`timestamp` BETWEEN '".$from_date."' AND '".$to_date."'";
-	if (!empty($top_ten['top_nospider'])) $top_condition .= " AND spider=''";
+	if(!empty($top_ten['top_nospider'])) $top_condition .= " AND spider=''";
 	$top_condition .= $multisite_condition;
 	//top stats header
 	$table_class="";
 	if(!empty($_GET['popup'])){
 		$table_class=' class="popup"';
 		$wdformat=get_option("date_format");
-		if(($to_date-$from_date)>24*60*60)$stats_range=gmdate("$wdformat",$from_date)." - ".gmdate("$wdformat",$to_date);
-		else $stats_range=gmdate("$wdformat H:00",$from_date)." - ".gmdate("$wdformat H:00",$to_date);
+		if(($to_date-$from_date)>24*60*60){
+			$stats_range=gmdate("$wdformat",$from_date)." - ".gmdate("$wdformat",$to_date);
+		}else{
+			$stats_range=gmdate("$wdformat H:00",$from_date)." - ".gmdate("$wdformat H:00",$to_date);
+		}
 		$statsheader='<span class="stats-print-btn"><a href="#" class="button" onclick="printstat();return false;">'.__("Print","wassup").'</a></span>'."\n";
-		$statsheader.='<h4>'.get_option("blogname").'</h4>'."\n";
-		$statsheader.='<span>'.sprintf(__('Top Stats for Period: %s','wassup'),$stats_range).'</span>';
+		$statsheader .='<h4>'.get_option("blogname").'</h4>'."\n";
+		$statsheader .='<span>'.sprintf(__('Top Stats for Period: %s','wassup'),$stats_range).'</span>';
 	}
 	echo "\n"; ?>
 <div id="wassup-topstats">
@@ -1010,11 +1046,16 @@ function wassup_top10view ($from_date="",$to_date="",$res="",$top_limit=0,$title
 
 	//#output top 10 searches
 	if ($top_ten['topsearch'] == 1) {
-		$top_results = wGetStats("searches",$top_limit,$top_condition);
+		$top_results=get_wassupstat("searches",$top_limit,$top_condition);
 ?>
-	<td<?php if($cols==0)echo ' class="firstcol"'; if(!empty($top_results) && count($top_results) >0){$cwidth=2*$min_width; echo ' style="min-width:'.$cwidth.'px"';}?>>
+	<td<?php
+		if($cols==0) echo ' class="firstcol"';
+		if(!empty($top_results) && count($top_results) >0){
+			$cwidth=2*$min_width;
+			echo ' style="min-width:'.$cwidth.'px"';
+		}?>>
 		<ul class="charts">
-		<li class="chartsT"><?php echo _e("TOP QUERY", "wassup");?></li> <?php 
+		<li class="chartsT"><?php _e("TOP QUERY", "wassup");?></li> <?php 
 		$i=0;
 		$ndigits=1;
 		if (!empty($top_results) && count($top_results) >0) {
@@ -1022,9 +1063,9 @@ function wassup_top10view ($from_date="",$to_date="",$res="",$top_limit=0,$title
 		foreach ($top_results as $top10) { 
 			echo "\n"; ?>
 		<li class="wassup-nowrap"><nobr><?php
-			if ($top10->top_item=="_notprovided_")$top_string='('.__("not provided","wassup").')';
+			if ($top10->top_item=="_notprovided_") $top_string='('.__("not provided","wassup").')';
 			else $top_string=stringShortener(preg_replace('/'.preg_quote($blogurl,'/').'/i','',$top10->top_item),$char_len);
-			echo wPadNum($top10->top_count,$ndigits).' <a href="'.$top10->top_link.'" target="_BLANK" title="'.substr($top10->top_item,0,$wassup_options->wassup_screen_res-100).'">'.$top_string.'</a>';?></nobr></li><?php
+			echo wPadNum($top10->top_count,$ndigits).' <a href="'.wassupURI::cleanURL($top10->top_link).'" target="_BLANK" title="'.substr($top10->top_item,0,$wassup_options->wassup_screen_res-100).'">'.$top_string.'</a>';?></nobr></li><?php
 			$i++;
 		}
 		}
@@ -1041,9 +1082,14 @@ function wassup_top10view ($from_date="",$to_date="",$res="",$top_limit=0,$title
 	if ($top_ten['topreferrer'] == 1) {
 		//to prevent browser timeouts, send <!--heartbeat--> output
 		echo "\n<!--heartbeat-->";
-		$top_results = wGetStats("referrers",$top_limit,$top_condition);
+		$top_results = get_wassupstat("referrers",$top_limit,$top_condition);
 ?>
-	<td<?php if($cols==0)echo ' class="firstcol"'; if(!empty($top_results) && count($top_results) >0){$cwidth=(int)(2.5*$min_width); echo ' style="min-width:'.$cwidth.'px"';}?>>
+	<td<?php
+		if($cols==0) echo ' class="firstcol"';
+		if(!empty($top_results) && count($top_results) >0){
+			$cwidth=(int)(2.5*$min_width);
+			echo ' style="min-width:'.$cwidth.'px"';
+		}?>>
 		<ul class="charts">
 		<li class="chartsT"><?php _e("TOP REFERRER", "wassup"); ?></li><?php
 		$i=0;
@@ -1053,9 +1099,14 @@ function wassup_top10view ($from_date="",$to_date="",$res="",$top_limit=0,$title
 		foreach ($top_results as $top10) {
 			echo "\n"; ?>
 			<li class="wassup-nowrap"><?php echo wPadNum($top10->top_count,$ndigits);
-			echo ' <a href="'.wassupURI::cleanURL($top10->top_link).'" title="'.wassupURI::cleanURL($top10->top_link).'" target="_BLANK">';
-			echo preg_replace('#^https?\://(?:www\d?\.)?#i','',wassupURI::cleanURL($top10->top_item));
-			echo '</a>';?></li><?php
+			//no link for possible spam/malware
+			if(preg_match('/\/wp\-(?:admin|content|includes)\/|\/wp\-login\.php|["\'\<\>\{\}\(\)\*\\\\`]|&[lgr]t;|&#0?3[49];|&#0?4[01];|&#0?6[02];|&#0?9[26];|&#8217;|&#8221;|&quot;/i',$top10->top_item)>0 || wassupURI::is_xss($top10->top_item)){
+				echo ' <span class="top10" title="'.wassupURI::cleanURL(substr($top10->top_item,0,$wassup_options->wassup_screen_res-100)).'">';
+				echo preg_replace('#^https?\://(?:www\d?\.)?#i','',wassupURI::cleanURL($top10->top_item)).'</span>';
+			}else{
+				echo ' <a href="'.wassupURI::cleanURL($top10->top_link).'" title="'.wassupURI::cleanURL($top10->top_link).'" target="_BLANK">';
+				echo preg_replace('#^https?\://(?:www\d?\.)?#i','',wassupURI::cleanURL($top10->top_item)).'</a>';
+			}?></li><?php
 			$i++;
 		}
 		}
@@ -1070,9 +1121,14 @@ function wassup_top10view ($from_date="",$to_date="",$res="",$top_limit=0,$title
 	$top_results=array();
 	if($top_ten['toprequest']==1){
 		echo "\n<!--heartbeat-->\n";
-		$top_results=wGetStats("urlrequested",$top_limit,$top_condition);
+		$top_results=get_wassupstat("urlrequested",$top_limit,$top_condition);
 ?>
-	<td<?php if($cols==0)echo ' class="firstcol"'; if(!empty($top_results) && count($top_results) >0){$cwidth=(int)(2.5*$min_width); echo ' style="min-width:'.$cwidth.'px"';}?>>
+	<td<?php
+		if($cols==0) echo ' class="firstcol"';
+		if(!empty($top_results) && count($top_results) >0){
+			$cwidth=(int)(2.5*$min_width);
+			echo ' style="min-width:'.$cwidth.'px"';
+		}?>>
 		<ul class="charts">
 		<li class="chartsT"><?php _e("TOP REQUEST", "wassup"); ?></li><?php
 		$i=0;
@@ -1082,10 +1138,12 @@ function wassup_top10view ($from_date="",$to_date="",$res="",$top_limit=0,$title
 		foreach ($top_results as $top10) {
 			echo "\n"; ?>
 			<li class="wassup-nowrap"><nobr><?php echo wPadNum($top10->top_count,$ndigits);
-			if (strstr($top10->top_item,'[')) { //no link for 404 pages
-				echo ' <span class="top10" title="'.substr($top10->top_item,0,$wassup_options->wassup_screen_res-100).'">'.preg_replace('/'.preg_quote($blogurl,'/').'/i', '', $top10->top_item).'</span>';
-			} else {
-				echo ' <a href="'.wassupURI::add_siteurl($top10->top_link).'" target="_BLANK" title="'.substr($top10->top_item,0,$wassup_options->wassup_screen_res-100).'">'.preg_replace('/'.preg_quote($blogurl,'/').'/i', '', $top10->top_item).'</a>';
+			//no link for 404 and possible spam/malware
+			if(strpos($top10->top_item,'[')===0 || preg_match('/\/wp\-(?:admin|content|includes)\/|\/wp\-login\.php|["\'\<\>\{\}\(\)\*\\\\`]|&[lgr]t;|&#0?3[49];|&#0?4[01];|&#0?6[02];|&#0?9[26];|&#8217;|&#8221;|&quot;/i',$top10->top_item)>0 || wassupURI::is_xss($top10->top_item)){
+				echo ' <span class="top10" title="'.wassupURI::cleanURL(substr($top10->top_item,0,$wassup_options->wassup_screen_res-100)).'">'.preg_replace('/'.preg_quote($blogurl,'/').'/i','',wassupURI::cleanURL($top10->top_item)).'</span>';
+			}else{
+				//echo wassupURI::url_link($top10->top_link,false);
+				echo ' <a href="'.wassupURI::add_siteurl($top10->top_link).'" target="_BLANK" title="'.wassupURI::cleanURL(substr($top10->top_item,0,$wassup_options->wassup_screen_res-100)).'">'.preg_replace('/'.preg_quote($blogurl,'/').'/i', '', wassupURI::cleanURL($top10->top_item)).'</a>';
 			} ?></nobr></li><?php
 			$i++;
 		}
@@ -1101,9 +1159,15 @@ function wassup_top10view ($from_date="",$to_date="",$res="",$top_limit=0,$title
 	$top_results=array();
 	if($top_ten['topbrowser']==1){
 		echo "\n<!--heartbeat-->\n";
-		$top_results=wGetStats("browser",$top_limit,$top_condition);
+		$top_results=get_wassupstat("browser",$top_limit,$top_condition);
 ?>
-	<td<?php if($cols==0)echo ' class="firstcol"';elseif($cols==$col_count-1) echo 'class="lastcol"';if(!empty($top_results) && count($top_results) >0){$cwidth=$min_width+5; echo ' style="min-width:'.$cwidth.'px"';}?>>
+	<td<?php
+		if($cols==0) echo ' class="firstcol"';
+		elseif($cols==$col_count-1) echo 'class="lastcol"';
+		if(!empty($top_results) && count($top_results) >0){
+			$cwidth=$min_width+5;
+			echo ' style="min-width:'.$cwidth.'px"';
+		}?>>
 		<ul class="charts">
 		<li class="chartsT"><?php _e("TOP BROWSER", "wassup") ?></li><?php
 		$i=0;
@@ -1113,7 +1177,7 @@ function wassup_top10view ($from_date="",$to_date="",$res="",$top_limit=0,$title
 		foreach ($top_results as $top10) {
 			echo "\n"; ?>
 			<li class="wassup-nowrap"><nobr><?php echo wPadNum($top10->top_count,$ndigits);
-			echo ' <span class="top10" title="'.$top10->top_item.'">'.stringShortener($top10->top_item, $char_len).'</span>'; ?></nobr></li><?php
+			echo ' <span class="top10" title="'.esc_attr($top10->top_item).'">'.stringShortener($top10->top_item, $char_len).'</span>'; ?></nobr></li><?php
 			$i++;
 		}
 		}
@@ -1128,9 +1192,15 @@ function wassup_top10view ($from_date="",$to_date="",$res="",$top_limit=0,$title
 	$top_results=array();
 	if($top_ten['topos']==1){
 		echo "\n<!--heartbeat-->\n";
-		$top_results=wGetStats("os",$top_limit,$top_condition);
+		$top_results=get_wassupstat("os",$top_limit,$top_condition);
 ?>
-	<td<?php if($cols==0)echo ' class="firstcol"';elseif($cols==$col_count-1) echo 'class="lastcol"';if(!empty($top_results) && count($top_results) >0){$cwidth=$min_width+5; echo ' style="min-width:'.$cwidth.'px"';}?>>
+	<td<?php
+		if($cols==0) echo ' class="firstcol"';
+		elseif($cols==$col_count-1) echo 'class="lastcol"';
+		if(!empty($top_results) && count($top_results) >0){
+			$cwidth=$min_width+5;
+			echo ' style="min-width:'.$cwidth.'px"';
+		}?>>
 		<ul class="charts">
 		<li class="chartsT"><?php _e("TOP OS", "wassup") ?></li><?php
 		$i=0;
@@ -1139,7 +1209,7 @@ function wassup_top10view ($from_date="",$to_date="",$res="",$top_limit=0,$title
 			$ndigits = strlen("{$top_results[0]->top_count}");
 		foreach ($top_results as $top10) {
 			echo "\n"; ?>
-			<li class="wassup-nowrap"><nobr><?php echo wPadNum($top10->top_count,$ndigits); ?> <span class="top10" title="<?php echo $top10->top_item; ?>"><?php echo stringShortener($top10->top_item, $char_len); ?></span></nobr></li><?php
+			<li class="wassup-nowrap"><nobr><?php echo wPadNum($top10->top_count,$ndigits); ?> <span class="top10" title="<?php echo esc_attr($top10->top_item);?>"><?php echo stringShortener($top10->top_item, $char_len); ?></span></nobr></li><?php
 			$i++;
 		}
 		}
@@ -1154,9 +1224,15 @@ function wassup_top10view ($from_date="",$to_date="",$res="",$top_limit=0,$title
 	$top_results=array();
 	if($top_ten['toplocale']==1){
 		echo "\n<!--heartbeat-->\n";
-		$top_results=wGetStats("language",$top_limit,$top_condition);
+		$top_results=get_wassupstat("language",$top_limit,$top_condition);
 ?>
-	<td<?php if($cols==0)echo ' class="firstcol"';elseif($cols==$col_count-1) echo 'class="lastcol"';if(!empty($top_results) && count($top_results) >0){$cwidth=$min_width+5; echo ' style="min-width:'.$cwidth.'px"';}?>>
+	<td<?php
+		if($cols==0) echo ' class="firstcol"';
+		elseif($cols==$col_count-1) echo 'class="lastcol"';
+		if(!empty($top_results) && count($top_results) >0){
+			$cwidth=$min_width+5;
+			echo ' style="min-width:'.$cwidth.'px"';
+		}?>>
 		<ul class="charts">
 		<li class="chartsT"><?php _e("TOP LOCALE", "wassup"); ?></li><?php
 		$i=0;
@@ -1166,8 +1242,8 @@ function wassup_top10view ($from_date="",$to_date="",$res="",$top_limit=0,$title
 		foreach($top_results as $top10){
 			echo "\n";?>
 			<li class="wassup-nowrap"><nobr><?php echo wPadNum($top10->top_count,$ndigits);
-			echo ' <img src="'.WASSUPURL.'/img/flags/'.strtolower($top10->top_item).'.png" alt="" />';?>
-			<span class="top10" title="<?php echo $top10->top_item;?>"><?php echo $top10->top_item;?></span></nobr></li><?php
+			echo ' <img src="'.WASSUPURL.'/img/flags/'.strtolower(esc_attr($top10->top_item)).'.png" alt="" />';?>
+			<span class="top10" title="<?php echo $top10->top_item;?>"><?php echo esc_attr($top10->top_item);?></span></nobr></li><?php
 			$i++;
 		}
 		}
@@ -1182,9 +1258,15 @@ function wassup_top10view ($from_date="",$to_date="",$res="",$top_limit=0,$title
 	$top_results=array();
 	if($top_ten['topvisitor']==1){
 		echo "\n<!--heartbeat-->\n";
-		$top_results=wGetStats("visitor",$top_limit,$top_condition);
+		$top_results=get_wassupstat("visitor",$top_limit,$top_condition);
 ?>
-	<td<?php if($cols==0)echo ' class="firstcol"';elseif($cols==$col_count-1) echo 'class="lastcol"';if(!empty($top_results) && count($top_results) >0){ $cwidth= (int)(1.5*$min_width); echo ' style="min-width:'.$cwidth.'px"';}?>>
+	<td<?php
+		if($cols==0) echo ' class="firstcol"';
+		elseif($cols==$col_count-1) echo 'class="lastcol"';
+		if(!empty($top_results) && count($top_results) >0){
+			$cwidth= (int)(1.5*$min_width);
+			echo ' style="min-width:'.$cwidth.'px"';
+		}?>>
 		<ul class="charts">
 		<li class="chartsT"><?php _e("TOP VISITOR", "wassup"); ?></li><?php 
 		$i=0;
@@ -1199,7 +1281,7 @@ function wassup_top10view ($from_date="",$to_date="",$res="",$top_limit=0,$title
 			else
 				$uclass="";
 			echo "\n"; ?>
-			<li class="wassup-nowrap"><nobr><?php echo wPadNum($top10->top_count,$ndigits).' <span class="top10'.$uclass.'" title="'.$top10->top_item.'">'.stringShortener($top10->top_item, $char_len).'</span>'; ?></nobr></li><?php
+			<li class="wassup-nowrap"><nobr><?php echo wPadNum($top10->top_count,$ndigits).' <span class="top10'.$uclass.'" title="'.esc_attr($top10->top_item).'">'.stringShortener($top10->top_item, $char_len).'</span>'; ?></nobr></li><?php
 			$i++;
 		} //end loop
 		}
@@ -1214,9 +1296,15 @@ function wassup_top10view ($from_date="",$to_date="",$res="",$top_limit=0,$title
 	$top_results=array();
 	if($top_ten['toppostid']==1){
 		echo "\n<!--heartbeat-->\n";
-		$top_results=wGetStats("postid",$top_limit,$top_condition);
+		$top_results=get_wassupstat("postid",$top_limit,$top_condition);
 ?>
-	<td<?php if($cols==0)echo ' class="firstcol"';elseif($cols==$col_count-1) echo 'class="lastcol"';if(!empty($top_results) && count($top_results) >0){ $cwidth=2*$min_width; echo ' style="min-width:'.$cwidth.'px"';}?>>
+	<td<?php
+		if($cols==0) echo ' class="firstcol"';
+		elseif($cols==$col_count-1) echo 'class="lastcol"';
+		if(!empty($top_results) && count($top_results) >0){
+			$cwidth=2*$min_width;
+			echo ' style="min-width:'.$cwidth.'px"';
+		}?>>
 		<ul class="charts">
 		<li class="chartsT"><?php _e("TOP ARTICLE", "wassup"); ?></li><?php
 		$i=0;
@@ -1298,7 +1386,7 @@ function wPadNum($li_number, $li_width=1) {
 	return ($padhtml);
 }
 
-//Round the integer to the next near 10
+/** round the integer to the next near 10 */
 function roundup($value) {
 	//$dg = digit_count($value);
 	$numstr = (int)$value;
@@ -1311,11 +1399,13 @@ function roundup($value) {
 	return (ceil(intval($value)/pow(10, $dg))*pow(10, $dg)+pow(10, $dg));
 }
 
+/**
+ * Google line chart setup script
+ *  - Port of JavaScript from http://code.google.com/apis/chart/ - http://james.cridland.net/code
+ */
 function Gchart_data($Wvisits, $pages=null, $atime=null, $type, $charttype=null, $axes=null, $chart_loc=null) {
 	global $wdebug_mode;
 	$chartAPIdata = false;
-// Port of JavaScript from http://code.google.com/apis/chart/
-// http://james.cridland.net/code
    // First, find the maximum value from the values given
    if ($axes == 1) {
 	$maxValue = roundup(max(array_merge($Wvisits, $pages)));
@@ -1385,7 +1475,10 @@ function Gchart_data($Wvisits, $pages=null, $atime=null, $type, $charttype=null,
 	return $chartAPIdata;
 } //end Gchart_data
 
-// Used to show main visitors details query, to count items and to extract data for main chart
+/**
+ * Class for main visitors details queries.
+ * - Calculates views/visitors, extracts data for display, and outputs chart
+ */
 class WassupItems {
         var $tableName;
         var $from_date;
@@ -1439,7 +1532,7 @@ class WassupItems {
 		}else{
 			$this->Limit=esc_attr($limit);
 		}
-		//New in v1.9: this->_whereis replaces to_date/from_date in where condition to add multisite blog id in query
+		//this->_whereis replaces to_date/from_date in where condition so multisite blog_id can be added to where condition @since v1.9
 		if (!empty($whereis)){
 			if (preg_match('/^\s*(AND|OR)/i',$whereis)>0){
 				if(!empty($from_date)){
@@ -1491,41 +1584,65 @@ class WassupItems {
 	}
 	// Function to show main query and count items
 	function calc_tot($Type,$Search="",$specific_where_clause=null,$distinct_type=null){
-		global $wpdb,$wdebug_mode;
+		global $wpdb,$current_user,$wdebug_mode;
+		//get/set user-specific wassup_settings
+		if(!is_object($current_user) || empty($current_user->ID)) wp_get_current_user();
+		$wassup_user_settings=get_user_option('_wassup_settings',$current_user->ID);
 		$this->ItemsType=$Type;
 		$this->searchString=$Search;
 		$ss="";
-		if(!empty($Search)|| !empty($specific_where_clause))$ss=$this->buildSearch($Search,$specific_where_clause);
-		if(!empty($ss) && stristr($this->_whereis, ' OR ')!==false) $whereis= '('.$this->_whereis.')'.$ss;
-		else $whereis= $this->_whereis . $ss;
-		$buffered="";
+		if(!empty($Search)|| !empty($specific_where_clause)){
+			$ss=$this->buildSearch($Search,$specific_where_clause);
+		}
+		if(!empty($ss) && stristr($this->_whereis, ' OR ')!==false){
+			$whereis= '('.$this->_whereis.')'.$ss;
+		}else{
+			$whereis= $this->_whereis . $ss;
+		}
 		//abort if there is nothing in totrecords var
 		if(empty($this->totrecords) || !is_numeric($this->totrecords)){
 			return;
 		}
-		//use "sql_buffer_result" to help speed up retrieval of large datasets
-		if($this->totrecords >5000)$buffered="SQL_BUFFER_RESULT";
 		// Switch by every (global) items type (visits, pageviews, spams, etc...)
 		switch ($Type) {
 		// This is the MAIN query to show the chronology
 		case "main":
-			//## Extend mysql wait timeout to 2.5 minutes and extend php script timeout to 3 minutes to prevent script hangs
-			if(!ini_get('safe_mode')){
-				$stimeout=ini_get("max_execution_time");
-				if(!is_numeric($stimeout)||(int)$stimeout <180) set_time_limit(180);
-			}
-			$mtimeout=$wpdb->get_var("SELECT @@session.wait_timeout AS mtimeout FROM dual");
-			if(is_numeric($mtimeout) && $mtimeout<160) $result=$wpdb->query("SET wait_timeout=160");
+			//New in v1.9.4: use temporary table to help speed up retrieval of large datasets
+			$bigdata=false;
+			$totrecords=$wpdb->get_var("SELECT COUNT(*) FROM $this->tableName");
+			if($totrecords >50000) $bigdata=true;
 			//main query
-			// "sql_buffer_result" select option helps in cases where it takes a long time to retrieve results.
-			$qry = sprintf("SELECT $buffered `id`, `wassup_id`, max(`timestamp`) as max_timestamp, min(`timestamp`) as min_timestamp, count(`wassup_id`) as page_hits, `ip`, `hostname`, `urlrequested`, `referrer`, GROUP_CONCAT(DISTINCT `username` ORDER BY `username` SEPARATOR ', ') AS login_name, `comment_author`, `agent`, `browser`, `os`, `spider`, `feed`, max(`spam`) AS malware_type, `screen_res`, `language`, `search`, `searchengine`, `searchpage`, `url_wpid` FROM %s WHERE %s GROUP BY `wassup_id` ORDER BY max_timestamp DESC %s",
-				$this->tableName,
-				$whereis,
-				$this->Limit);
-			$results = $wpdb->get_results($qry);
-			//try without buffer
-			if ((is_wp_error($results) || empty($results) || !is_array($results)) && !empty($this->totrecords) && !empty($buffered)) {
-				$qry = sprintf("SELECT `id`, `wassup_id`, max(`timestamp`) as max_timestamp, min(`timestamp`) as min_timestamp, count(`wassup_id`) as page_hits, `ip`, `hostname`, `urlrequested`, `referrer`, GROUP_CONCAT(DISTINCT `username` ORDER BY `username` SEPARATOR ', ') AS login_name, `comment_author`, `agent`, `browser`, `os`, `spider`, `feed`, max(`spam`) AS malware_type, `screen_res`, `language`, `search`, `searchengine`, `searchpage`, `url_wpid` FROM %s WHERE %s GROUP BY `wassup_id` ORDER BY max_timestamp DESC %s",
+			if($bigdata){
+				//extend PHP and MySql timeouts to prevent script hangs
+				$stimeout=ini_get("max_execution_time");
+				if(is_numeric($stimeout) && $stimeout >0 && $stimeout <180){
+					$disabled_funcs=ini_get('disable_functions');
+					if((empty($disabled_funcs) || strpos($disabled_funcs,'set_time_limit')===false) && !ini_get('safe_mode')){
+						@set_time_limit(3*60);
+					}
+				}
+				$mtimeout=$wpdb->get_var("SELECT @@session.wait_timeout AS mtimeout FROM dual");
+				if(is_numeric($mtimeout) && $mtimeout<160) $result=$wpdb->query("SET wait_timeout=160");
+				//use a temporary table for large datasets 
+				$tmptable='_wassup_'.$current_user->user_login.rand();
+				//create temp table of records
+				$qry1 = sprintf("CREATE TEMPORARY TABLE IF NOT EXISTS %s AS (SELECT `wassup_id`, max(`timestamp`) as max_timestamp, min(`timestamp`) as min_timestamp, count(`wassup_id`) as page_hits, GROUP_CONCAT(DISTINCT `username` ORDER BY `username` SEPARATOR '| ') AS login_name, max(`spam`) AS malware_type, max(`screen_res`) as resolution FROM %s WHERE %s GROUP BY `wassup_id` ORDER BY max_timestamp DESC %s); ",
+					$tmptable,
+					$this->tableName,
+					$whereis,
+					$this->Limit);
+				$results = $wpdb->query($qry1);
+				//get detail data using temp table
+				if(!is_wp_error($results)){
+					$qry2 = sprintf("SELECT a1.*, b1.id, b1.timestamp, b1.ip, b1.hostname, b1.referrer, b1.comment_author, b1.agent, b1.browser, b1.os, b1.spider, b1.feed, b1.language, b1.search, b1.searchengine, b1.searchpage, c1.urlrequested, c1.url_wpid FROM %1\$s a1, %2\$s b1, %2\$s c1 WHERE b1.wassup_id = a1.wassup_id AND b1.timestamp = (SELECT MIN(b2.timestamp) FROM %2\$s b2 WHERE b2.wassup_id = b1.wassup_id) AND c1.wassup_id = a1.wassup_id AND c1.timestamp = (SELECT MAX(c2.timestamp) FROM %2\$s c2 WHERE c2.wassup_id = c1.wassup_id); ",
+						$tmptable,
+						$this->tableName);
+					$results = $wpdb->get_results($qry2);
+				}
+			}
+			//old query fall back for small dataset or if error
+			if(!$bigdata || is_wp_error($results) || empty($results) || !is_array($results)){
+				$qry = sprintf("SELECT `wassup_id`, max(`timestamp`) as max_timestamp, min(`timestamp`) as min_timestamp, count(`wassup_id`) as page_hits, GROUP_CONCAT(DISTINCT `username` ORDER BY `username` SEPARATOR '| ') AS login_name, max(`spam`) AS malware_type, `id`, `ip`, `hostname`, `urlrequested`, `referrer`, `comment_author`, `agent`, `browser`, `os`, `spider`, `feed`, max(`screen_res`) as resolution, `language`, `search`, `searchengine`, `searchpage`, `url_wpid` FROM `%s` WHERE %s GROUP BY `wassup_id` ORDER BY max_timestamp DESC %s",
 					$this->tableName,
 					$whereis,
 					$this->Limit);
@@ -1535,7 +1652,7 @@ class WassupItems {
 		case "count":
 			// These are the queries to count the items hits/pages/spam
 			$distinct="";
-			if($distinct_type=="DISTINCT")$distinct="DISTINCT ";
+			if($distinct_type=="DISTINCT") $distinct="DISTINCT ";
 			$qry=sprintf("SELECT COUNT(%s`wassup_id`) AS itemstot FROM %s WHERE %s", $distinct, $this->tableName, $whereis);
 			$results = $wpdb->get_var($qry);
 			break;
@@ -1550,7 +1667,7 @@ class WassupItems {
 		case "count-ip":	//TODO
 			// These are the queries to count the hits/pages/spam by ip
 			$distinct="";
-			if($distinct_type=="DISTINCT")$distinct="DISTINCT ";
+			if($distinct_type=="DISTINCT") $distinct="DISTINCT ";
 			$qry = sprintf("SELECT COUNT(%s`ip`) AS itemstot FROM %s WHERE %s", $distinct, $this->tableName, $whereis);
 			$results = $wpdb->get_var($qry);
 			break;
@@ -1589,6 +1706,12 @@ class WassupItems {
 			if(!empty($wip)&& $Search==$wip){
 				//for IP-only search
 				$ss=sprintf(" AND `ip`='%s'",$searchParam);
+			//New in v1.9.4: separate url searches
+			}elseif(strpos($Search,'/')!==FALSE){
+				$ss = sprintf(" AND (`urlrequested` LIKE '%%%s%%' OR `agent` LIKE '%%%s%%' OR `referrer` LIKE '%%%s%%')",
+				$searchParam,
+				$searchParam,
+				$searchParam);
 			}else{	//for general search
 				$ss = sprintf(" AND (`ip` LIKE '%%%s%%' OR `hostname` LIKE '%%%s%%' OR `urlrequested` LIKE '%%%s%%' OR `agent` LIKE '%%%s%%' OR `referrer` LIKE '%%%s%%' OR `username` LIKE '%s%%' OR `comment_author` LIKE '%s%%')",
 				$searchParam,
@@ -1617,7 +1740,7 @@ class WassupItems {
 		$chart_url="";
 		//First check for cached chart
 		$chart_key="$chart_loc{$Res}{$axes_type}{$chart_group}{$Ctype}_".intval(date('i')/15).date('HdmY');
-		if(!empty($Search))$chart_key .="_s".esc_attr($Search);
+		if(!empty($Search)) $chart_key .="_s".esc_attr($Search);
 		$chart_url=wassupDb::get_wassupmeta($chart_key,'_chart');
 		if (!empty($chart_url)) {
 			if ($wdebug_mode)
@@ -1635,6 +1758,7 @@ class WassupItems {
 		//`timestamp` is localized before insert into table, so datetime translation from MySQL with 'FROM_UNIXTIME' must be converted to UTC/GMT afterwards to get an accurate datetime value for Wordpress.
 		$UTCoffset = wassupDb::get_db_setting("tzoffset");
 		if (empty($UTCoffset)) $UTCoffset = "+0:00"; //GMT
+		else $UTCoffset=wassupDb::format_tzoffset($UTCoffset);
 		//set x-axis date format to Wordpress date format
 		$USAdate = $wassup_options->is_USAdate();
 		$hour_fromdate = $this->from_date;
@@ -1819,17 +1943,13 @@ class WassupItems {
 			}
 		}
 		if ($x_divisor > 1) {
-		$qry = sprintf("SELECT COUNT( DISTINCT `wassup_id` ) AS items, COUNT(`wassup_id`) AS pages, CAST(`timestamp`/$x_divisor AS UNSIGNED)*$x_divisor AS xgroup, DATE_FORMAT(CONVERT_TZ( FROM_UNIXTIME(CAST((`timestamp`+0)/$x_divisor AS UNSIGNED)*$x_divisor), '%s', '+0:00'), '%s') as thedate FROM %s WHERE %s GROUP BY 3 ORDER BY `timestamp`",
-			$UTCoffset,
+		$qry = sprintf("SELECT COUNT( DISTINCT `wassup_id` ) AS items, COUNT(`wassup_id`) AS pages, CAST(`timestamp`/$x_divisor AS UNSIGNED)*$x_divisor AS xgroup, DATE_FORMAT(DATE_ADD('1970-01-01 00:00:00', INTERVAL CAST(`timestamp` AS UNSIGNED) SECOND), '%s') as thedate FROM %s WHERE %s GROUP BY 3 ORDER BY `timestamp`",
 			$x_axes_label,
 			$this->tableName,
 			$whereis); 
 		} else {
-			//SELECT COUNT(DISTINCT `wassup_id` ) AS items, COUNT(`wassup_id`) AS pages, DATE_FORMAT(DATE_ADD('1970-01-01 00:00:00', INTERVAL CAST(`timestamp` AS UNSIGNED) SECOND), '%s') AS xgroup, DATE_FORMAT(DATE_ADD('1970-01-01 00:00:00', INTERVAL CAST(`timestamp` AS UNSIGNED) SECOND)), '%s') as thedate FROM wp_wassup WHERE %s GROUP BY 3 ORDER BY `timestamp`
-		$qry = sprintf("SELECT COUNT( DISTINCT `wassup_id` ) AS items, COUNT(`wassup_id`) AS pages, DATE_FORMAT(CONVERT_TZ(FROM_UNIXTIME(CAST(`timestamp` AS UNSIGNED)), '%s', '+0:00'), '%s') AS xgroup, DATE_FORMAT(CONVERT_TZ( FROM_UNIXTIME(CAST(`timestamp` AS UNSIGNED)), '%s', '+0:00'), '%s') as thedate FROM %s WHERE %s GROUP BY 3 ORDER BY `timestamp`",
-			$UTCoffset,
+		$qry = sprintf("SELECT COUNT( DISTINCT `wassup_id` ) AS items, COUNT(`wassup_id`) AS pages, DATE_FORMAT(DATE_ADD('1970-01-01 00:00:00', INTERVAL CAST(`timestamp` AS UNSIGNED) SECOND), '%s') AS xgroup, DATE_FORMAT(DATE_ADD('1970-01-01 00:00:00', INTERVAL CAST(`timestamp` AS UNSIGNED) SECOND), '%s') as thedate FROM %s WHERE %s GROUP BY 3 ORDER BY `timestamp`",
 			$x_groupformat,
-			$UTCoffset,
 			$x_axes_label,
 			$this->tableName,
 			$whereis); 
@@ -1897,12 +2017,12 @@ class WassupItems {
 			} elseif ($lablcount == 31) {
 				$x_grid=6.45;
 			}
-			//TODO: Google image chart api deprecated as of 4/20/2012 - replace with Google interactive charts api after 4/15/2015 - see: https://google-developers.appspot.com/chart/interactive/docs/gallery/linechart
+			//TODO: Google image chart api deprecated as of 4/20/2012 - replace with Google interactive charts api
 			// generate url for google chart image 
 			$chart_url ="https://chart.googleapis.com/chart?cht=lc&chf=".$chart_bg."&chtt=".urlencode($cTitle)."&chls=4,1,0|2,6,2&chco=1111dd,FF6D06&chm=B,1111dd30,0,0,0&chg={$x_grid},25,1,5&chs={$Res}x{$chart_height}&chd=".Gchart_data($y_hits, $y_pages, $x_label, $x_groupformat, "main", $axes_type, $chart_loc);
 			//cache chart url in wassup_meta table for up to 5 minutes
 			$chart_key="$chart_loc{$Res}{$axes_type}{$chart_group}{$Ctype}_".intval(date('i')/15).date('HdmY');
-			if(!empty($Search))$chart_key .="_s".esc_attr($Search);
+			if(!empty($Search)) $chart_key .="_s".esc_attr($Search);
 			$expire=(int)(time()+$cache_time);
 			$cache_id=wassupDb::save_wassupmeta($chart_key,'_chart',"$chart_url",$expire);
 		} //end if chart_points>0
@@ -1930,7 +2050,7 @@ class wcURL {
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
 			curl_setopt($ch, CURLOPT_LOW_SPEED_TIME, 10);
-			curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+			curl_setopt($ch, CURLOPT_TIMEOUT, 7); //don't wait for slow responses
 			if (ini_get('open_basedir')=="") { //causes error
 				curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 			}
@@ -1968,23 +2088,16 @@ class wcURL {
  */
 function wFetchAPIData($api_url) {
 	global $wdebug_mode;
-
 	$wassup_agent=apply_filters('http_headers_useragent',"WassUp/".WASSUPVERSION." - www.wpwp.org");
 	$apidata=array();
-	//lets not wait for slow server responses
-	$stimeout=0;
-	if(!ini_get('safe_mode')){
-		$stimeout=ini_get("max_execution_time");
-		//decrease script timeout to 7 seconds to avoid slowdowns due to slow server response
-		if((int)$stimeout>7)set_time_limit(7);
-	}
+	//timeout now set in http/curl settings, not via 'set_time_limit' which does not apply to remote requests @since v1.9.1
 	//try Wordpress 'wp_remote_get' for api results
 	if(function_exists('wp_remote_get')){
-		$opts=array('user-agent'=>"$wassup_agent");
+		$opts=array('user-agent'=>"$wassup_agent",'timeout'=>5);
 		$api_remote=@wp_remote_get($api_url,$opts);
-		if(!is_wp_error($api_remote) && is_array($api_remote)){
-			if(!empty($api_remote['body']))$apidata=$api_remote['body'];
-			elseif(!empty($api_remote['response']))$apidata="no data";
+		if(!empty($api_remote) && is_array($api_remote)){
+			if(!empty($api_remote['body'])) $apidata=$api_remote['body'];
+			elseif(!empty($api_remote['response'])) $apidata="no data";
 		}
 		$api_method='wp_remote_get';	//debug
 	}
@@ -1997,12 +2110,15 @@ function wFetchAPIData($api_url) {
 		$api_method='wcURL';	//debug
 	} 
 	// try 'file_get_contents' to get api results
-	if (empty($apidata) && ini_get('allow_url_fopen')== true) {
+	if(empty($apidata) && ini_get('allow_url_fopen')){
 		// context stream compatible with PHP 5.0.0+
 		if (version_compare(PHP_VERSION,"5.0.0",">=")) {
-			$opts = array(	'http'=>array(
-    					'method'=>"GET",
-					'header'=>"User-agent: ".$wassup_agent."\r\n"));
+			$opts=array('http'=>array(
+					'method'=>"GET",
+					'user_agent'=>"$wassup_agent",
+					'max_redirects'=>"0",
+					'timeout'=>"5.0",
+				   ));
 			$context = stream_context_create($opts);
 			// Open file using HTTP headers set above
 			$apidata = @file_get_contents($api_url, false, $context);
@@ -2016,7 +2132,7 @@ function wFetchAPIData($api_url) {
 		print_r($apidata);
 		echo "-->\n";
 	}
-	if(!empty($stimeout))set_time_limit($stimeout);
+	//if(!empty($stimeout)) @set_time_limit($stimeout); //no need to reset this
 	return $apidata;
 } //end wFetchAPIData
 ?>

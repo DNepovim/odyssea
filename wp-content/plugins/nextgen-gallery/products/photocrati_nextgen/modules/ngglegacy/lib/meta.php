@@ -80,11 +80,9 @@ class nggMeta{
 
         $meta = $this->image->meta_data;
 
-        if (!isset($meta['saved'])) $meta['saved'] = FALSE;
-
-		//check if we already import the meta data to the database
-		if (!is_array($meta) || ($meta['saved'] != true))
-			return false;
+        // Check if we already import the meta data to the database
+        if (!is_array($meta) || !isset($meta['saved']) || ($meta['saved'] !== TRUE))
+            return false;
 
         // return one element if requested
         if ($object)
@@ -121,7 +119,7 @@ class nggMeta{
 
             $meta= array();
 
-	        $exif = isset($this->exif_array['EXIF']) ? $this->exif_array['EXIF'] : array();
+	        $exif = isset($this->exif_data['EXIF']) ? $this->exif_data['EXIF'] : array();
 	        if (count($exif)) {
 
                 if (!empty($exif['FNumber']))

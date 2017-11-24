@@ -85,16 +85,23 @@ class P_Photocrati_NextGen extends C_Base_Product
 		return $retval;
 	}
 
-	function define()
+	function define($id = 'pope-product',
+                    $name = 'Pope Product',
+                    $description = '',
+                    $version = '',
+                    $uri = '',
+                    $author = '',
+                    $author_uri = '',
+                    $context = FALSE)
 	{
 		parent::define(
 			'photocrati-nextgen',
-			'Photocrati NextGEN',
-			'Photocrati NextGEN',
+			'NextGen Gallery',
+			'NextGen Gallery',
             NGG_PLUGIN_VERSION,
-			'http://www.nextgen-gallery.com',
-			'Photocrati Media',
-			'http://www.photocrati.com'
+            'https://www.imagely.com/wordpress-gallery-plugin/nextgen-gallery/',
+            'Imagely',
+            'https://www.imagely.com'
 		);
 
 		$module_path = implode(DIRECTORY_SEPARATOR, array(dirname(__FILE__), 'modules'));

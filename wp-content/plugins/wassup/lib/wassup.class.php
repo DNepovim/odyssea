@@ -1,27 +1,39 @@
 <?php
 /**
- * Contains 3 classes for managing settings, tables, and url links.
- *  wassupOptions: displays and update plugin settings,
- *  wassupDb: manages plugin tables, 
- *  wassupURI: generates safe url links for display.
+ * Classes for managing Wassup settings, Wassup tables, and url links.
+ *
+ *   wassupOptions: displays and update plugin settings
+ *   wassupDb     : manages custom tables
+ *   wassupURI    : generates safe url links for display
  *
  * @package	WassUp Real-time Analytics
  * @subpackage	wassup.class.php module
- * @author	Helene D. <http://helenesit.com>
+ * @author	helened <http://helenesit.com>
  */
-//no direct request for this plugin module
+//abort if this is direct uri request for file
 $wfile=preg_replace('/\\\\/','/',__FILE__); //for windows
-if(!defined('ABSPATH')|| empty($GLOBALS['wp_version'])|| preg_match('#'.preg_quote(basename($wfile)).'#',$_SERVER['PHP_SELF'])|| !empty($_SERVER['SCRIPT_FILENAME'])&& realpath($wfile)===realpath($_SERVER['SCRIPT_FILENAME'])){
-	if(!headers_sent()){header('Location: /?p=404page&err=wassup403');exit;
-	}elseif(function_exists('wp_die')){wp_die("Bad Request: ".esc_attr(wp_kses(preg_replace('/(&#37;|&amp;#37;|%)(?:[01][0-9A-F]|7F)/i','',$_SERVER['REQUEST_URI']),array())));exit;
-	}else{die("Bad Request: ".htmlspecialchars(preg_replace('/(&#37;|&amp;#37;|%)(?:[01][0-9A-F]|7F)/i','',$_SERVER['REQUEST_URI'])));exit;}
-	exit;
+if((!empty($_SERVER['SCRIPT_FILENAME']) && realpath($_SERVER['SCRIPT_FILENAME'])===realpath($wfile)) ||
+   (!empty($_SERVER['PHP_SELF']) && preg_match('#'.str_replace('#','\#',preg_quote($_SERVER['PHP_SELF'])).'$#',$wfile)>0)){
+	//try track this uri request
+	if(!headers_sent()){
+		//triggers redirect to 404 error page so Wassup can track this attempt to access itself (original request_uri is lost)
+		header('Location: /?p=404page&werr=wassup403'.'&wf='.basename($wfile));
+		exit;
+	}else{
+		//'wp_die' may be undefined here
+		die('<strong>Sorry. Unable to display requested page.</strong>');
+	}
+//abort if no WordPress
+}elseif(!defined('ABSPATH') || empty($GLOBALS['wp_version'])){
+	//show escaped bad request on exit
+	die("Bad Request: ".htmlspecialchars(preg_replace('/(&#0*37;?|&amp;?#0*37;?|&#0*38;?#0*37;?|%)(?:[01][0-9A-F]|7F)/i','',$_SERVER['REQUEST_URI'])));
 }
-unset($wfile);
+unset($wfile);	//to free memory
+//-------------------------------------------------
 if (!class_exists('wassupOptions')) {
 /**
  * Class for display, update, and validation of settings form data.
- * @author: Helene Duncker <http://helenesit.com>
+ * @author: helened <http://helenesit.com>
  */
 class wassupOptions {
 	/* general/detail settings */
@@ -41,7 +53,7 @@ class wassupOptions {
 	var $wassup_admin = "1";
 	var $wassup_spider = "1";
 	var $wassup_exclude = "";
-	var $wassup_exclude_host = "";	//new in v1.9: for exclusion by hostname
+	var $wassup_exclude_host = "";	//for exclusion by hostname @since v1.9
 	var $wassup_exclude_url = "";
 	var $wassup_exclude_user = "";
 
@@ -51,6 +63,7 @@ class wassupOptions {
 	var $wassup_refspam = "1";
 	var $wassup_attack = "1";
 	var $wassup_hack = "1";	
+	var $refspam_whitelist="";	//new in v1.9.4: for incorrectly labeled referrer spam
 
 	/* table/file management settings */
 	var $wassup_table;
@@ -61,7 +74,9 @@ class wassupOptions {
 	var $wassup_optimize = "0";	//for scheduled optimization
 	var $wassup_remind_mb = "100";
 	var $wassup_remind_flag = "1";
-	var $delayed_insert = "1";	//New in v1.9: for use of "Delayed" option in MySQL INSERT command
+	var $delayed_insert = "1";	//for use of "Delayed" option in MySQL INSERT command
+	var $export_spam = "0";	//since v1.9.1: no spam in exported data
+	var $export_omit_recid="0"; //since v1.9.1
 
 	/* chart/map display settings */
 	var $wassup_dashboard_chart = 0;
@@ -70,20 +85,16 @@ class wassupOptions {
 	var $wassup_geoip_map = "1";
 	var $wassup_googlemaps_key;
 
-	/* widget settings */
-	//New in v1.9: removed widget settings because multi-widgets store their own settings in wordpress options table
-
 	/* temporary action settings */
-	//New in v1.9: dip,mark and other temp settings moved to new user option '_wassup_settings' so that multiple users can view wassup admin panel and customize their views
 	var $whash = "";
 	var $wassup_alert_message = "";	//to display alerts
 	var $wassup_version = "";
-	var $wassup_upgraded = 0;	//New in v1.9: upgrade timestamp
+	var $wassup_upgraded = 0;	//upgrade timestamp @since v1.9
 
 	/**
 	 * PHP4 constructor.
 	 *
-	 * New in v1.9: optional argument to set default values for new/empty class vars.
+	 * optional argument to set default values for new/empty class vars @since v1.9
 	 * @param boolean $add_defaults 
 	 * @return void
 	 *
@@ -110,13 +121,15 @@ class wassupOptions {
 	public function defaultSettings($dsetting="") {
 		global $wpdb,$wdebug_mode;
 		$retvalue=false;
-		//New in v1.9: default settings for current user 
+		//default user settings @since v1.9
 		if($dsetting=="user_settings" || $dsetting=="wassup_user_settings"){
 		$user_defaults=array(
 			'detail_filter'	=>$this->wassup_default_type,
 			'detail_chart'	=>$this->wassup_chart,
 			'detail_limit'	=>$this->wassup_default_limit,
 			'detail_time_period'=>$this->wassup_time_period,
+			'from_date'	=>0,
+			'to_date'	=>0,
 			'spy_filter'	=>$this->wassup_default_spy_type,
 			'spy_map'	=>$this->wassup_geoip_map,
 			'ualert_message'=>"",
@@ -159,6 +172,7 @@ class wassupOptions {
 			'wassup_spamcheck'	=>"1",
 			'wassup_spam'		=>"1",
 			'wassup_refspam'	=>"1",
+			'refspam_whitelist'	=>"",
 			'wassup_exclude'	=>"",
 			'wassup_exclude_host'	=>"",
 			'wassup_exclude_url'	=>"",
@@ -167,8 +181,8 @@ class wassupOptions {
 			'wassup_chart_type'	=>"2",
 			'delete_auto'		=>"never",
 			'delete_filter'		=>"",
-			'wassup_remind_mb'	=>"100", //v1.9 new default setting
-			'wassup_remind_flag'	=>"1",	//v1.9 new default setting
+			'wassup_remind_mb'	=>"100",
+			'wassup_remind_flag'	=>"1",
 			'wassup_refresh'	=>"3",
 			'wassup_userlevel'	=>"8",
 			'wassup_screen_res'	=>"800",
@@ -176,7 +190,7 @@ class wassupOptions {
 			'wassup_default_spy_type'=>"everything",
 			'wassup_default_limit'	=>"10",
 			'wassup_dashboard_chart'=>"0",
-			'wassup_geoip_map'	=>"1",	//New in v1.9 - new default setting
+			'wassup_geoip_map'	=>"1",	//1=default value @since v1.9
 			'wassup_googlemaps_key'	=>"",
 			'wassup_time_format'	=>"24",
 			'wassup_time_period'	=>"1",
@@ -188,60 +202,61 @@ class wassupOptions {
 			'wassup_table'	=>$wpdb->prefix . "wassup",
 			'wassup_dbengine'=>"",
 			'delayed_insert'=>"1",
+			'export_spam'	=>"0",
+			'export_omit_recid'=>"0",
 			'wassup_version'=>"",
 			'wassup_upgraded'=>0,
 		);
-		//New in v1.9: for multisite, use main site settings as default, except for table name and engine
-		if(is_multisite() && !is_main_site() && !is_network_admin()){
-			$main_site_settings=get_blog_option($GLOBALS['current_site']->blog_id,'wassup_settings',$defaults);
-			if(!empty($main_site_settings) && $main_site_settings!=$defaults){
-				$defaults=$main_site_settings;
-				$defaults['wassup_table']=$wpdb->prefix . "wassup";
+		//use main site settings for default in multisite, except table name and engine @since v1.9
+		if(is_multisite()){
+			$network_settings=get_site_option('wassup_network_settings');
+			if(!is_main_site() && !is_network_admin()){
+				$main_site_settings=get_blog_option($GLOBALS['current_site']->blog_id,'wassup_settings',$defaults);
+				if(!empty($main_site_settings)){
+					$defaults=$main_site_settings;
+					if(!empty($network_settings['wassup_table'])) $defaults['wassup_table']=$network_settings['wassup_table'];
+				}elseif(!empty($network_settings['wassup_table'])){
+					$defaults['wassup_table']=$network_settings['wassup_table'];
+				}
 			}
 		}
 		//never discard google maps api key with "reset-to-default"
-		if(!empty($this->wassup_googlemaps_key)) $defaults['wassup_googlemaps_key']= $this->wassup_googlemaps_key;
+		if(!empty($this->wassup_googlemaps_key)){
+			$defaults['wassup_googlemaps_key']= $this->wassup_googlemaps_key;
+		}
 		//never discard wassup_version' with "reset-to-default"
-		if(!empty($this->wassup_version)) $defaults['wassup_version']= $this->wassup_version;
+		if(!empty($this->wassup_version)){
+			$defaults['wassup_version']= $this->wassup_version;
+		}
 		$wassupdb_installed=false;
-		//never change 'wassup_table' with "reset-to-default" ..unless table doesn't exist
-		if(!empty($this->wassup_table) && wassupDb::table_exists($this->wassup_table)){
+		//never change 'wassup_table' with "reset-to-default" ..unless table doesn't exist or is shared network table
+		if(!empty($this->wassup_table) && $this->wassup_table != $defaults['wassup_table'] && wassupDb::table_exists($this->wassup_table)){
 			$defaults['wassup_table']= $this->wassup_table;
 			$defaults['wassup_dbengine']= $this->wassup_dbengine;
 			$defaults['wassup_optimize']= $this->wassup_optimize;
 			$wassupdb_installed=true;
-		}elseif(is_multisite() && !is_network_admin() && !is_main_site()){
-			$network_settings=get_site_option('wassup_network_settings');
-			if(!empty($network_settings['wassup_table'])){
-				$defaults['wassup_table']=$network_settings['wassup_table'];
-				$wassupdb_installed=true;
-			}elseif(wassupDb::table_exists($defaults['wassup_table'])){
-				$wassupdb_installed=true;
-			}
 		}elseif(wassupDb::table_exists($defaults['wassup_table'])){
 			$wassupdb_installed=true;
 		}
 		//reset table engine with reset-to-default ..after default wassup_table is set
-		if($dsetting=='wassup_dbengine' || empty($dsetting)){
-			if(empty($defaults['wassup_dbengine'])){
-				$tengine="";
-				if ($defaults['wassup_table']== $this->wassup_table){
-					$tengine=$this->wassup_dbengine;
-				}elseif(!$wassupdb_installed){
-					$result=$wpdb->get_results("SHOW VARIABLES LIKE 'storage_engine'",ARRAY_A);
-					if(!empty($result) && !is_wp_error($result) && !empty($result[0]->Value)) $tengine=$result[0]->Value;
-				}else{
-					//$tengine=wassupDb::get_db_setting('engine',$defaults['wassup_table']); //TODO: find cause of mysql timeout error
-					$result=$wpdb->get_results("SHOW VARIABLES LIKE 'storage_engine'",ARRAY_A);
-					if(!empty($result) && !is_wp_error($result) && !empty($result[0]->Value)) $tengine=$result[0]->Value;
-				}
-				$defaults['wassup_dbengine']=$tengine;
+		if($dsetting=='wassup_dbengine' || empty($defaults['wassup_dbengine'])){
+			$tengine="";
+			if($dsetting!='wassup_dbengine' && $defaults['wassup_table']== $this->wassup_table && !empty($this->wassup_dbengine)){
+				$tengine=$this->wassup_dbengine;
+			}elseif(!$wassupdb_installed){
+				$result=$wpdb->get_results("SHOW VARIABLES LIKE 'storage_engine'",ARRAY_A);
+				if(!empty($result) && !is_wp_error($result) && !empty($result[0]->Value)) $tengine=$result[0]->Value;
+			}else{
+				//$tengine=wassupDb::get_db_setting('engine',$defaults['wassup_table']); //TODO: find cause of mysql timeout error
+				$result=$wpdb->get_results("SHOW VARIABLES LIKE 'storage_engine'",ARRAY_A);
+				if(!empty($result) && !is_wp_error($result) && !empty($result[0]->Value)) $tengine=$result[0]->Value;
 			}
+			$defaults['wassup_dbengine']=$tengine;
 		}
 		//never change optimize schedule with reset-to-default ..unless table engine has changed
 		if($dsetting=='wassup_optimize' || (empty($dbsetting) && $this->wassup_dbengine != $defaults['wassup_dbengine'])){
 			$tengine=$defaults['wassup_dbengine'];
-			//v1.9 bugfix: set optimization when for table engine's myisam, archive, or innodb with file-per-table option only
+			//set optimization when for table engine's myisam, archive, or innodb with file-per-table option only
 			if($tengine=="myisam" || $tengine=="archive"){
 				$defaults['wassup_optimize']=strtotime("next Sunday 2:00am");
 			}elseif($wassupdb_installed && wassupDb::is_optimizable_table($defaults['wassup_table'])){
@@ -262,7 +277,8 @@ class wassupOptions {
 		//check that can use delayed insert
 		//$defaults['delayed_insert']=$this->delayed_insert;
 		if(empty($dsetting) || $dsetting=="delayed_insert"){
-			if (stristr($defaults['wassup_dbengine'],"isam")===false && stristr($defaults['wassup_dbengine'],"archive")===false){
+			$tengine=$defaults['wassup_dbengine'];
+			if (stristr($tengine,"isam")===false && $tengine !="archive"){
 				$defaults['delayed_insert']="0";
 			}else{
 				$delayed_queue_size=wassupDb::get_db_setting("delayed_queue_size");
@@ -340,6 +356,10 @@ class wassupOptions {
 	/** Save class vars as 'wassup_settings' in wp_options. */
 	public function saveSettings() {
 		global $wpdb;
+		//only administrators can save to wp_options
+		if(!current_user_can('manage_options')){
+			return false;
+		}
 		$settings_array = array();
 		$obj = $this;
 		//convert class vars into array
@@ -355,13 +375,6 @@ class wassupOptions {
 				$settings_array[$k] = "{$obj->$k}";
 			}
 		}
-		//save array to wp_options
-		/* if(is_multisite() && function_exists('is_network_admin') && is_network_admin()){
-			$subsite_id=$GLOBALS['current_site']->blog_id;
-			update_blog_option($subsite_id,'wassup_settings', $settings_array);
-		}else{
-			update_option('wassup_settings', $settings_array);
-		} */
 		update_option('wassup_settings', $settings_array);
 		return true;
 	} //end saveSettings
@@ -369,6 +382,10 @@ class wassupOptions {
 	/** delete 'wassup_settings' from wp_options table and reset class vars to defaults. */
 	public function deleteSettings(){
 		global $wpdb;
+		//only administrators can delete from wp_options
+		if(!current_user_can('manage_options')){
+			return false;
+		}
 		$this->loadDefaults();
 		if(!is_multisite()){
 			delete_option('wassup_settings');
@@ -379,17 +396,19 @@ class wassupOptions {
 		}
 	}
 	/**
-	 * Reset wassup user option '_wassup_settings' to defaults
+	 * Reset Wassup user option '_wassup_settings' to default.
 	 *  - runs when a user logs in, after upgrade/install, and with reset-to-default
-	 *  - contains 2 user arguments required by 'wp_login' hook.
+	 *  - contains 2 user arguments as required by 'wp_login' hook.
 	 *
 	 * @since v1.9
-	 * @param (2) string $user_login, object(WP_User) $user
+	 * @param (2) string(username), object(WP_User)
 	 * @return array $wassup_user_settings
 	 */
 	public function resetUserSettings($user_login="",$user=false){
 		global $current_user;
-		if(!defined('WASSUPVERSION')) wassup_init();
+		if(!defined('WASSUPURL')){
+			if(!wassup_init()) return;	//nothing to do
+		}
 		if(empty($user)) $user=$current_user;
 		if(empty($user->ID)) $user=wp_get_current_user();
 		$wassup_user_settings=get_user_option('_wassup_settings',$user->ID);
@@ -606,50 +625,60 @@ class wassupOptions {
 			}
 			foreach($form_items as $k => $option_item){
 				echo "\n\t\t".'<option value="'.$optionargs.$option_item.'"';
-				if($selected==$option_item) echo ' SELECTED>';
+				if($selected==$option_item) echo ' selected="SELECTED">';
 				else echo '>';
 				echo $form_items_meta[$k].'&nbsp;&nbsp;</option>';
 			}
 		}
 	} //end showFieldOptions
 
-	/**
-	 * strip bad characters from a text or textarea input string
-	 * @since v1.9
-	 * @param string
-	 * @return string
-	 */
+	/** strip bad characters from a text or textarea input string. @since v1.9 */
 	public function cleanFormText($input){
-		$text=wp_kses($input,array());
-		return preg_replace('/([^0-9a-z\-_\.,\:*#\'" ]+)/i','',strip_tags(html_entity_decode($text)));
+		$cleantext="";
+		if(function_exists('sanitize_text_field')) $text=sanitize_text_field($input);
+		else $text=strip_tags(html_entity_decode(wp_kses($input,array())));
+		//only alphanumeric chars allowed with few exceptions
+		//since v1.9.3 allow '@' char for email searches
+		//v1.9.4 bugfix: allow '/?&=' chars for url searches
+		$cleantext=preg_replace('#([^0-9a-z\-_\.,\:\*\#/&\?=@\'" ]+)#i','',$text);
+		return $cleantext;
 	}
 	/** strip bad characters from a text or textarea input for URLs. @since v1.9 */
 	public function cleanFormURL($input){
-		$loc=wp_kses_bad_protocol($input,array('http','https','feed'));
-		$loc=preg_replace('/([^0-9a-z\-_\.,\:\*#\/&\?=;% ]+)/i','',strip_tags(html_entity_decode(preg_replace('/(&#37;|&amp;#37;|%)(?:[01][0-9A-F]|7F)/i','',$loc))));
-		return $loc;
+		$cleanurl="";
+		$loc=esc_url_raw($input);
+		//only alphanumeric chars allowed with some exceptions
+		$cleanurl=preg_replace('/([^0-9a-z\-_\.,\:\*#\/&\?=;% ]+)/i','',strip_tags(html_entity_decode(preg_replace('/(&#0?37;|&amp;#0?37;|&#0?38;#0?37;|%)(?:[01][0-9A-F]|7F)/i','',$loc))));
+		return $cleanurl;
 	}
-	/**
-	 * Save settings form changes stored in $_POST global.
-	 * @since v1.9
-	 * @param none
-	 * @return string
-	 */
+	/** Save settings form changes stored in $_POST global.  @since v1.9 */
 	public function saveFormChanges(){
 		global $current_user;
-		if(!is_object($current_user) || empty($current_user->ID)) wp_get_current_user();
+		//only administrators can save to wp_options
+		if(!current_user_can('manage_options')){
+			$admin_message=__("Permission denied! Sorry, you must be an 'administrator' to change settings.","wassup");
+			return $admin_message;
+		}
 		$admin_message=__("Nothing to do!","wassup");
-		if(!empty($_POST) && current_user_can('manage_options') && !empty($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'],'page=wassup-options')!==false){
+		if(!empty($_POST)){
+		if(!empty($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'],'page=wassup-options')!==false){
+			if(!is_object($current_user) || empty($current_user->ID)) wp_get_current_user();
 			$sitehome=wassupURI::get_sitehome();
-			//New in v1.9: save multisite network settings
+			//save multisite network settings
 			$network_settings=array();
-			if(is_multisite() && !empty($_POST['_network_settings'])){
+			$site_settings=array();
+			if(is_multisite()){
 				$network_settings=get_site_option('wassup_network_settings');
-				$network_settings['wassup_active']=(!empty($_POST['network_active'])?"1":"0");
-				if($this->network_activated_plugin()){
-					$network_settings['wassup_menu']=(!empty($_POST['wassup_menu'])?"1":"0");
+				if(is_network_admin() && !empty($network_settings['wassup_table']) && !is_main_site()){
+					$site_settings=get_blog_option($GLOBALS['current_site']->blog_id,'wassup_settings');
 				}
-				update_site_option('wassup_network_settings',$network_settings);
+				if(!empty($_POST['_network_settings'])){
+					$network_settings['wassup_active']=(!empty($_POST['network_active'])?"1":"0");
+					if($this->network_activated_plugin()){
+						$network_settings['wassup_menu']=(!empty($_POST['wassup_menu'])?"1":"0");
+					}
+					update_site_option('wassup_network_settings',$network_settings);
+				}
 			}
 			$this->wassup_active=(!empty($_POST['wassup_active'])?"1":"0");
 			$this->wassup_spamcheck=(!empty($_POST['wassup_spamcheck'])?"1":"0");
@@ -658,9 +687,7 @@ class wassupOptions {
 			$this->wassup_dashboard_chart=(!empty($_POST['wassup_dashboard_chart'])?"1":"0");
 			$this->wassup_geoip_map=(!empty($_POST['wassup_geoip_map'])?"1":"0");
 			if(!empty($_POST['wassup_googlemaps_key'])){
-				$not_required=__("not required","wassup");
-				if(strpos($_POST['wassup_googlemaps_key'],$not_required)===false)$this->wassup_googlemaps_key=$this->cleanFormText($_POST['wassup_googlemaps_key']);
-				else $this->wassup_googlemaps_key="";
+				$this->wassup_googlemaps_key=$this->cleanFormText($_POST['wassup_googlemaps_key']);
 			}else{
 				$this->wassup_googlemaps_key="";
 			}
@@ -697,6 +724,8 @@ class wassupOptions {
 			$this->wassup_spider=(!empty($_POST['wassup_spider'])?"1":"0");
 			$this->wassup_spam=(!empty($_POST['wassup_spam'])?"1":"0");
 			$this->wassup_refspam=(!empty($_POST['wassup_refspam'])?"1":"0");
+			if($_POST['refspam_whitelist'] != $this->refspam_whitelist)
+				$this->refspam_whitelist=$this->cleanFormText($_POST['refspam_whitelist']);
 			$this->wassup_hack=(!empty($_POST['wassup_hack'])?"1":"0");
 			$this->wassup_attack=(!empty($_POST['wassup_attack'])?"1":"0");
 			if($_POST['wassup_exclude'] != $this->wassup_exclude)
@@ -721,6 +750,10 @@ class wassupOptions {
 			if(!empty($_POST['wassup_remind_flag'])){
 				$this->wassup_remind_flag=(int)$_POST['wassup_remind_flag'];
 				if(empty($_POST['wassup_remind_mb']))$this->wassup_remind_mb=100;
+				if(!empty($site_settings)){
+					$site_settings['wassup_remind_flag']=$this->wassup_remind_flag;
+					$site_settings['wassup_remind_mb']=$this->wassup_remind_mb;
+				}
 			}
 			if(isset($_POST['delete_auto'])){
 				$this->delete_auto=$this->cleanFormText($_POST['delete_auto']);
@@ -739,7 +772,10 @@ class wassupOptions {
 			}else{
 				wp_clear_scheduled_hook('wassup_scheduled_purge');
 			}
-			//New in v1.9: optimization and delayed_insert options
+			//save export options
+			$this->export_spam=(!empty($_POST['export_spam'])?"1":"0");
+			$this->export_omit_recid=(!empty($_POST['export_omit_recid'])?"1":"0");
+			//save optimization timestamp and delayed_insert boolean values @since v1.9
 			if(isset($_POST['wassup_optimize_on'])){
 				if($this->wassup_optimize=="0")
 					$this->wassup_optimize=$this->defaultSettings('wassup_optimize');
@@ -747,66 +783,90 @@ class wassupOptions {
 				$this->wassup_optimize="0";
 			}
 			$this->delayed_insert=(!empty($_POST['delayed_insert'])?"1":"0");
+			if(!empty($site_settings)){
+				$site_settings['wassup_optimize']=$this->wassup_optimize;
+				$site_settings['delayed_insert']=$this->delayed_insert;
+			}
 			if (!empty($_POST['wassup_dbengine'])) $this->wassup_dbengine=$this->cleanFormText($_POST['wassup_dbengine']);
 			if($this->saveSettings()){
 				$admin_message=__("Wassup options updated successfully","wassup")."." ;
 				$this->resetUserSettings($current_user->user_login,$current_user);
+				if(!empty($site_settings)) update_blog_option($GLOBALS['current_site']->blog_id,$site_settings);
 			}
-		}
+		} //end if HTTP_REFERER
+		} //end if !empty($_POST)
 		return $admin_message;
 	} //end saveFormChanges
 
 	/**
-	 * get timezone (and offset) directly from the host server.
+	 * get timezone (and offset) directly from the host server using the 'date' shell command on *nix and 'tzutil' on windows.
 	 * @since 1.8
 	 * @param none
 	 * @return array (*string $timezone, *string $offset)
 	 */
-	static function getHostTimezone($getoffset=false) {
-		$hostTimezone = __("Unknown");
-		$nix_server="";
-		//run *nix 'date' command to get offset from host server system
-		//'date' function for timezone not supported on Windows
-		if (defined('PHP_OS') && strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN') {
-			$nix_server = PHP_OS;
-		} else {
+	public function getHostTimezone($getoffset=false){
+		global $wdebug_mode;
+		$hostTZ=false;
+		$hostTimezone=array();
+		$is_nix_server=true;
+		//cannot use 'date' for timezone on Windows
+		if(defined('PHP_OS') && preg_match('/^win/i',PHP_OS)>0){
+			$is_nix_server=false;
+		}elseif(defined('OS') && stristr(OS,'windows')!==false){
+			$is_nix_server=false;
+		}else{
 			if (!empty($_SERVER['SERVER_SOFTWARE'])) {
 				$php_os = $_SERVER['SERVER_SOFTWARE'];
 			} elseif (function_exists('apache_get_version')) { 
 				$php_os = apache_get_version();
 			}
-			if (preg_match('/(nix|bsd|os\s?x|ux|darwin|sun)/i',$php_os)>0) {
-				$nix_server = $php_os;
+			if(preg_match('/win/i',$php_os)>0 && stristr($php_os,'darwin')===FALSE) $is_nix_server=false;
+		}
+		if($is_nix_server){
+			if($getoffset) $cmd='date +"%Z|%z"';
+			else $cmd='date +"%Z"';
+			$hostvalue=$this->run_shell_cmd($cmd);
+		}else{
+			//try 'tzutil' for win8+
+			$cmd='tzutil /g'; //to show current timezone
+			$hostvalue=$this->run_shell_cmd($cmd);
+		}
+		if(!empty($hostvalue)){
+			if(is_array($hostvalue)){
+				$hostTZ=$hostvalue[0];
+			}elseif(is_string($hostvalue)){
+				$hostTZ=$hostvalue;
+			}
+			if(!empty($hostTZ)){
+				if (strpos($hostTZ,'|')!==false) {
+					$hostTimezone=explode('|',$hostTZ);
+					$hostTimezone[1]=substr($hostTimezone[1],0,3);
+				}else{
+					$hostTimezone[0]=$hostTZ;
+				}
 			}
 		}
-		if (!empty($nix_server) && function_exists('shell_exec')) {
-			//check that 'shell_exec' is enabled (no safe_mode)
-			$safe_mode="off";
-			if (version_compare(PHP_VERSION,'5.4','<')) {
-				$safe_mode = @ini_get('safe_mode');
-				if ($safe_mode!= "on" && $safe_mode!= "1")
-					$safe_mode="off";
+		if($wdebug_mode){
+			if(headers_sent()){
+				echo "\n<!-- PHP_OS=".PHP_OS." &nbsp;\$is_nix_server=$is_nix_server &nbsp; \$cmd=$cmd &nbsp; \$hostTZ=$hostTZ -->";
 			}
-			if ($safe_mode=='off' && !in_array('shell_exec',array_map('trim',explode(',', @ini_get('disable_functions'))))) {
-				if ($getoffset) {
-					$hostTZ = @shell_exec('date +"%Z|%z"');
-					//in case shell_exec is disabled
-					if (strpos($hostTZ,'|')!==false) {
-						$hostTimezone = explode('|',$hostTZ);
-						$hostTimezone[1] = substr($hostTimezone[1],0,3);
-					}
-				} else {
-					$hostTZ = @shell_exec('date +"%Z"');
-					//in case shell_exec is disabled
-					if (!empty($hostTZ)) {
-						$hostTimezone = $hostTZ;
-					}
-				}
-			} //end if safe_mode
 		}
 		return $hostTimezone;
 	} //end getHostTimezone
 
+	/** Return true if 'wassup_active' is set in single-site or if set in both network and subsite settings @since v1.9.1 */
+	public function is_recording_active(){
+		$is_recording=false;
+		if(!empty($this->wassup_active)){
+			if(!is_multisite() || !$this->network_activated_plugin()){
+				$is_recording=true;
+			}else{
+				$network_settings=get_site_option('wassup_network_settings');
+	 			if(!empty($network_settings['wassup_active'])) $is_recording=true;
+			}
+		}
+		return $is_recording;
+	}
 	/**
 	 * Return true if site uses American English format for dates and numbers
 	 * @since v1.9
@@ -849,13 +909,8 @@ class wassupOptions {
 		return $is_admin_login;
 	} //end is_admin_login
 
-	/**
-	 * Verify that wassup is network-activated in Wordpress multisite.
-	 * @since v1.9
-	 * @param none
-	 * @return boolean
-	 */
-	public function network_activated_plugin($plugin_file=""){
+	/** Verify that wassup is network-activated in Wordpress multisite. @since v1.9 */
+	static function network_activated_plugin($plugin_file=""){
 		global $wpdb;
 		$is_network_activated=false;
 		$wassupplugin=plugin_basename(WASSUPDIR."/wassup.php");
@@ -871,12 +926,7 @@ class wassupOptions {
 		}
 		return $is_network_activated;
 	}
-	/**
-	 * Return the user capabilities string equivalent of a user level number.
-	 * @since v1.9
-	 * @param integer $userlevel
-	 * @return string
-	 */
+	/** Return the user capabilities string equivalent of a user level number. @since v1.9 */
 	public function get_access_capability($userlevel=""){
 		if($userlevel=="" || !is_numeric($userlevel)){
 			$userlevel=$this->wassup_userlevel;
@@ -896,7 +946,6 @@ class wassupOptions {
 	static function get_wp_hash($hashkey="") {
 		$wassuphash="";
 		if (empty($hashkey)) {
-			//v1.9 bugfix: 'secret_key' obsolete, replaced with 'auth_key'
 			if(defined('AUTH_KEY'))$hashkey=AUTH_KEY;	//in WP 3.X
 			elseif(defined('SECRET_KEY'))$hashkey=SECRET_KEY; //in WP 2.X
 			else $hashkey="wassup-".sprintf('%03d',rand(0,999));
@@ -905,6 +954,124 @@ class wassupOptions {
 		}
 		$wassuphash=wp_hash($hashkey);
 		return $wassuphash;
+	}
+	/** Retrieve or query a Google!Map API key   @since v1.9.4 */
+	public function get_apikey(){
+		$apikey="";
+		//try user's own api key
+		if(!empty($this->wassup_googlemaps_key)){
+			$apikey=$this->wassup_googlemaps_key;
+		}else{
+			//check for a builtin api key, if exist
+			$meta_key="_googlemaps_key";
+			if(is_multisite()) $sitehome=network_home_url();
+			else $sitehome=get_option('home');
+			$homedomain=wassupURI::get_urldomain($sitehome);
+			$apikey=wassupDb::get_wassupmeta($homedomain,$meta_key);
+		}
+		return $apikey;
+	}
+	/** Do a remote lookup of Google!Map API key  @since v1.9.4 */
+	static function lookup_apikey(){
+		global $wdebug_mode;
+		$error_msg="";
+		$apikey=false;
+		//no lookup key if key is already in settings
+		$wassup_settings=get_option('wassup_settings');
+		if(!empty($wassup_settings['wassup_googlemaps_key'])){
+			return;
+		}
+		$ip=0;
+		//for computers behind proxy servers:
+		if(isset($_SERVER['SERVER_ADDR'])){
+			$ip=wassupIP::validIP($_SERVER['SERVER_ADDR']);
+		}
+		if(empty($ip) && !empty($_SERVER['HTTP_X_FORWARDED_HOST'])){
+			$ip=wassupIP::validIP($_SERVER['HTTP_X_FORWARDED_HOST']);
+		}
+		if(empty($ip) && !empty($_SERVER['HTTP_X_FORWARDED_SERVER'])){
+			$ip=wassupIP::validIP($_SERVER['HTTP_X_FORWARDED_SERVER']);
+		}
+		if(empty($ip)){
+			$ipAddress=wassupIP::get_clientAddr();
+			$ip=wassupIP::clientIP($ipAddress);
+		}
+		//do lookup
+		$api_url="http://helenesit.com/utils/wassup-webservice/?ws=mk&ip=".$ip;
+		if($wdebug_mode) $api_url .='&debug_mode=1';
+		if(!function_exists('wFetchAPIData')){
+			include_once(WASSUPDIR."/lib/main.php");
+		}
+		$jsondata=wFetchAPIData($api_url);
+		if(!empty($jsondata)){
+			if(strpos($jsondata,'{')!==false) $apidata=json_decode($jsondata,true);
+			else $apidata=$jsondata;
+			if(is_array($apidata) && !empty($apidata['wassup_googlemaps_key'])){
+				 $apikey=$apidata['wassup_googlemaps_key'];
+			}elseif(is_string($apidata) && preg_match('/[^0-9a-z\-_]/',$apidata)==0){
+				$apikey=$apidata;
+			}else{
+				if(is_wp_error($apidata)){
+					$error_msg=__FUNCTION__." googlemaps key lookup error ".$apidata->get_error_code().": ".$apidata->get_error_message();
+				}else{
+					$error_msg=__FUNCTION__." googlemaps key lookup error: Non-json data returned";
+					$error_msg .= maybe_serialize($apidata);
+				}
+			}
+		}else{
+			$error_msg=__FUNCTION__." googlemaps key lookup for ".$api_url." failed";
+		}
+		//save apikey
+		if(!empty($apikey)){
+			$meta_key="_googlemaps_key";
+			if(is_multisite()) $sitehome=network_home_url();
+			else $sitehome=get_option('home');
+			$homedomain=wassupURI::get_urldomain($sitehome);
+			$updated=wassupDb::update_wassupmeta($homedomain,$meta_key,$apikey,0);
+		}elseif(!empty($error_msg)){ //debug
+			if($wdebug_mode){
+				return $error_msg;
+			}
+		}
+	} //end lookup_apikey
+
+	/**
+	 * Return a PHP command that can execute an external program via the server shell ('shell_exec' or 'exec').
+	 * @since v1.9.1
+	 */
+	static function get_shell_cmd(){
+		$php_shell='exec';
+		$safe_mode=false;
+		if(version_compare(PHP_VERSION,'5.4','<')){
+			$safe_mode= strtolower(ini_get("safe_mode"));
+			if($safe_mode!= "on" && $safe_mode!= "1") $safe_mode=false;
+		}
+		//check that 'shell_exec' is enabled
+		if(!$safe_mode){
+			$disabled_funcs=ini_get('disable_functions');
+			if(empty($disabled_funcs) || strpos($disabled_funcs,'shell_exec')===false){
+				$php_shell='shell_exec';
+			}
+		}
+		return $php_shell;
+	}
+	/**
+	 * Execute an external program via the server shell ('shell_exec' or 'exec').
+	 * @since v1.9.1
+	 */
+	public function run_shell_cmd($cmd=false){
+		$ret_value=false;
+		if(!empty($cmd)){
+			$php_shell=$this->get_shell_cmd();
+			//run date command on host server
+			if($php_shell=="exec"){
+				@exec($cmd,$ret_value,$ret_code);
+				if($ret_code !="0") $ret_value=false;
+			}elseif(!empty($php_shell)){
+				$ret_value=call_user_func($php_shell,$cmd);
+			}
+		}
+		return $ret_value;
 	}
 	/**
 	 * Convert associative array to this class object
@@ -931,17 +1098,19 @@ class wassupOptions {
 		return true;
 	} //end _options2class
 
-	/** display a system notice or message in admin panel. */
+	/** display a system notice or user message in admin panel. */
 	public function showMessage($message="") {
 		global $wp_version,$current_user;
-		if(empty($message) && (empty($_GET['page'])|| stristr($_GET['page'],'wassup')!==false) && !empty($this->wassup_alert_message)) $message=$this->wassup_alert_message;
-		//New in v1.9: show user-specific alert messages
+		$notice_html="";
 		if(empty($message)){
-			if(!is_object($current_user) || empty($current_user->ID)) wp_get_current_user();
+			//prioritize user alerts and show anytime
+			if(!is_object($current_user) || empty($current_user->ID)) $user=wp_get_current_user();
 			$wassup_user_settings = get_user_option('_wassup_settings',$current_user->ID);
-			if(!empty($wassup_user_settings['ualert_message'])) $message=$wassup_user_settings['ualert_message'];
-			$wassup_user_settings['ualert_message']="";
-			update_user_option($current_user->ID,'_wassup_settings',$wassup_user_settings);
+			if(!empty($wassup_user_settings['ualert_message'])){
+				$message=$wassup_user_settings['ualert_message'];
+			}elseif(!empty($this->wassup_alert_message) && (empty($_GET['page']) || stristr($_GET['page'],'wassup')!==false)){
+				$message=$this->wassup_alert_message;
+			}
 		}
 		if(!empty($message)){
 			$error=__("error","wassup");
@@ -954,15 +1123,29 @@ class wassupOptions {
 				if(version_compare($wp_version,'4.1','>=')) $mclass="notice error";
 				else $mclass="fade error";
 			}elseif(version_compare($wp_version,'4.1','>=')){
-				if(stristr($message,$warning)!==false) $mclass="notice notice-warning";
-				elseif(stristr($message,$updated)!==false || stristr($message,$upgraded)!==false || stristr($message,$deleted)!==false) $mclass="notice updated";
-				else $mclass="notice notice-info";
+				if(stristr($message,$warning)!==false) $mclass="notice notice-warning is-dismissible";
+				elseif(stristr($message,$updated)!==false || stristr($message,$upgraded)!==false || stristr($message,$deleted)!==false) $mclass="notice updated is-dismissible";
+				else $mclass="notice notice-info is-dismissible";
 			}
-			//display message prefaced with version #
-			echo '<div id="wassup-message" class="'.$mclass.'">WassUp '.WASSUPVERSION.': '.esc_attr($message);
-			echo '</div>'."\n";
+			//preface message with version # when not wassup page
+			if(empty($_GET['page'])){
+				$notice_html ='<div id="wassup-message" class="'.$mclass.'">WassUp '.WASSUPVERSION.' '.esc_attr($message).'</div>';
+			}elseif(strpos($_GET['page'],'wassup')===false){
+				$notice_html ='<div id="wassup-message" class="'.$mclass.'">WassUp '.WASSUPVERSION.' '.esc_attr($message).'</div>';
+			}else{
+				$notice_html='<div id="wassup-message" class="'.$mclass.'">'.esc_attr($message).'</div>';
+			}
+			//show alert message
+			echo $notice_html."\n";
+			//clear displayed alert message from settings
 			if($message == $this->wassup_alert_message){
-				$this->clearMessage();
+				$this->wassup_alert_message="";
+				$this->saveSettings();
+			}
+			//clear displayed user alert from settings
+			if(!empty($wassup_user_settings['ualert_message']) && $message==$wassup_user_settings['ualert_message']){
+				$wassup_user_settings['ualert_message']="";
+				update_user_option($current_user->ID,'_wassup_settings',$wassup_user_settings);
 			}
 		}
 	}
@@ -988,13 +1171,12 @@ class wassupOptions {
 } //end class wassupOptions
 } //end if !class_exists
 
-//New in v1.9: wassupDb static class for WassUp table operations
 if(!class_exists('wassupDb')){
 /**
  * Static class for WassUp table operations and data caching.
  *
  * @since v1.9
- * @author Helene D. <http://helenesit.com>
+ * @author helened <http://helenesit.com>
  */
 class wassupDb{
 	/** Private constructor for true static class - prevents direct creation of object */
@@ -1057,7 +1239,6 @@ class wassupDb{
 
 	/**
  	 * Insert a record into a wassup table.
-	 *
 	 *  - insert record is an associative array
 	 *  - a record id number is returned on success.
 	 * @param string $table, array $new_record, boolean $delayed
@@ -1067,7 +1248,11 @@ class wassupDb{
 		global $wpdb,$wassup_options,$wdebug_mode;
 		$rec_id=false;
 		$error_msg="";
-		if(empty($wassup_options->delayed_insert)) $delayed=false;
+		if($delayed===true){
+			if(empty($wassup_options->delayed_insert)) $delayed=false;
+		}else{
+			$delayed=false;
+		}
  		//table and record must be specfied
 		if(empty($table)|| empty($new_record)){
 			$error_msg=__FUNCTION__." failed - missing table or record parameter";
@@ -1103,7 +1288,7 @@ class wassupDb{
 			//delayed insert option for myISAM and ISAM tables
 			if($delayed) $delayed="DELAYED";
 			else $delayed="";
-			$rec_id=$wpdb->query(sprintf("INSERT $delayed INTO $table (%s) VALUES (%s)",$cols,$vals));
+			$rec_id=$wpdb->query(sprintf("INSERT $delayed INTO `$table` (%s) VALUES (%s)",$cols,$vals));
 		}
 		return $rec_id;
 	} //end table_insert
@@ -1121,7 +1306,7 @@ class wassupDb{
 			if(self::table_exists($table) && stristr($where_condition,'where')!==false){
 				$sql=sprintf("DELETE FROM %s %s",$table,$where_condition);
 				$deleted=$wpdb->query($sql);
-				if(is_wp_error($deleted)){
+				if(!empty($deleted) && is_wp_error($deleted)){
 					$error_msg=' &nbsp; WP_Error in '.__FUNCTION__.' '.$deleted->get_error_message()." \n<br/>SQL=\$wpdb->query($sql)";
 					$deleted=0;
 				}
@@ -1152,7 +1337,7 @@ class wassupDb{
 		if(empty($meta_key)){
 			$sql=sprintf("DELETE FROM %s WHERE `meta_key` LIKE '\\_%%' AND `meta_expire`>0",$cache_table);	//TODO: verify that escaped '_' requires 2 backslashes, not 1
 			$deleted=$wpdb->query($sql);
-			if(is_wp_error($deleted)){
+			if(!empty($deleted) && is_wp_error($deleted)){
 				$error_msg=' &nbsp; clear_cache error# '.$deleted->get_error_code()." ".$deleted->get_error_message()." \n<br/>SQL=\$wpdb->query($sql)";
 				$deleted=0;
 			}
@@ -1392,15 +1577,12 @@ class wassupDb{
 		if(is_string($var)){
 			$varstr=stripslashes($var);
 			//sanitize urls separately
-			if(strpos($varstr,'://')!==false){
-				if(function_exists('esc_url_raw'))$varstr=esc_url_raw($varstr);
-				else $varstr=esc_url($varstr,null,'db');
-				//oops, clean_url chomp
-				if(empty($varstr))$varstr=esc_attr(stripslashes($var));
+			if(strpos($varstr,'://')!==false || strpos($varstr,'/')===0){
+				$varstr=esc_url_raw($varstr);
 			}else{
 				$varstr=esc_sql($varstr);
 			}
- 			if($quotes)$var="'". $varstr ."'";
+ 			if($quotes) $var="'". $varstr ."'";
 			else $var=$varstr;
 		//convert boolean variables to binary boolean
 		}elseif(is_bool($var)&& $quotes){
@@ -1413,11 +1595,20 @@ class wassupDb{
 		return "$var";
 	} //end sanitize
 
+	/** simple escape for db save to prevent xss propagation. @since v1.9.1 */
+	static function xescape($str){
+		//change '" 'to &quot; and '<' to &lt; for db save
+		if(!empty($str) && !is_numeric($str)){
+			$xescaped=str_replace(array('"','<','\\x3c','%3c'),array('&quot;','&lt;','&092;x3c','&037;3c'),$str);
+		}else{
+			$xescaped=$str;
+		}
+		return $xescaped;
+	}
+
 	/**
 	 * Escape special characters for use in an SQL 'like' query.
-	 *  - uses 'like_escape' or 'wpdb::esc_like' depending on Wordpress version
-	 * @param string $sqlstring
-	 * @return string
+	 *  - uses 'wpdb::esc_like' or 'like_escape' if not available
 	 */
 	static function esc_like($sqlstring){
 		global $wpdb;
@@ -1433,8 +1624,6 @@ class wassupDb{
 	 * Return an MySQL system variable value.
 	 * @todo find cause of mysql timeout error when looking up dbengine for wp_wassup table
 	 * @since 1.7.2 (as wassupOptions::getMySQLsetting)
-	 * @param string
-	 * @return string
 	 */
 	static function get_db_setting($mysql_var,$mysql_table="") {
 		global $wpdb,$wassup_options,$wdebug_mode;
@@ -1444,7 +1633,7 @@ class wassupDb{
 		//get the table storage engine
 		if($mysql_var=="engine" || $mysql_var=="dbengine"){
 			if(!empty($mysql_table)){
-				//New in v1.9: replaced cpu-intensive "show table status" query with "show create table" for faster table engine lookup 
+				//use "show create table" for table engine lookup instead of the cpu-intensive "show table status" query  @since v1.9
 				$sql="SHOW CREATE TABLE $mysql_table";
 				$result=$wpdb->get_results($sql,ARRAY_N);
 				if(!empty($result)){
@@ -1479,7 +1668,7 @@ class wassupDb{
 			if ($sql_timezone == "SYSTEM" || empty($sql_timezone)) {
 				$host_timezone=$wassup_options->getHostTimezone();
 				if (!empty($host_timezone)) {
-					$sql_timezone=$host_timezone;
+					$sql_timezone=$host_timezone[0];
 				} else {
 					$sql_timezone=$sql_sys_timezone;
 				}
@@ -1487,26 +1676,18 @@ class wassupDb{
 			}
 			if (!empty($sql_timezone)) $mysql_value=$sql_timezone;
 		//get timezone offset for today's date.
-		} elseif ($mysql_var == "tzoffset") {
+		}elseif($mysql_var=="tzoffset" || $mysql_var=="TZoffset" || $mysql_var=="UTCoffset" || $mysql_var=="offset"){
+			//calculate mysql timezone offset by converting MySQL's NOW() and MySQL's UTC_TIMESTAMP() to Unix timestamps then subtract UTC_TIMESTAMP value from NOW value
 			$tzoffset=false;
-			$result=$wpdb->get_var("SELECT NOW() AS tnow FROM DUAL");
-			//calculate mysql timezone offset by converting MySQL's NOW() to a timestamp and subtracting UTC current time from it. 
-			// Note: conversion to timestamp is affected by PHP TZ setting, so remove that offset from calculation
-			if(!empty($result) && !is_wp_error($result)){
-				$now=((int)(time()/1800))*1800; //truncate to 1/2 hour
-				if(function_exists('date_timestamp_get')){
-					$mysql_dt=new DateTime($result);
-					$mysql_time=$mysql_dt->getTimestamp();
-					$adjust=$mysql_dt->getOffset();
-				}else{
-					$mysql_time=strtotime($result);
-					$adjust=(int)date('Z');
+			$mysql_dt=$wpdb->get_row("SELECT NOW() AS mysql_time, UTC_TIMESTAMP() AS mysql_utc FROM DUAL");
+			if(!empty($mysql_dt) && !is_wp_error($mysql_dt)){
+				$mysql_utc=(int)(strtotime($mysql_dt->mysql_utc)/1800)*1800;
+				$mysql_time=(int)(strtotime($mysql_dt->mysql_time)/1800)*1800;
+				if(!empty($mysql_utc)){
+					$tzoffset=($mysql_time - $mysql_utc)/3600;
 				}
-				$tzoffset=((int)($mysql_time/1800))*1800 - $now;
-				if(is_numeric($adjust)) $tzoffset +=$adjust;
-				//change offset to MySQL "[+-]hh:mm" format
-				$mysql_value=self::format_tzoffset($tzoffset);
 			}
+			$mysql_value=$tzoffset;
 		//get a mysql variable with parameter name
 		} elseif(!empty($mysql_var)) { 
 			$result=$wpdb->get_results(sprintf("SHOW VARIABLES LIKE '%s'",self::esc_like(esc_attr($mysql_var))));
@@ -1533,8 +1714,6 @@ class wassupDb{
 	 * Convert an offset to MySQL "[+-]hh:mm" format.
 	 *  - offset is converted from seconds or hours to MySQL "[+-]hh:mm" format.
 	 * @since 1.8 (as wassupOptions::formatTimezoneOffset)
-	 * @param string
-	 * @return string
 	 */
 	static function format_tzoffset($offset=false) {
 		$tzoffset=false;
@@ -1573,67 +1752,111 @@ class wassupDb{
 		$dbtasks=array();
 		if(!empty($args)){
 			if(!is_array($args)) $args=maybe_unserialize($args);
-			if(isset($args['dbtasks'])){
-				extract($args);
-			}elseif(is_array($args)){
-				$dbtasks=$args;
-			}else{
-				$dbtasks[]=$args;
-			}
-		}
-		if(!empty($dbtasks) && !is_array($dbtasks)){
-			$args=maybe_unserialize($dbtasks);
-			if(is_array($args)) $dbtasks=$args;
+			if(isset($args['dbtasks'])) extract($args);
+			elseif(is_array($args)) $dbtasks=$args;
+			else $dbtasks[]=$args;
 		}
 		$wassup_settings=get_option('wassup_settings');
-		$table_prefix=$wassup_settings['wassup_table'];
-		$affected_recs=0;
-		$dbtask_errors=array();
-		if(!empty($dbtasks) && is_array($dbtasks)){
-			//some db operations can be slow on large tables, so extend script execution time up to 30 minutes
-			if(!ini_get('safe_mode')) @set_time_limit(1800);
-			//increase mysql session timeout to 15 minutes
-			$mtimeout=$wpdb->get_var("SELECT @@session.wait_timeout AS mtimeout FROM DUAL");
-			if(!empty($mtimeout) && !is_wp_error($mtimeout) && is_numeric($mtimeout) && $mtimeout< 900){
-				$result=$wpdb->query("SET wait_timeout=900");
-			}
-		foreach($dbtasks as $db_sql){
-			$results=false;
-			$error_msg="";
-			//limit allowed sql to certain tasks and to Wassup tables only
-			if(strpos($db_sql,"DELETE FROM `$table_prefix")!==false){
-				$results=$wpdb->query($db_sql);
-			}elseif(strpos($db_sql,"UPDATE LOW_PRIORITY `$table_prefix")!==false){
-				$results=$wpdb->query($db_sql);
-			}elseif(strpos($db_sql,"UPDATE `$table_prefix")!==false){
-				$results=$wpdb->query($db_sql);
-			}elseif(strpos($db_sql,"OPTIMIZE TABLE `$table_prefix")!==false){
-				$results=$wpdb->query($db_sql);
+		$network_settings=array();
+		//check that Wassup recording is active
+		$wassup_active=false;
+		if(!empty($wassup_settings['wassup_active'])){
+			if(!is_multisite()){
+				$wassup_active=true;
 			}else{
-				//bad dbtask, create an error record
-				$error_msg =" ERROR: Unknown task ".esc_attr($db_sql);
+				$network_settings=get_site_option('wassup_network_settings');
+				if(!empty($network_settings['wassup_active'])){
+					$wassup_active=true;
+					if(!empty($network_settings['wassup_table'])) $wassup_settings['wassup_table']=$network_settings['wassup_table'];
+				}
 			}
-			//check for errors in mysql results
-			if(!empty($results) && is_wp_error($results)){
-				$dbtask_errors[]=" ERROR: wpdb error#".$results->get_error_code().": ".$results->get_error_message()." for sql=$db_sql";
-			}elseif(!empty($error_msg)){
-				$dbtask_errors[]=$error_msg;
+		}
+		//do the tasks
+		if($wassup_active){
+			$affected_recs=0;
+			$dbtask_errors=array();
+			//unserialize dbtasks array if needed
+			if(!empty($dbtasks) && !is_array($dbtasks)){
+				$arr=maybe_unserialize($dbtasks);
+				if(is_array($arr)) $dbtasks=$arr;
+			}
+			if(!empty($dbtasks) && is_array($dbtasks)){
+				$table_prefix=$wassup_settings['wassup_table'];
+				//some db operations can be slow on large tables, so extend script execution time up to 30 minutes
+				$disabled_funcs=ini_get('disable_functions');
+				if((empty($disabled_funcs) || strpos($disabled_funcs,'set_time_limit')===false) && !ini_get('safe_mode')) @set_time_limit(1800);
+				//increase mysql session timeout to 15 minutes
+				$mtimeout=$wpdb->get_var("SELECT @@session.wait_timeout AS mtimeout FROM DUAL");
+				if(!empty($mtimeout) && !is_wp_error($mtimeout) && is_numeric($mtimeout) && $mtimeout< 900){
+					$result=$wpdb->query("SET wait_timeout=900");
+				}
+			foreach($dbtasks as $db_sql){
+				$results=false;
+				$error_l10=__("ERROR","wassup");
+				$error_msg="";
+				//limit allowed sql to certain tasks and to Wassup tables only
+				if(strpos($db_sql,"DELETE FROM `$table_prefix")!==false){
+					$results=$wpdb->query($db_sql);
+				}elseif(strpos($db_sql,"UPDATE LOW_PRIORITY `$table_prefix")!==false){
+					$results=$wpdb->query($db_sql);
+				}elseif(strpos($db_sql,"UPDATE  `$table_prefix")!==false){
+					$results=$wpdb->query($db_sql);
+				}elseif(strpos($db_sql,"UPDATE `$table_prefix")!==false){
+					$results=$wpdb->query($db_sql);
+				}elseif(strpos($db_sql,"OPTIMIZE TABLE `$table_prefix")!==false){
+					//limit wassup optimize to 1 per day in multisite
+					$wassup_table='`'.$wassup_settings['wassup_table'].'`';
+					$wassup_meta_table='`'.$wassup_settings['wassup_table'].'_meta`';
+					if(strpos($db_sql,$wassup_table)>0){
+						$timestamp=time();
+						$last_optimized=self::get_wassupmeta($wassup_table,'_optimize');
+						if(empty($last_optimized) || ($timestamp - $last_optimized)>24*3600){
+							//save timestamp to prevent repeat of optimize
+							$expire=time()+7*24*3600;
+							$wassup_optimized=self::update_wassupmeta($wassup_table,'_optimize',$timestamp,$expire);
+							//do optimize
+							$results=$wpdb->query($db_sql);
+						}else{
+							$error_msg=" ".$error_l10.": limit of 1 optimize task in 24-hours ".esc_attr($db_sql);
+						}
+					}elseif(strpos($db_sql,$wassup_meta_table)>0){
+						$results=$wpdb->query($db_sql);
+					}else{
+						$error_msg=" ".$error_l10.": unknown optimize request ".esc_attr($db_sql);
+					}
+				}else{
+					//bad dbtask, create an error record
+					$error_msg=" ".$error_l10.": Unknown task ".esc_attr($db_sql);
+				}
+				//check for errors in mysql results
+				if(!empty($results) && is_wp_error($results)){
+					$dbtask_errors[]=" ".$error_l10.": wpdb error#".$results->get_error_code().": ".$results->get_error_message()." for sql=$db_sql";
+				}elseif(!empty($error_msg)){
+					$dbtask_errors[]=$error_msg;
+				}else{
+					$affected_recs += $wpdb->rows_affected + 0;
+				}
+			} //end foreach
 			}else{
-				$affected_recs += $wpdb->rows_affected + 0;
-			}
-		} //end foreach
-		} //end if dbtasks
+				//bad dbtask argument, so create error
+				$error_msg=" ".$error_l10.": Nothing to do.";
+				if(!empty($dbtasks)){
+					$error_msg .="..dbtasks not an array ".esc_attr($dbtasks);
+				}else{
+					$error_msg .="..empty argument";
+					if(!empty($args)) $error_msg .=" ".esc_attr($args);
+				}
+			} //end if dbtasks
+		} //end if wassup_active
+		//email error output from cron as these are not logged
 		if(!empty($wdebug_mode)){
-			//email error output from cron
 			$message="";
 			if(!empty($dbtask_errors)){
-				$subject=sprintf(__("%s Error!","wassup"),'Wassup wp-cron');
-				$message ="scheduled dbtask encountered an error:\n";
+				$subject=sprintf(__("%s error!","wassup"),'Wassup wp-cron');
+				$message=sprintf(__("%s encountered an error.","wassup"),"scheduled_dbtask")."\n";
 				foreach($dbtask_errors AS $error_msg){
 					$message .=$error_msg."\n";
 				}
-			//}else{
-			//	$message ="scheduled dbtask completed successfully. Records affected=$affected_recs";
 			}
 			if(!empty($message)){
 				$blogurl = wassupURI::get_sitehome();
@@ -1655,10 +1878,12 @@ class wassupDb{
 	 * - anonymous users are inactive after 3 minutes
 	 * - spiders are inactive after 1 minute
 	 * @since v1.9
-	 * @return void
 	 */
 	static function temp_cleanup(){
 		global $wpdb,$wassup_options;
+		if(!defined('WASSUPURL')){
+			if(!wassup_init()) return;	//nothing to do
+		}
 		$wassup_table=$wassup_options->wassup_table;
 		$wassup_tmp_table=$wassup_table . "_tmp";
 		$wassup_meta_table=$wassup_table . "_meta";
@@ -1675,6 +1900,9 @@ class wassupDb{
 	 */
 	static function auto_cleanup(){
 		global $wpdb,$wassup_options;
+		if(!defined('WASSUPURL')){
+			if(!wassup_init()) return;	//nothing to do
+		}
 		$deleted=0;
 		//do purge of old records
 		if(!empty($wassup_options->delete_auto) && $wassup_options->delete_auto!="never"){
@@ -1716,8 +1944,12 @@ class wassupDb{
 					//clear table_status from wassup_meta cache after auto delete
 					$result=$wpdb->query(sprintf("DELETE FROM `%s` WHERE `wassup_key`='%s' AND `meta_key`='_table_status'",$wassup_table."_meta",$wassup_table));
 					//reschedule optimize to run today when bulk delete larger than 1000 records
-					if($deleted >1000 && !empty($wassup_optimize)){
-						$wassup_optimize=$timenow - 24*60*60;
+					if($deleted >1000 && !empty($wassup_options->wassup_optimize)){
+						$last_week=current_time("timestamp")-7*24*3600;
+						if($wassup_options->wassup_optimize >$last_week){
+							$wassup_options->wassup_optimize=$last_week;
+							$wassup_options->saveSettings();
+						}
 					}
 				}else{
 					$deleted=0;
@@ -1729,7 +1961,7 @@ class wassupDb{
 			$message="";
 			if($deleted > 0){
 				$subject=__("Wassup auto-delete notice","wassup");
-				$message =sprintf(__("Auto-delete deleted %d old %s table records today.","wassup"),$deleted,$wassup_options->wassup_table);
+				$message =sprintf(__("Auto-delete deleted %d old %s records today.","wassup"),$deleted,$wassup_options->wassup_table);
 				$blogurl = wassupURI::get_sitehome();
 				$recipient=get_bloginfo('admin_email');
 				$sender='From: '.get_bloginfo('name').' <wassup_noreply@'.parse_url($blogurl,PHP_URL_HOST).'>';
@@ -1738,220 +1970,299 @@ class wassupDb{
 		}
 	} //end auto_cleanup
 
-	/**
-	 * Retrieve raw data from wassup table in SQL format for export.
-	 *  - taken partially from wp-db-backup plugin by Alain Wolf, Zurich, SW - http://www.ilfilosofo.com/blog/wp-db-backup/
-	 *  - a partial export is returned if script execution timelimit of 15 minutes is exceeded
-	 *  - the record id of last record exported (last_recid) is cached to 'wassup_meta' table.
-	 *
-	 * @param string(3) $table, $condition, $segment
-	 * @return string ($sql)
-	 */
-	static function backup_table($table,$condition="",$segment='none'){
-		global $wpdb,$current_user,$wassup_options,$wdebug_mode;
-		define('ROWS_PER_SEGMENT', 600);
-		if(!is_object($current_user) || empty($current_user->ID)){
-			$user=wp_get_current_user();
+	/** Retrieve records from a table by record id @since v1.9.4 */
+	static function get_records($table,$startid=0,$condition="",$limit=0){
+		global $wpdb,$wdebug_mode;
+
+		if(empty($table) || !self::table_exists($table)){
+			$error_msg=__("Missing or incorrect table name","wassup").' '.$table;
+			$error=new WP_Error('1',$error_msg);
+			return $error;
 		}
-		if(!empty($current_user->ID)){
-			$wassup_user_settings=get_user_option('_wassup_settings',$current_user->ID);
+		//Extend php script timeout to 10 minutes
+		$mtimeout=60;
+		$stimeout=ini_get('max_execution_time');
+		if(is_numeric($stimeout) && $stimeout>0 && $stimeout < 990){
+			$disabled_funcs=ini_get('disable_functions');
+			if((empty($disabled_funcs) || strpos($disabled_funcs,'set_time_limit')===false) && !ini_get('safe_mode')){
+				$stimeout=10*60;
+				@set_time_limit($stimeout);
+			}
+		}elseif($stimeout===0){
+			$stimeout=10*60;
+		}
+		//set mysql wait timeout to 15 minutes
+		$timelimit=15*60;
+		$mtimeout=$wpdb->get_var("SELECT @@session.wait_timeout AS mtimeout FROM DUAL");
+		if(!empty($mtimeout) && !is_wp_error($mtimeout)){
+			if(!is_numeric($mtimeout) || $mtimeout < $timelimit){
+				$results=$wpdb->query(sprintf("SET wait_timeout = %d",($timelimit+60)));
+			}elseif($mtimeout >3600){
+				$timelimit=3600; //up to 1 hour
+			}else{
+				$timelimit=$mtimeout;
+			}
 		}else{
-			$err_msg=__("Export ERROR: login required!","wassup");
+			$results=$wpdb->query(sprintf("SET wait_timeout = %d",($timelimit+60)));
+		}
+		//@TODO - check table for autoincrement field name and use it for recid field
+		$recid='id';
+		// do mysql query and return results
+		if(!is_numeric($startid)) $startid=0;
+		if(stristr($condition,' WHERE ')===false){
+			$qry=sprintf("SELECT * FROM `%s` WHERE `id` > %d %s",esc_attr($table),$startid,$condition);
+		}elseif($startid >0){
+			$qry=sprintf("SELECT * FROM `%s` %s AND `id` > %d",esc_attr($table),$condition,$startid);
+		}else{
+			$qry=sprintf("SELECT * FROM `%s` %s",esc_attr($table),$condition);
+		}
+		if(!empty($limit) && is_numeric($limit) && $limit >0 && stristr($qry,' LIMIT ')===false){
+			$qry .= sprintf(" LIMIT %d",$limit);
+		}
+		$table_records=$wpdb->get_results($qry);
+		return($table_records);
+	} //end get_records
+
+	/** Export Wassup records in SQL or CSV format  @since v1.9.4 */
+	static function export_records($table,$start_id,$wherecondition,$dtype="sql"){
+		global $wpdb,$current_user,$wassup_options,$wdebug_mode;
+		//#1st verify that export request is valid
+		if(!isset($_REQUEST['export']) || !is_user_logged_in()){
+			$err_msg =__("Export ERROR: Invalid Export request","wassup");
 			$wassup_options->wassup_alert_message=$err_msg;
 			$wassup_options->saveSettings();
 			return false;
 		}
-		if(empty($table))$table=$wassup_options->wassup_table;
-		$sql_table_name=$wpdb->get_var(sprintf("SHOW TABLES LIKE '%s'",self::esc_like(esc_attr($table))));
-		if(empty($sql_table_name) || $sql_table_name!=$table || is_wp_error($sql_table_name)){
-			$err_msg=sprintf(__('Error with TABLE %s: Not found','wassup'), esc_attr($table));
-			$wassup_user_settings['ualert_message']=$err_msg;
-			update_user_option($current_user->ID,'_wassup_settings',$wassup_user_settings);
-			return FALSE;
-		}
-		$sql="";
-		$err_msg=false;
-		$did_export=false;
-		$timelimit=15*60;
-		$mtimeout=60;
-		$stimeout=ini_get('max_execution_time');
+		//start script timer
 		$stimer_start=time();
-		$row_count=0;
-		$last_recid=0;
-		$exclude_id=false;
-		if(isset($_REQUEST['omit_recid']))$exclude_id=true;
-		if(!empty($_REQUEST['expid'])&& is_numeric($_REQUEST['expid']))$backup_id=(int)$_REQUEST['expid'];
-		else $backup_id=date('YmdH',current_time('timestamp'));
-		//Add comments to each section of export file
-		if($segment=='none' || $segment==0){
-			$result=$wpdb->get_results(sprintf("SHOW CREATE TABLE `%s`",esc_attr($table)),ARRAY_N);
-			if(empty($result[0][1]) || is_wp_error($result)) {
-				$err_msg=sprintf(__('Error with "SHOW CREATE TABLE" for %s.','wassup'), esc_attr($table));
-			}else{
-				$table_create=$result[0][1];
-				$first_recid=$wpdb->get_var(sprintf("SELECT MIN(`id`) FROM %s %s",esc_attr($table),$condition));
-				if(!is_numeric($first_recid)) $first_recid=0;
-				//add comments for table structure section
-				$sql .="\n#\n";
-				$sql .="# " . sprintf(__('Table structure of table %s','wassup'),esc_attr($table))."\n#\n";
-				//replace "CREATE TABLE" with "CREATE TABLE IF NOT EXISTS" and remove AUTO_INCREMENT=NNN value from $table_create
-				$sql .=preg_replace(array('/^CREATE\sTABLE\s(IF\sNOT\sEXISTS\s)?/i', '/AUTO_INCREMENT\=\d+\s/i'),array('CREATE TABLE IF NOT EXISTS ',''),$table_create).' ;';
-				$sql .="\n#\n";
-				//add comments for data section
-				$sql .="# Start time: ".date('r',current_time('timestamp'))."	 1st exported ID: $first_recid \n";
-				$sql .='# ' . sprintf(__('Data contents of table %s','wassup'),esc_attr($table))."\n#\n";
-			}
+		$msg="";
+		$err_msg=false;
+		if(!is_object($current_user) || empty($current_user->ID)){
+			$user=wp_get_current_user();
 		}
-		//Check for table records
-		if(empty($err_msg)){
-			$table_structure=$wpdb->get_results(sprintf("SHOW COLUMNS FROM %s",esc_attr($table)));
-			if(is_wp_error($table_structure)){
-				$errno=$table_structure->get_error_code();
-				$err_msg=sprintf(__('Error getting table structure of %s: %s','wassup'), esc_attr($table),$errno.' '.$table_structure->get_error_message());
-				$table_structure=false;
-			}elseif(false == $table_structure){
-				$err_msg=sprintf(__('Error getting table structure of %s','wassup'), esc_attr($table));
-			}
-			$numrecords=$wpdb->get_var(sprintf("SELECT COUNT(*) FROM %s %s",esc_attr($table), $condition));
-			if(empty($numrecords)|| !is_numeric($numrecords)){
-				if(is_wp_error($numrecords)){
-					$errno=$numrecords->get_error_code();
-					$err_msg=sprintf(__('Error with table %s: %s','wassup'), esc_attr($table),$errno.' '.$numrecords->get_error_message());
-				}else{
-					$err_msg=sprintf(__('Error with table %s: No data','wassup'), esc_attr($table));
-				}
-				$numrecords=0;
-			}
+		$wassup_user_settings=get_user_option('_wassup_settings',$current_user->ID);
+		if(empty($table)) $table=$wassup_options->wassup_table;
+		$sql_table_name=$wpdb->get_var(sprintf("SHOW TABLES LIKE '%s'",wassupDb::esc_like(esc_attr($table))));
+		if(empty($sql_table_name) || $sql_table_name!=$table || is_wp_error($sql_table_name)){
+			$err_msg=sprintf(__('Export ERROR: TABLE %s not found!','wassup'), esc_attr($table));
+			wassup_log_message($err_msg);
+			return false;
 		}
-		//ABORT due to table error
-		if(!empty($err_msg)){
-			$wassup_user_settings['ualert_message']=$err_msg;
-			update_user_option($current_user->ID,'_wassup_settings',$wassup_user_settings);
-			return FALSE;
-		}
-		//Extend php script timeout to 10 minutes
-		//TODO: 'safe_mode' deprecated
-		if(!@ini_get('safe_mode')){if(empty($stimeout)|| $stimeout < (10*60))@set_time_limit(10*60);}
-		$stimeout=10*60;
-		//set mysql wait timeout to 15 minutes
-		$mtimeout=$wpdb->get_var("SELECT @@session.wait_timeout AS mtimeout FROM DUAL");
-		if(!empty($mtimeout) && !is_wp_error($mtimeout)){
-			if(!is_numeric($mtimeout)|| $mtimeout<$timelimit) $results=$wpdb->query(sprintf("SET wait_timeout = %d",($timelimit+60)));
-			elseif($mtimeout >3600)$timelimit=3600; //up to 1 hour
-			else $timelimit=$mtimeout;
-		}else{
-			$results=$wpdb->query(sprintf("SET wait_timeout = %d",($timelimit+60)));
-		}
-		$defs=array();
-		$ints=array();
-		$cols="";
-		$i=0;
-		foreach($table_structure as $col){
-		//omit ID field from export
-		if($exclude_id && $col->Field=="id" && $col->Extra=="auto_increment")continue;
-		//differentiate numeric fields from char fields
-		if((0===strpos(strtolower($col->Type),'tinyint'))||
-		  (0===strpos(strtolower($col->Type),'smallint'))||
-		  (0===strpos(strtolower($col->Type),'mediumint'))||
-		  (0===strpos(strtolower($col->Type),'int'))||
-		  (0===strpos(strtolower($col->Type),'bigint'))||
-		  (0===strpos(strtolower($col->Type),'timestamp'))){
-			$defs[$col->Field]=$col->Default;
-			$ints[$col->Field]="1";
-		}
-		if($i==0)$cols .='`'.$col->Field.'`';
-		else $cols .=', `'.$col->Field.'`';
-		$i++;
-		} //end foreach $table_structure
-		
-		// Batch by $row_inc
-		if($segment=='none'){$row_start=0;$row_inc=ROWS_PER_SEGMENT;}
-		else{$row_start=$segment*ROWS_PER_SEGMENT;$row_inc=ROWS_PER_SEGMENT; }
-		$i=1;
-		$entries="INSERT INTO `".esc_attr($table)."` ($cols) VALUES ";
+		//for validating field data in export
 		$search=array("\x00", "\x0a", "\x0d", "\x1a");
 		$replace=array('\0','\n','\r','\Z');
-		$last_recid=0;
-		$export_count=0;
-		$err_msg="";
-		do{
-			$row_count=0;
-			$qry=sprintf("SELECT SQL_BUFFER_RESULT $cols FROM %s %s ORDER BY `id` LIMIT %d, %d",esc_attr($table),$condition,$row_start,$row_inc);
-			$table_data=$wpdb->get_results($qry);
-			if(is_wp_error($table_data)) {
-				$errno=$table_data->get_error_code();
-				$err_msg=sprintf(__('Error exporting data from table %s: %s','wassup'), esc_attr($table),$errno.' '.$table_data->get_error_message());
-			}elseif(is_array($table_data)){
-				$row_count=count($table_data);
+		$ints=array();
+		$table_structure=$wpdb->get_results(sprintf("SHOW COLUMNS FROM `%s`",esc_attr($table)));
+		if(!is_wp_error($table_structure) && false != $table_structure){
+			foreach($table_structure as $col){
+			//differentiate numeric from char fields
+			if((0===strpos(strtolower($col->Type),'tinyint')) ||
+			   (0===strpos(strtolower($col->Type),'smallint')) ||
+			   (0===strpos(strtolower($col->Type),'mediumint')) ||
+			   (0===strpos(strtolower($col->Type),'int')) ||
+			   (0===strpos(strtolower($col->Type),'bigint')) ||
+			   (0===strpos(strtolower($col->Type),'timestamp'))){
+				$ints[$col->Field]="1";
 			}
-			if($row_count>0){
-				$j=0;
-			foreach($table_data AS $row){
-				$values="";$row_sql="";$n=0;
-				foreach($row AS $key=>$value){
-				//track last id exported
-				if($key=='id'){
-					$last_recid=$value;
-					//omit 'id' from export
-					if($exclude_id)continue;
+			}
+		}else{
+			$err_msg=sprintf(__('Export ERROR: Unable to get TABLE %s structure!','wassup'), esc_attr($table));
+			wassup_log_message($err_msg);
+			return false;
+		}
+		$SEG_LIMIT=1000;  //1000 records per write block
+		//only sql or csv export formats supported
+		if($dtype=="csv" || $dtype=="CSV"){
+			$dtype="csv";
+		}else{
+			$dtype="sql";
+			$sql_header="";
+			$sql_fields="";
+			$sql_data="";
+			//create SQL header from table structure
+			$result=$wpdb->get_results(sprintf("SHOW CREATE TABLE `%s`",esc_attr($table)),ARRAY_N);
+			if(empty($result[0][1]) || is_wp_error($result)){
+				$err_msg=sprintf(__('Error with "SHOW CREATE TABLE" for %s.','wassup'), esc_attr($table));
+				wassup_log_message($err_msg);
+			} else {
+				$table_create=$result[0][1];
+				$sql_header="#\n# " . sprintf(__('Table structure of table %s','wassup'),esc_attr($table))."\n#\n";
+				$sql_header .= preg_replace(array('/^CREATE\sTABLE\s(IF\sNOT\sEXISTS\s)?/i', '/AUTO_INCREMENT\=\d+\s/i'),array('CREATE TABLE IF NOT EXISTS ',''),$table_create).' ;';
+				$sql_header .= "\n#\n# ".sprintf(__('Data contents of table %s','wassup'),esc_attr($table))."\n#\n";
+			}
+		}
+		//set starting rec id of export query
+		if(empty($start_id) || !is_numeric($start_id)){
+			$start_id=0;
+			if(isset($_REQUEST['startid']) && is_numeric($_REQUEST['startid'])){
+				$start_id=(int)$_REQUEST['startid'];
+			}
+		}
+		$lastexported_id=0;
+		$row_count=0;
+		$exporttot=0;
+		$n=0;
+		//open output stream for export
+		$output=false;
+		$outfile=$table.gmdate('Y-m-d').'.'.$dtype;
+		$output=fopen('php://output','w');
+		if($output){
+			//Extend php script timeout to 10 minutes
+			$stimeout=ini_get('max_execution_time');
+			if(is_numeric($stimeout) && $stimeout>0 && $stimeout < 600){
+				$disabled_funcs=ini_get('disable_functions');
+				if((empty($disabled_funcs) || strpos($disabled_funcs,'set_time_limit')===false) && !ini_get('safe_mode')){
+					$stimeout=10*60;
+					@set_time_limit($stimeout);
 				}
-				if(isset($ints[$key])){$val=(''===$value)?"''":$value;}
-				elseif(function_exists('esc_sql')){$val="'".str_replace($search,$replace,esc_sql($value))."'";}
-				else{$val="'".str_replace($search,$replace,addslashes($value))."'";}
-				if($n==0)$values=$val;
-				else $values .=','.$val;
-				$n++;
-				} //end foreach row
-				//new "insert" statement every 50 rows
-				if($j==0){$row_sql="\n".$entries."\n";}
-				elseif($j%50==0){$row_sql .=";\n".$entries."\n";}
-				else{$row_sql .=",\n";}
-				$row_sql .='('.$values.')';
-				$sql .=$row_sql;
-				$j++;
-			} //end foreach table_data
-				if(!empty($sql))$sql .=";\n"; //ending semicolon
-				$row_start +=$row_count; //$row_start += $row_inc;
-				$export_count=$export_count+$row_count;
-				$did_export=true;
-			} //end if row_count >0
-			$i++;
-			//stop export if near script timeout limit 
-			if((time()-$stimer_start)>$stimeout-10 || !empty($err_msg)){
-				$did_export=false;
+			}elseif($stimeout===0){
+				$stimeout=10*60;
+			}else{
+				$stimeout=60;	//assume 1 minute
+			}
+			//extend mysql timeout
+			$mtimeout=$wpdb->get_var("SELECT @@session.wait_timeout AS mtimeout FROM DUAL");
+			if(!empty($mtimeout) && !is_wp_error($mtimeout) && is_numeric($mtimeout) && $mtimeout< 900){
+				$result=$wpdb->query("SET wait_timeout=900");
+			}
+		do{
+			//get records
+			$exportrecs=wassupDb::get_records($table,$start_id,"$wherecondition",$SEG_LIMIT);
+			if(is_wp_error($exportrecs)){
+				$errno=$exportrecs->get_error_code();
+				$err_msg=sprintf(__("%s Export ERROR: %s","wassup"),strtoupper($dtype),$errno.' '.$exportrecs->get_error_message());
+				$exportrecs=array();
 				break;
 			}
-		}while($row_count >0 &&($segment=='none'));
-		//reset mysql wait timeout to default
-		if(empty($mtimeout)|| !is_numeric($mtimeout))$mtimeout=60;
-		$wpdb->query("SET wait_timeout=$mtimeout");
-		// Create footer/closing comment in SQL-file
-		if($segment=='none' || $segment<0){
-			$sql .="\n";
-			if($did_export){
-				$sql .="# ".sprintf(__('End of data contents of table %s','wassup'),$table)."\n";
-			}else{
-				$sql .="# ".sprintf(__('Interrupted data contents of table %s','wassup'),$table)."\n";
-				if(!empty($err_msg)) $sql .="# $errmsg\n";
+			$rec_count=count($exportrecs);
+			if($rec_count ==0){
+				//nothing to do
+				$err_msg=sprintf(__("%s Export ERROR: No data","wassup"),strtoupper($dtype));
+				break;
 			}
-			$sql .="# --------------------------------------------------------\n";
-			if($wdebug_mode){
-				$elapsed_time=time()-$stimer_start;
-				$sql .="# Timeout length=$timelimit seconds.  Elapsed time=$elapsed_time seconds\n";
-				$sql .="# --------------------------------------------------------\n";
+			//get header info by export type
+			if($n==0){
+				//get field names from 1st record
+				$wassup_rec=(array)$exportrecs[0];
+				//omit record id field, if specified
+				if(!empty($wassup_options->export_omit_recid)){
+					unset($wassup_rec['id']);
+				}
+				if(!is_multisite()) unset($wassup_rec['subsite_id']);
+				$fields=array_keys($wassup_rec);
+				//start download
+				header('Content-Disposition: attachment; filename='.$outfile);
+				header('Pragma: no-cache');
+				header('Expires: 0');
+				header('Content-Type: text/'.$dtype.'; charset=utf-8');
+				//header infos
+				if($dtype == "csv"){
+					//CSV header is a single row of column names
+					fputcsv($output,$fields);
+				}else{
+					//write sql header
+					fwrite($output,$sql_header);
+					$i=0;
+					//field list for sql-insert 
+					$sql_fields="INSERT INTO `".esc_attr($table).'` (';
+					foreach($fields AS $col){
+						if(empty($wassup_options->export_omit_recid) || $col != 'id'){
+							if($i >0) $sql_fields .=',';
+							$sql_fields .='`'.$col.'`';
+							$i++;
+						}
+					}
+					$sql_fields .= ') VALUES';
+				}
 			}
-			$sql .="#\n# ".sprintf(__("End time: %d","wassup"),date('r',current_time('timestamp')))."					    \n";
-			$sql .="# ".sprintf(__("%d out of %d records exported.","wassup"),$export_count,$numrecords)." ".sprintf(__("Last record ID: %d","wassup"),$last_recid)." \n";
-			$sql .="\n";
+			$exp_n=0;
+			$sql_data="";
+			//output records
+			foreach($exportrecs AS $wassup_obj){
+				$wassup_rec=(array)$wassup_obj;
+				//track record id #
+				if($wassup_rec['id'] > $start_id){
+					$lastexported_id=$wassup_rec['id'];
+				}
+				//omit rec id + subsite fields from data
+				if(!empty($wassup_options->export_omit_recid)){
+					unset($wassup_rec['id']);
+				}
+				if(!is_multisite()) unset($wassup_rec['subsite_id']);
+				if($dtype == "csv"){
+					//convert timestamp
+					$date24time=gmdate('Y-m-d H:i:s',$wassup_rec['timestamp']);
+					$wassup_rec['timestamp']=$date24time;
+					fputcsv($output,$wassup_rec);
+				}else{
+					//output sql-insert statement
+					if($exp_n == 0){
+						$sql_data =$sql_fields;
+					}elseif($exp_n%100==0){
+						//write completed stmt
+						$sql_data .=';';
+						fwrite($output,$sql_data);
+						$sql_data ="\n$sql_fields";
+					}else{
+						$sql_data .=',';
+					}
+					//the data
+					$sql_data .="\n(";
+					$i=0;
+					foreach($wassup_rec AS $key =>$val){
+						if($i >0) $sql_data .= ",";
+						if(isset($ints[$key])){
+							$sql_data .=(''===$val)?"''":$val;
+						}else{
+							$sql_data .="'".esc_sql(str_replace($search,$replace,$val))."'";
+						}
+						$i++;
+					} //end foreach
+					$sql_data .=")";
+				}
+				$exp_n +=1;
+			} //end foreach exportrec
+			$exporttot +=$exp_n;
+			if($lastexported_id > $start_id) $start_id=$lastexported_id;
+			//output last sql statement
+			if(!empty($sql_data)){
+				$sql_data .=';'."\n";
+				fwrite($output,$sql_data);
+			}
+			//stop export when stimeout limit is reached
+			$time_passed = time() - $stimer_start;
+			$n+=1;
+		} while($rec_count >0 && $time_passed < $stimeout);
+			//add msg, close stream and flush buffer
+			//show last record id # in message
+			if(!empty($lastexported_id)){
+				$msg = $exporttot." ".strtoupper($dtype)." ".__("records exported!","wassup");
+				$msg .= " ".__("Last export record id","wassup").": ".$lastexported_id;
+			}
+			//output footer @TODO
+			$sql_footer="";
+			//save export message
+			if(isset($_REQUEST['mid'])) $msgkey=$_REQUEST['mid'];
+			else $msgkey="0";
+			if(!empty($msg)){
+				wassup_log_message($msg,"_export_msg",$msgkey);
+			}elseif(!empty($err_msg)){
+				wassup_log_message($err_msg,"_export_msg",$msgkey);
+			}
+			//close export stream, flush buffer
+			fclose($output);
+			if($n >0) die();
+		}else{
+			$err_msg=strtoupper($dtype).' Export ERROR: Cannot open stream php://output';
+		} //end if output
+		//export failed if get here, so save error and return
+		if(!empty($err_msg)){
+			wassup_log_message($err_msg." ".$msg);
+		}else{
+			$err_msg=__("Export failed!","wassup")." ".$msg;
+			wassup_log_message($err_msg);
 		}
-		//save export success message for admin alert notice
-		if(!empty($sql)){
-			$wassup_user_settings['ualert_message']=sprintf(__("%d out of %d records exported.","wassup"),$export_count,$numrecords)." ".sprintf(__("Last record ID: %d","wassup"),$last_recid);
-			update_user_option($current_user->ID,'_wassup_settings',$wassup_user_settings);
-			$saved=self::update_wassupmeta($table,'_export_recid-'.$current_user->ID,$last_recid,0);
-		}
-		return $sql;
-	} // end backup_table
+	} //end export_records
 
 } //end class wassupDb
 } //end if !class_exists
@@ -1960,7 +2271,7 @@ if(!class_exists('wassupURI')){
 /**
  * Static class containing methods to format and clean urls/links for safe output.
  * @since v1.9
- * @author Helene D. <http://helenesit.com>
+ * @author helened <http://helenesit.com>
  */
 class wassupURI {
 	/** Private constructor for true static class - prevents direct creation of object. */
@@ -1973,9 +2284,12 @@ class wassupURI {
 		$isroot=false;
 		if(strpos($url,'.')>0){
 			$urlparts=parse_url($url);
-			if(!empty($urlparts['host']))$isroot=true;
-			if(!empty($urlparts['path'])&& $urlparts['path'] !="/")$isroot=false;
-			elseif(!empty($urlparts['query']))$isroot=false;
+			if(!empty($urlparts['host'])) $isroot=true;
+			if(!empty($urlparts['path']) && $urlparts['path'] !="/"){
+				$isroot=false;
+			}elseif(!empty($urlparts['query'])){
+				$isroot=false;
+			}
 		}
 		return $isroot;
 	}
@@ -1985,7 +2299,7 @@ class wassupURI {
 	 */
 	static function add_siteurl($inputurl){
 		if(preg_match('/^https?\:/',$inputurl)===false){
-			if(function_exists('get_site_url')){
+			if(function_exists('get_site_url')){ //WP 3.0+
 				$outputurl=get_site_url($inputurl);
 			}else{
 				$siteurl=rtrim(self::get_sitehome(),"/");
@@ -1994,77 +2308,139 @@ class wassupURI {
 				elseif(stristr($inputurl,$siteurl)===FALSE && self::is_root_url($siteurl))$outputurl=$siteurl."/".ltrim($inputurl,"/");
 				else $outputurl=$inputurl;
 				$outputurl=rawurldecode(html_entity_decode($outputurl)); //dangerous
-				$outputurl=self::cleanURL($outputurl);	//safe
 			}
-			return $outputurl;
+			return self::cleanURL($outputurl);
 		}else{
-			return $inputurl;
+			return self::cleanURL($inputurl); //security fix
 		}
 	}
 	/** Return the url and "path" for wordpress site's "home". */
 	static function get_sitehome(){
-		$sitehome=get_option('siteurl');
 		if(is_multisite() && is_network_admin()){
 			$sitehome=network_home_url();
-		}elseif(empty($sitehome)){
-			$sitehome=get_option('home');
+		}else{
+			$sitehome=get_option('siteurl');
 		}
+		if(empty($sitehome)) $sitehome=get_option('home');
 		return $sitehome;
-	} //end get_homeurl
+	} //end get_sitehome
 
 	//** Return the url and "path" for wordpress admin. */
 	static function get_wphome(){
-		$wphome=admin_url();
 		if(is_multisite() && is_network_admin()){
 			$wphome=network_admin_url();
-		}elseif(empty($wphome)){
-			$wphome=get_option('wpurl');
+		}else{
+			$wphome=admin_url();
 		}
+		if(empty($wphome)) $wphome=get_option('wpurl');
 		return $wphome;
 	} //end get_wphome
 
-	/** Return a request url or a text string if url is malware/hack attempt or 404. @since v1.9 */
+	/** Return the "domain" part of a url/this site @since v1.9.4 */
+	static function get_urldomain($urlparam=""){
+		$domain=false;
+		$url=array();
+		//default param is this site's url
+		if(empty($urlparam)) $urlparam=self::get_sitehome();
+		if(strpos($urlparam,'//')!==false) $url=parse_url($urlparam);
+		if(!empty($url['host'])){
+			$domain=preg_replace('/^(w{2,3}\d?\.)/','',$url['host']);
+		}elseif(preg_match('#(?://|ww[0-9w]\.|^)([^?.\# %/=&]+\.(?:[^?\# %/=&]+))(?:[?\# /]|$)#',$urlparam,$pcs)>0){
+			$domain=preg_replace('/^(w{2,3}\d?\.)/','',$pcs[1]);
+		}
+		return $domain;
+	}
+	/**
+	 * Return request url in a link tag or span tag if it is suspicious or 404.
+	 *   Security Note: returned href, tooltip, and tag contents are escaped within 'add_siteurl' or 'disarm_attack methods, or by 'stringShortener' function
+	 *
+	 * @param string, integer, integer
+	 * @return string (html)
+	 * @since v1.9
+	 */
 	static function url_link($urlrequested,$chars=0,$spam=0){
 		global $wassup_options;
 		$urllink=false;
-		if(empty($chars)|| !is_numeric($chars))$chars=(int)$wassup_options->wassup_screen_res/10;
+		if($chars===false){	//no string shortening
+			$chars=0;
+		}elseif(empty($chars) || !is_numeric($chars)){
+			$chars=(int)$wassup_options->wassup_screen_res/10;
+		}
 		$request=strtolower($urlrequested);
-		if(strlen($request)>60)$tooltip=' title="'.self::disarm_attack($request).'" ';
+		if(strlen($request)>60) $tooltip=' title="'.self::cleanURL($request).'" ';
 		else $tooltip="";
-		//no link for spam or 404 or wordpress admin
-		if(preg_match('/^(\[|\%5B)\d{3}(\]|\%5D)/',$urlrequested)>0 || !empty($spam)) $urllink="<span{$tooltip}>".stringShortener("$urlrequested",round($chars*.9,0))."</span>";
-		else $urllink='<a href="'.self::add_siteurl("$urlrequested").'" target="_BLANK">'.stringShortener("$urlrequested",$chars).'</a>';
+		if($chars >0) $cleaned_uri=stringShortener("$urlrequested",round($chars*.9,0));
+		else $cleaned_uri=self::cleanURL("$urlrequested");
+		//no link for spam, 404, wp-admin, wp-login or any possible unidentified spam @since v1.9.1
+		if(!empty($spam) || self::is_xss($urlrequested)){
+			$urllink='<span class="malware"'.$tooltip.'>'.$cleaned_uri.'</span>';
+		}elseif(preg_match('/\/wp\-(?:admin|content|includes)\/|\/wp\-login\.php|^\[[0-9]{3}\]/',$urlrequested)>0){
+			$urllink='<span'.$tooltip.'>'.$cleaned_uri.'</span>';
+		}else{
+			$urllink='<a href="'.self::add_siteurl($request).'" target="_BLANK">'.$cleaned_uri.'</a>';
+		}
 		return $urllink;
 	}
 	/** Return an external referrer link or a text string if link is internal, or is spam or 404.  @since v1.9 */
-	static function referrer_link($referer,$requesturl,$chars=0,$spam=0){
+	static function referrer_link($wrec,$chars=0){
 		global $wassup_options;
+		if(empty($wrec) || !is_object($wrec) || empty($wrec->referrer)){
+			return false; //nothing to do
+		}
+		if($chars===false){	//no string shortening
+			$chars=0;
+		}elseif(empty($chars) || !is_numeric($chars)){
+			$chars=(int)($wassup_options->wassup_screen_res/10);
+		}
 		$referrerlink=false;
+		$referer="";
+		$spam=0;
+		if(!empty($wrec->referrer)) $referer=$wrec->referrer;
+		if(!empty($wrec->malware_type)) $spam=$wrec->malware_type;
 		if(!empty($referer)){
 			$wpurl=self::get_wphome();
 			$siteurl=self::get_sitehome();
 			$adminurl=admin_url("");
-			if(empty($chars)|| !is_numeric($chars))$chars=(int)($wassup_options->wassup_screen_res/10);
 			$tooltip="";
 			$ref=strtolower($referer);
-			if(strlen($ref)>60)$tooltip=' title="'.self::disarm_attack($ref).'" ';
-			if($spam==0 && stristr($referer,$adminurl)!=$referer && stristr($ref,$siteurl)!=$referer){
-				$favicon_img="";
-				$rurl=parse_url($referer);
-				if(!empty($rurl['host']) && preg_match('/\.[a-z]{2,4}$/',$rurl['host'])>0) $favicon_img='<img src="http://www.google.com/s2/favicons?domain='.$rurl['host'].'" class="favicon"> ';
-				//no link for spam
-				if(strpos($ref,'http')===false || strpos($ref,'http')>0) $referrerlink=$favicon_img."<span{$tooltip}>".stringShortener($referer,round($chars*.9,0))."</span>";
-				else $referrerlink=$favicon_img.'<a href="'.self::disarm_attack($referer).'" target=_"BLANK"'.$tooltip.'>'.stringShortener($referer,round($chars*.9,0)).'</a>';
-			}elseif($spam >0){
-				//no link for spam
-				$referrerlink="<span{$tooltip}>".stringShortener("$referer",round($chars*.9,0))."</span>";
-			}elseif(!empty($requesturl) && $ref == self::add_siteurl($requesturl)){
-				//when request and referrer are same, this is disguised direct hit
-				$referrerlink='<span>'.__("direct hit","wassup").'</span>';
-			}elseif(strpos($ref,'/wp-includes/')>0 || strpos($ref,'/wp-content/')>0){
-				$referrerlink='<a href="'.self::disarm_attack($referer).'" target=_"BLANK"'.$tooltip.'>'.stringShortener($referer,round($chars*.9,0)).'</a>';
+			if(strlen($ref)>60) $tooltip=' title="'.self::cleanURL($ref).'" ';
+			if($chars >0) $cleaned_uri=stringShortener("$referer",round($chars*.9,0));	//v1.9.4 bugfix
+			else $cleaned_uri=self::cleanURL("$referer");
+			//referrer from site or site-admin
+			if(stristr($referer,$wpurl)==$referer || stristr($referer,$siteurl)==$referer){
+				//direct hit when referrer == request
+				if(!empty($wrec->urlrequested) && ($ref == $siteurl.$wrec->urlrequested || $ref == rtrim($siteurl.$wrec->urlrequested,'/'))){
+					$referrerlink='<span>'.__("direct hit","wassup").'</span>';
+				}elseif($spam==2 || self::is_xss($ref)){
+					//show spam referrers w/o link
+					$referrerlink='<span class="malware"'.$tooltip.'>'.$cleaned_uri.'</span>';
+				}elseif($spam >0){
+					$referrerlink='<span'.$tooltip.'>'.$cleaned_uri.'</span>';
+				}elseif(is_user_logged_in()){
+					//show 'wp-login', 'wp-includes', and 'wp-content' referrers to logged-in users
+					if(strpos($ref,'wp-login.php')>0 || strpos($ref,'/wp-includes/')>0 || strpos($ref,'/wp-content/')>0){
+						$referrerlink='<a href="'.self::cleanURL($referer).'" target=_"BLANK"'.$tooltip.'>'.$cleaned_uri.'</a>';
+					}else{
+						$referrerlink="<span{$tooltip}>".__("from your site","wassup")."</span>";
+					}
+				}else{
+					$referrerlink="<span{$tooltip}>".__("from your site","wassup")."</span>";
+				}
+			//external referrer
 			}else{
-				$referrerlink="<span{$tooltip}>".__("from your site","wassup")."</span>";
+				$favicon_img="";
+				//no link for spam or wp-admin
+				if($spam==2 || self::is_xss($ref)){
+					$referrerlink='<span class="malware"'.$tooltip.'>'.$cleaned_uri.'</span>';
+				}elseif($spam >0 || strpos($ref,'http')===false || strpos($ref,'http')>0 || preg_match('/\/wp\-(?:admin|content|includes)\/|\/wp\-login\.php/i',$ref)>0){
+					$referrerlink='<span'.$tooltip.'>'.$cleaned_uri.'</span>';
+				}else{
+					$rurl=parse_url($referer);
+					if(!empty($rurl['host']) && preg_match('/\.[a-z]{2,4}$/',$rurl['host'])>0){
+						$favicon_img='<img src="http://www.google.com/s2/favicons?domain='.$rurl['host'].'" class="favicon"> ';
+					}
+					$referrerlink=$favicon_img.'<a href="'.self::cleanURL($referer).'" target=_"BLANK"'.$tooltip.'>'.$cleaned_uri.'</a>';
+				}
 			}
 		}else{
 			$referrerlink='<span>'.__("direct hit","wassup").'</span>';
@@ -2073,49 +2449,83 @@ class wassupURI {
 	} //end referrer_link
 
 	/** Return a referrer link for search engines. @since v1.9 */
-	static function se_link($referer,$chars=0,$spam=0){
+	static function se_link($wrec,$chars=0,$keywords=""){
 		global $wassup_options;
-		if(empty($chars)|| !is_numeric($chars))$chars=(int)($wassup_options->wassup_screen_res/10);
+		if(empty($wrec) || !is_object($wrec) || empty($wrec->referrer)){ //nothing to do
+			return false;
+		}
+		if($chars===false){	//no string shortening
+			$chars=0;
+		}elseif(empty($chars) || !is_numeric($chars)){
+			$chars=(int)($wassup_options->wassup_screen_res/10);
+		}
 		$selink=false;
+		$referer="";
+		$spam=0;
+		if(!empty($wrec->referrer)) $referer=$wrec->referrer;
+		if(!empty($wrec->malware_type)) $spam=$wrec->malware_type;
 		if(!empty($referer)){
 			$tooltip="";
 			$ref=strtolower($referer);
-			if(strlen($ref)>60)$tooltip=' title="'.self::disarm_attack($referer).'" ';
-			if(empty($spam))$selink='<a href="'.self::disarm_attack($referer).'" target=_"BLANK"'.$tooltip.'><span>'.stringShortener($referer,round($chars*.8,0)).'</span></a>';
-			else $selink="<span{$tooltip}>".stringShortener($referer,round($chars*.8,0))."</span>";
+			if(strlen($ref)>60) $tooltip=' title="'.self::cleanURL($referer).'" ';
+			if(empty($spam) && preg_match('/\/wp\-(?:admin|content|includes)\/|\/wp\-login\.php/i',$ref)==0 && !self::is_xss($ref)){
+				if(!empty($keywords)){
+					$selink='<a href="'.self::cleanURL($referer).'" target=_"BLANK"'.$tooltip.'><span>'.esc_attr($keywords).'</span></a>';
+				}else{
+					if($chars >0) $selink='<a href="'.self::cleanURL($referer).'" target=_"BLANK"'.$tooltip.'><span>'.stringShortener($referer,round($chars*.8,0)).'</span></a>';
+					else $selink='<a href="'.self::cleanURL($referer).'" target=_"BLANK"'.$tooltip.'><span>'.self::cleanURL($referer).'</span></a>';
+				}
+			}
 		}
 		return $selink;
 	}
 
-	/** Remove all ascii codes and replace with '---' in url. Can be used before saving to database */
-	static function neutralize($url){
-		$newurl=wp_kses(preg_replace('/(&#37;|&amp;#37;|%)(?:[01][0-9A-F]|7F)/i','---',$url),array());
-		return $newurl;
+	/** Remove all ascii codes and replace with '---' in url. Can be used before saving to database. @since v1.9 */
+	static function neutralize($urlstring){
+		if(!empty($urlstring) && !is_numeric($urlstring)){
+			$cleaned=wp_kses(preg_replace('/(&#0*37;|&amp;#0*37;|&#0*38;#0*37;|%)([01][0-9A-F]|7F)/i','---',$urlstring),array());
+		}else{
+			$cleaned=$urlstring;
+		}
+		return $cleaned;
+	}
+	/** returns true if a string(url) contains possible xss code. @since v1.9.1 */
+	static function is_xss($string){
+		$isxss=false;
+		if(!empty($string)){
+			if(preg_match('/(?:<|%3c|&lt;?|&#0*60;?|&#x0*3c;?)(\?|java|(?:vb?|j)?script|img\s+(?:style|dynsrc|lowsrc|src))|[^1-9abd-z\-_.](?:href|(?:img)?src)\s*[=\\%&]|[^1-9abd-z](on[a-fhiklmopr-u][a-z]+|mouse[a-z]+|fscommand|seeksegmenttime)\s*[=\\%&]|[^1-9abd-z\-_.]javascript\:|data\:\s*(?:text|image)\/[^;]+;|[\?@]import[^1-9a-z.\-_]|document\.(?:location|cookie|write(?:ln)?)[^0-9a-z\-_]|(exec\scmd|applet\scode|object\sdata)\s*[=\\&%]|\.(?:tostring|fromcharcode)[\(\\%&]|style\s*[=\\%&>][^:]+\:\s*url\s*\(|[&;]{|(?:&quot;|["\'`]|;)\s*[;<>]|\)\s*[;\'"\\%&`<>]|(?:&#x?[0-9]+|[\'";`])\s*(?:>|&gt;?|&#0*62)|(?:script|[\?;])(?:>|&gt;?|&#0*62)|\\\\x3c|\\\\u003c/i',$string)>0){
+				$isxss=true;
+			}
+		}
+		return $isxss;
 	}
 	/**
-	 * Return a url with some chars replaced with safer html-encoded versions and ascii codes removed.
+	 * Return a string with some chars replaced with safer html-encoded versions and with ascii codes removed.
 	 *  - for displaying questionable data in requesturl, referrer and user agent.
 	 * @since v1.9
 	 */
-	static function disarm_attack($url=false){
-		if(!empty($url)&& !is_numeric($url)){
-			$newurl=str_replace(array(' ','!','$','"','&&','\'','(',')','*',',','.','<','=','>','?','\\','^','`','{','|','~'),array('&#32;','&#33;','&#36;','&#34;','&#38;&#38;','&#39;','&#40;','&#41;','&#42;','&#44;','&#46;','&#60;','&#61;','&#62;','&#63;','&#92;','&#94;','&#96;','&#123;','&#124;','&#126;'),htmlentities(stripslashes(html_entity_decode(preg_replace('/(&#37;|&amp;#37;|%)(?:[01][0-9A-F]|7F)/i','---',$url)))));
+	static function disarm_attack($urlstring=false){
+		if(!empty($urlstring) && !is_numeric($urlstring)){
+			$cleaned=str_replace(array(' ','!','$','"','&&','\'','(',')','*',',','-->','<','>','\\','^','`','{','|','~'),array('&#032;','&#033;','&#036;','&quot;','&amp;&amp;','&#039;','&#040;','&#041;','&#042;','&#044;','&#045;&#045;&gt;','&lt;','&gt;','&#092;','&#094;','&#096;','&#123;','&#124;','&#126;'),htmlentities(stripslashes(html_entity_decode(preg_replace('/(&#0*37;|&amp;#0*37;|&#0*38;#0*37;|%)([01][0-9A-F]|7F)/i','---',$urlstring)))));
 		}else{
-			$newurl=$url;
+			$cleaned=$urlstring;
 		}
-		return $newurl;
+		return $cleaned;
 	}
-	/** Return a url that is sanitized of all potentially dangerous code. */
+	/** Return a url that is sanitized of potentially dangerous code. */
 	static function cleanURL($url=""){
-		if(!empty($url)&& !is_numeric($url)){
-			$loc=self::disarm_attack($url);
-			$allowed=array('http','https','ftp','ftps','mailto','news','irc','gopher','nntp','feed','telnet','mms','rtsp','svn','tel','fax','xmpp','webcal');
-			$loc=wp_kses_bad_protocol($loc,$allowed);
-			$cleaned_url=preg_replace(array('/([^a-df-wyz])\-/i','/\-([^a-df-wyz])/i','#\:([^/]{2})#','/([^0-9]{2,3})\;/','/([^&])#/'),array('\1&#45;','&#45;\1','&#58;\1','\1&#59;','\1&#35;'),esc_attr($loc));
+		if(!empty($url) && !is_numeric($url)){
+			//don't use 'esc_url' on query string because 'esc_url' will prefix it with a 'http://'
+			if(preg_match('#^(/|\?|http)#',$url)>0){
+				$cleaned=str_replace(array('&#038;','&#38;','&amp;'),'&',esc_url(self::disarm_attack($url)));
+			}else{
+				$allowed=array('http','https','ftp','ftps','mailto','news','irc','gopher','nntp','feed','telnet','mms','rtsp','svn','tel','fax','xmpp','webcal');
+				$cleaned=wp_kses_bad_protocol(self::disarm_attack($url),$allowed);
+			}
 		}else{
-			$cleaned_url=$url;
+			$cleaned=$url;
 		}
-		return $cleaned_url;
+		return $cleaned;
 	} //end cleanURL
 
 	/**
@@ -2124,17 +2534,25 @@ class wassupURI {
 	 * @return string
 	 */
 	static function get_menu_arg(){
-		$menuarg=false;
-		if(isset($_GET['page'])) $menuarg=$_GET['page'];
+		$menuarg="wassup";
+		if(isset($_GET['page'])) $menuarg=htmlspecialchars($_GET['page']);
 		if(stristr($menuarg,"wassup")!==false){
-			$wassupfolder=basename(WASSUPDIR);
-			if($menuarg=="wassup-stats"){
-				if(!empty($_GET['ml'])) $menuarg=$_GET['ml'];
-				else $menuarg="wassup";
-			}elseif($menuarg=="wassup-spia"){
-				$menuarg="wassup-spy";
-			}elseif($menuarg==$wassupfolder){
-				$menuarg="wassup";
+			if(isset($_GET['ml'])){
+				$menuarg=htmlspecialchars($_GET['ml']);
+			}else{
+				$wassupfolder=basename(WASSUPDIR);
+				if($menuarg=="wassup-stats"){
+					$menuarg="wassup";
+				}elseif($menuarg=="wassup-spia"){
+					$menuarg="wassup-spy";
+				}elseif($menuarg==$wassupfolder){
+					$menuarg="wassup";
+				}elseif($menuarg=="wassup-options"){
+					if(isset($_GET['tab'])){
+						if($_GET['tab']=="donate") $menuarg="wassup-donate";
+						elseif($_GET['tab']=="faq") $menuarg="wassup-faq";
+					}
+				}
 			}
 		}
 		return $menuarg;
@@ -2146,6 +2564,7 @@ class wassupURI {
 		if(version_compare($wp_version,'2.8','>=') || $action=="-1"){
 			$is_valid_referer=check_admin_referer($action);
 		}elseif(is_admin() && !empty($_SERVER['HTTP_REFERER'])){
+			//old 'check_admin_referer' echoes output
 			if(isset($_REQUEST['_wpnonce']) && wp_verify_nonce($_REQUEST['_wpnonce'],$action)){
 				if(isset($_REQUEST['_wp_http_referer'])){
 					if(strpos($_SERVER['HTTP_REFERER'],$_REQUEST['_wp_http_referer'])!==false) $is_valid_referer=true;
@@ -2157,6 +2576,198 @@ class wassupURI {
 		}
 		return $is_valid_referer;
 	}
+	/** Return network or admin url for a wassup link. @since v1.9.1 */
+	static function get_admin_url($link_part){
+		$url="";
+		if(!empty($link_part)){
+			if(is_multisite() && is_network_admin()) $url=network_admin_url($link_part);
+			else $url=admin_url($link_part);
+		}
+		return($url);
+	}
+	/** Return a url appropriate for Wassup ajax actions. @since v1.9.1 */
+	static function get_ajax_url($action=""){
+		global $wp_version;
+		$ajaxurl=self::get_admin_url('admin-ajax.php');
+		if(version_compare($wp_version,'2.7','<')){
+			$wassupfolder=basename(WASSUPDIR);
+			$ajaxurl=admin_url('admin.php?page='.$wassupfolder);
+		}elseif(version_compare($wp_version,'3.0','<')){
+			$ajaxurl=admin_url('index.php?page=wassup-stats');
+		}elseif($action=="Topstats"){
+			$ajaxurl=self::get_admin_url('index.php?page=wassup-stats');
+		}elseif($action=="Export"){
+			$ajaxurl=self::get_admin_url('index.php?page=wassup-options&tab=3');
+		}
+		return $ajaxurl;
+	}
 } //end Class wassupURI
+} //end if !class_exists
+
+if(!class_exists('wassupIP')){
+/**
+ * class containing methods to detect and display ip addresses and doains on the internet.
+ * @since v1.9.4
+ * @author helened <http://helenesit.com>
+ */
+class wassupIP {
+	/** Return a single ip (the client IP) from a comma-separated IP address with no ip validation. @since v1.9 */
+	static function clientIP($ipAddress){
+		$IP=false;
+		if(!empty($ipAddress)){
+			$ip_proxy=strpos($ipAddress,",");
+			//if proxy, get 2nd ip...
+			if($ip_proxy!==false){
+				$IP=substr($ipAddress,(int)$ip_proxy+1);
+			}else{
+				$IP=$ipAddress;
+			}
+		}
+		return $IP;
+	}
+
+	/** return 1st valid IP address in a comma-separated list of IP addresses -Helene D. 2009-03-01 */
+	static function validIP($multiIP) {
+		//in case of multiple forwarding
+		$ips=explode(",",$multiIP);
+		$goodIP=false;
+		//look through forwarded list for a good IP
+		foreach ($ips as $ipa) {
+			$IP=trim(strtolower($ipa));
+			//exclude badly formatted ip's @since v1.9.3
+			if(!empty($IP)){
+				//exclude dummy IPv4 addresses
+				if(preg_match('/^([0-9]{1,3}\.){3}[0-9]{1,3}$/',$IP)>0){
+					if($IP!="0.0.0.0" && $IP!="127.0.0.1" && substr($IP,0,8)!="192.168." && substr($IP,0,3)!="10." && substr($IP,0,4)!="172." && substr($IP,0,7)!='192.18.' && substr($IP,0,4)!='255.' && substr($IP,-4)!='.255'){
+						$goodIP=$IP;
+					}elseif(substr($IP,0,4)=="172." && preg_match('/172\.(1[6-9]|2[0-9]|3[0-1])\./',$IP)===false){
+						$goodIP=$IP;
+					}
+				//exclude dummy IPv6 addresses 
+				}elseif(preg_match('/^(?:((?:[0-9a-f]{1,4}\:){1,}(?:\:?[0-9a-f]{1,4}){1,})|(\:\:(?:[0-9a-f]{1,4})?))$/i',$IP)>0){
+					$ipv6=str_replace("0000","0",$IP);
+					if($ipv6!='::' && $ipv6!='0:0:0:0:0:0:0:0' && $ipv6!='::1' && $ipv6!='0:0:0:0:0:0:0:1' && substr($ipv6,0,2)!='fd' && substr($ipv6,0,5)!='ff01:' && substr($ipv6,0,5)!='ff02:' && substr($ipv6,0,5)!='2001:'){
+						$goodIP=$IP;
+					}
+				}
+				if(!empty($goodIP)) break;
+			}
+		} //end foreach
+		return $goodIP;
+	} //end function validIP
+	/**
+	 * return a validated ip address from http header
+	 * @since v1.9
+	 * @param string
+	 * @return string
+	 */
+	static function get_clientAddr($ipAddress=""){
+		$proxy="";
+		$hostname="";
+		$IP="";
+		//Get the visitor IP from Http_header
+		if(empty($ipAddress)){
+			$ipAddress=(isset($_SERVER['REMOTE_ADDR'])?$_SERVER['REMOTE_ADDR']:"");
+		}
+		$IPlist=$ipAddress;
+		$proxylist=$ipAddress;
+		$serverAddr=(isset($_SERVER['SERVER_ADDR'])?$_SERVER['SERVER_ADDR']:"");
+		//for computers behind proxy servers:
+		//if(!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) $serverAddr=$_SERVER['HTTP_X_FORWARDED_HOST'];
+		//elseif(!empty($_SERVER['HTTP_X_FORWARDED_SERVER'])) $serverAddr=$_SERVER['HTTP_X_FORWARDED_SERVER'];
+		//
+		//check that the client IP is not equal to the host server IP
+		if(isset($_SERVER['HTTP_CLIENT_IP']) && $serverAddr!=$_SERVER['HTTP_CLIENT_IP'] && $ipAddress!=$_SERVER['HTTP_CLIENT_IP']){
+			if(strpos($proxylist,$_SERVER["HTTP_CLIENT_IP"])===false){
+				$IPlist=$_SERVER['HTTP_CLIENT_IP'].",".$proxylist;
+				$proxylist=$IPlist;
+			}
+			$ipAddress=$_SERVER['HTTP_CLIENT_IP'];
+		}
+		if(isset($_SERVER['HTTP_X_REAL_IP']) && $serverAddr!=$_SERVER['HTTP_X_REAL_IP'] && $ipAddress!=$_SERVER['HTTP_X_REAL_IP']){
+			if(strpos($proxylist,$_SERVER["HTTP_X_REAL_IP"])===false){
+				$IPlist=$_SERVER['HTTP_X_REAL_IP'].",".$proxylist;
+				$proxylist=$IPlist;
+			}
+			$ipAddress=$_SERVER['HTTP_X_REAL_IP'];
+		}
+		//check for IP addresses from Cloudflare CDN-hosted sites
+		if(isset($_SERVER['HTTP_CF_CONNECTING_IP']) && $serverAddr!=$_SERVER['HTTP_CF_CONNECTING_IP'] && $ipAddress!=$_SERVER['HTTP_CF_CONNECTING_IP']){
+			if(strpos($proxylist,$_SERVER["HTTP_CF_CONNECTING_IP"])===false){
+				$IPlist=$_SERVER['HTTP_CF_CONNECTING_IP'].",".$proxylist;
+				$proxylist=$IPlist;
+			}
+			$ipAddress=$_SERVER['HTTP_CF_CONNECTING_IP'];
+		}
+		//check for proxy addresses
+		if(!empty($_SERVER["HTTP_X_FORWARDED_FOR"]) && $serverAddr!=$_SERVER['HTTP_X_FORWARDED_FOR'] && $ipAddress!=$_SERVER['HTTP_X_FORWARDED_FOR']){
+			if(strpos($proxylist,$_SERVER['HTTP_X_FORWARDED_FOR'])===false){
+				$IPlist=$_SERVER['HTTP_X_FORWARDED_FOR'].",".$proxylist;
+				$proxylist=$IPlist;
+			}
+			$ipAddress=$_SERVER['HTTP_X_FORWARDED_FOR'];
+		}
+		if(!empty($_SERVER["HTTP_X_FORWARDED"]) && $serverAddr!=$_SERVER["HTTP_X_FORWARDED"] && $ipAddress!=$_SERVER['HTTP_X_FORWARDED']){
+			if(strpos($proxylist,$_SERVER['HTTP_X_FORWARDED'])===false){
+				$IPlist=$_SERVER['HTTP_X_FORWARDED'].",".$proxylist;
+				$proxylist=$IPlist;
+			}
+			$ipAddress=$_SERVER['HTTP_X_FORWARDED'];
+		}
+		//try get valid IP
+		$IP = self::validIP($ipAddress);
+		if(empty($IP) && $ipAddress!=$proxylist){
+			$proxylist=preg_replace('/(^|[^0-9\.])'.preg_quote($ipAddress).'($|[^0-9\.])/','',$IPlist);
+			$IP=self::validIP($proxylist);
+		}
+		if(!empty($IP)){
+			$p=strpos($IPlist,$IP)+strlen($IP)+1;
+			if($p < strlen($IPlist)) $proxylist=substr($IPlist,$p);
+			else $proxylist="";
+		}
+		//check client hostname for known proxy gateways
+		if(!empty($IP)){
+			$hostname=self::get_hostname($IP);
+			if(preg_match('/(cloudflare\.|cache|gateway|proxy|unknown$|localhost$|\.local(?:domain)?$)/',$hostname)>0){
+				$ip1=$IP;
+				if(!empty($proxylist)) $IP=self::validIP($proxylist);
+				if(!empty($IP)){
+					$p=strpos($IPlist,$IP)+strlen($IP)+1;
+					if($p < strlen($IPlist)) $proxylist=substr($IPlist,$p);
+					else $proxylist="";
+				}else{
+					$IP=$ip1;
+				}
+			}
+			if(!empty($proxylist)) $proxy=self::validIP($proxylist);
+			if(!empty($proxy)) $ipAddress=$proxy.','.$IP;
+			else $ipAddress=$IP;
+		}
+		return $ipAddress;
+	} //end get_clientAddr
+
+	/** lookup the hostname from an ip address via cache or via gethostbyaddr command @since v1.9 */
+	static function get_hostname($IP=""){
+		if(empty($IP)) $IP=self::clientIP($_SERVER['REMOTE_ADDR']);
+		//first check for cached hostname
+		$hostname=wassupDb::get_wassupmeta($IP,'hostname');
+		if(empty($hostname)){
+			if($IP=="127.0.0.1" || $IP=='::1' || $IP=='0:0:0:0:0:0:0:1'){
+				$hostname="localhost";
+			}elseif($IP=="0.0.0.0" || $IP=='::' || $IP=='0:0:0:0:0:0:0:0'){
+				$hostname="unknown";
+			}else{
+				$hostname=@gethostbyaddr($IP);
+				if(!empty($hostname) && $hostname!=$IP && $hostname!="localhost" && $hostname!="unknown"){
+					$meta_key='hostname';
+					$meta_value=$hostname;
+					$expire=time()+48*3600; //cache for 2 days
+					$cache_id=wassupDb::update_wassupmeta($IP,$meta_key,$meta_value,$expire);
+				}
+			}
+		}
+		return $hostname;
+	} //end get_hostname
+} //end Class
 } //end if !class_exists
 ?>

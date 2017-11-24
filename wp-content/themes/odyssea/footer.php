@@ -25,7 +25,7 @@ if (function_exists('dynamic_sidebar')) {
 	echo preg_replace("/(\/a>)[ |\t|\n|\r|\w]*(<a )/","$1, $2",strip_tags(wp_list_pages("meta_key=footer&meta_value=1&title_li=&hierarchical=0&echo=0"),"<a>"))?>
 <?php wp_footer(); ?><!-- <?php echo get_num_queries(); ?> požadavků. <?php timer_stop(1); ?> vteřin. -->
 
-	(c) Čekatelský lesní kurz Odyssea 2005 - 2016, Junák – český skaut, z. s. 
+	(c) Čekatelský lesní kurz Odyssea 2005 - <?php echo(date("Y")) ?>, Junák – český skaut, z. s. 
 </div>
 </div>
 </div>
