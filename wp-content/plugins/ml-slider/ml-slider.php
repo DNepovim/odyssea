@@ -5,7 +5,7 @@
  * Plugin Name: MetaSlider
  * Plugin URI:  https://www.metaslider.com
  * Description: Easy to use slideshow plugin. Create SEO optimised responsive slideshows with Nivo Slider, Flex Slider, Coin Slider and Responsive Slides.
- * Version:     3.6.5
+ * Version:     3.6.6
  * Author:      Team Updraft
  * Author URI:  https://www.metaslider.com
  * License:     GPL-2.0+
@@ -31,7 +31,7 @@ class MetaSliderPlugin {
     /**
      * @var string
      */
-    public $version = '3.6.5';
+    public $version = '3.6.6';
 
     /**
      * @var string The lowest tier price for upgrades
@@ -1872,8 +1872,8 @@ class MetaSliderPlugin {
      */
     public function upgrade_to_pro_iframe() {
 
-        wp_enqueue_style( 'metaslider-admin-styles', METASLIDER_ADMIN_URL . 'assets/css/admin.css', false, METASLIDER_VERSION );
-        wp_enqueue_script( 'google-font-api', 'http://fonts.googleapis.com/css?family=PT+Sans:400,700' );
+        wp_enqueue_style('metaslider-admin-styles', METASLIDER_ADMIN_URL . 'assets/css/admin.css', false, METASLIDER_VERSION);
+        wp_enqueue_script('google-font-api', 'https://fonts.googleapis.com/css?family=PT+Sans:400,700' , false, METASLIDER_VERSION);
 
         $link = apply_filters( 'metaslider_hoplink', 'https://www.metaslider.com/upgrade/' );
         $link .= '?utm_source=lite&amp;utm_medium=more-slide-types&amp;utm_campaign=pro';

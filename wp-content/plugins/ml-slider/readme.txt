@@ -3,7 +3,7 @@ Contributors: matchalabs, DavidAnderson, dnutbourne, kbat82
 Tags: wordpress slideshow,seo,slideshow,slider,widget,wordpress slider,image slider,flexslider,flex slider,nivoslider,nivo slider,responsive,responsive slides,coinslider,coin slider,slideshow,carousel,responsive slider,vertical slides
 Donate link: https://david.dw-perspective.org.uk/donate
 Requires at least: 3.5
-Stable tag: 3.6.5
+Stable tag: 3.6.6
 Tested up to: 4.9
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -150,6 +150,11 @@ See https://www.metaslider.com/documentation/image-cropping/
 6. Administration panel - selecting slides
 
 == Changelog ==
+
+= 3.6.6 - 2017/Nov/23 =
+
+* FIX: Fixes FlexSlider bug when resizing slider.
+* FIX: Updates layout on post feed slides.
 
 = 3.6.5 - 2017/Nov/20 =
 
@@ -610,4 +615,4 @@ More info/Comments: http://www.metaslider.com/coming-soon-meta-slider-2-6-free/
 * Initial version
 
 == Upgrade Notice ==
-* 3.6.5 : 3.6 series has three new features, three fixes, various smaller tweaks. A recommended update for all. If you have the paid add-on pack, update that to version 2.7.1 or later at the same time.
+* 3.6.6 : 3.6 series has three new features, three fixes, various smaller tweaks. A recommended update for all. If you have the paid add-on pack, update that to version 2.7.1 or later at the same time.

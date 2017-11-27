@@ -31,6 +31,11 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
         // To avoid showing the user ads off the start, lets wait
         $this->notices_content = ($this->ad_delay_has_finished()) ? $this->ads : array();
         $this->plugin = $plugin;
+
+        // If $notices_content is empty, we still want to offer seasonal ads
+        if (empty($this->notices_content) && !$this->is_metasliderpro_installed()) {
+            $this->notices_content = $this->valid_seasonal_notices();
+        }
         
         add_action('admin_enqueue_scripts', array($this, 'add_notice_assets'));
         add_action('wp_ajax_notice_handler', array($this, 'ajax_notice_handler'));
@@ -175,72 +180,71 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
     }
     
 	/**
-	 * Seasonal Notices. Note that if dismissed, they will stay dismissed for two weeks
-     * which is the default for any notice. Since the parent class forces these,
-     * there's no need to edit the key/dismiss_time 
+	 * Seasonal Notices. Note that if dismissed, they will stay dismissed for 9999 weeks
+     * Each year the key and dismiss time should be updated
 	 * @return string
 	 */
     protected function seasonal_notices() {
         return array(
-			'blackfriday' => array(
+			'blackfriday2017' => array(
 				'title' => __('Black Friday - 50% off the MetaSlider Add-on Pack until November 30th', 'ml-slider'),
 				'text' => __('To benefit, use this discount code:', 'ml-slider').' ',
 				'image' => 'seasonal/black_friday.png',
 				'button_link' => apply_filters('metaslider_hoplink', 'https://www.metaslider.com/upgrade') . '?utm_source=metaslider-plugin-page&utm_medium=banner',
 				'button_meta' => 'ml-slider',
-				'dismiss_time' => 'blackfriday',
+				'dismiss_time' => 'blackfriday2017',
 				'discount_code' => 'blackfriday2017sale',
 				'valid_from' => '2017-11-20 00:00:00',
                 'valid_to' => '2017-11-30 23:59:59',
                 'hide_time' => __('until next year', 'ml-slider'),
 				'supported_positions' => array('header', 'dashboard'),
 			),
-			'christmas' => array(
+			'christmas2017' => array(
 				'title' => __('Christmas sale - 50% off the MetaSlider Add-on Pack until December 25th', 'ml-slider'),
 				'text' => __('To benefit, use this discount code:', 'ml-slider').' ',
 				'image' => 'seasonal/christmas.png',
 				'button_link' => apply_filters('metaslider_hoplink', 'https://www.metaslider.com/upgrade') . '?utm_source=metaslider-plugin-page&utm_medium=banner',
 				'button_meta' => 'ml-slider',
-				'dismiss_time' => 'christmas',
+				'dismiss_time' => 'christmas2017',
 				'discount_code' => 'christmas2017sale',
 				'valid_from' => '2017-12-01 00:00:00',
 				'valid_to' => '2017-12-25 23:59:59',
                 'hide_time' => __('until next year', 'ml-slider'),
 				'supported_positions' => array('header', 'dashboard'),
 			),
-			'newyear' => array(
+			'newyear2018' => array(
 				'title' => __('Happy New Year - 50% off the MetaSlider Add-on Pack until January 1st', 'ml-slider'),
 				'text' => __('To benefit, use this discount code:', 'ml-slider').' ',
 				'image' => 'seasonal/new_year.png',
 				'button_link' => apply_filters('metaslider_hoplink', 'https://www.metaslider.com/upgrade') . '?utm_source=metaslider-plugin-page&utm_medium=banner',
 				'button_meta' => 'ml-slider',
-				'dismiss_time' => 'newyear',
+				'dismiss_time' => 'newyear2018',
 				'discount_code' => 'newyear2018sale',
 				'valid_from' => '2017-12-26 00:00:00',
 				'valid_to' => '2018-01-14 23:59:59',
                 'hide_time' => __('until next year', 'ml-slider'),
 				'supported_positions' => array('header', 'dashboard'),
 			),
-			'spring' => array(
+			'spring2018' => array(
 				'title' => __('Spring sale - 50% off the MetaSlider Add-on Pack until April 31st', 'ml-slider'),
 				'text' => __('To benefit, use this discount code:', 'ml-slider').' ',
 				'image' => 'seasonal/spring.png',
 				'button_link' => apply_filters('metaslider_hoplink', 'https://www.metaslider.com/upgrade') . '?utm_source=metaslider-plugin-page&utm_medium=banner',
 				'button_meta' => 'ml-slider',
-				'dismiss_time' => 'spring',
+				'dismiss_time' => 'spring2018',
 				'discount_code' => 'spring2018sale',
 				'valid_from' => '2018-04-01 00:00:00',
 				'valid_to' => '2018-04-30 23:59:59',
                 'hide_time' => __('until next year', 'ml-slider'),
 				'supported_positions' => array('header', 'dashboard'),
 			),
-			'summer' => array(
+			'summer2018' => array(
 				'title' => __('Summer sale - 50% off the MetaSlider Add-on Pack until July 31st', 'ml-slider'),
 				'text' => __('To benefit, use this discount code:', 'ml-slider').' ',
 				'image' => 'seasonal/summer.png',
 				'button_link' => apply_filters('metaslider_hoplink', 'https://www.metaslider.com/upgrade') . '?utm_source=metaslider-plugin-page&utm_medium=banner',
 				'button_meta' => 'ml-slider',
-				'dismiss_time' => 'summer',
+				'dismiss_time' => 'summer2018',
 				'discount_code' => 'summer2018sale',
 				'valid_from' => '2018-07-01 00:00:00',
 				'valid_to' => '2018-07-31 23:59:59',
@@ -388,7 +392,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 	 * @return array
 	 */
     protected function skip_seasonal_notices($notice_data) {
-        return true;
+        return !$this->check_notice_dismissed($notice_data['dismiss_time']);
     }
 
 	/**

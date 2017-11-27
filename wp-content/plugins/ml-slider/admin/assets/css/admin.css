@@ -859,6 +859,10 @@ textarea:-ms-input-placeholder {
     margin-bottom: 22px;
     padding-top: 31px;
 }
+.metaslider-ui .metaslider-slides-container .slide.post_feed  .scroll{
+    overflow: auto;
+    height: 100px;
+}
 .metaslider-ui .metaslider-slides-container .slide > td {
     padding: 0;
     transition: all .25s ease-in-out;
