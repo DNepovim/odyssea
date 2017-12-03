@@ -17,8 +17,6 @@ wp-content/plugins/hello.php
 node_modules
 
 vendor/
-*OdysseaMailer_client_secret.json*
-*OdysseaMailer_credentials.json*
 
 odyssea.sublime-project
 odyssea.sublime-workspace
