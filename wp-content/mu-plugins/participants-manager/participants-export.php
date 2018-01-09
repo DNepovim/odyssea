@@ -77,12 +77,10 @@ function ptcm_add_data_to_sheet($list, $custom_fields, $participants) {
 	// set head of table
 	$col = 'A';
 	$list->setCellValue($col++ . '1', 'pohlaví');
-	$list->setCellValue($col++ . '1', 'přesdívka');
+	$list->setCellValue($col++ . '1', 'přezdívka');
 	$list->setCellValue($col++ . '1', 'jméno');
 	$list->setCellValue($col++ . '1', 'příjmení');
 	$list->setCellValue($col++ . '1', 'datum narození');
-	$list->setCellValue($col++ . '1', 'výzva');
-	$list->setCellValue($col++ . '1', 'zpráva k výzvě');
 
 	// add custom questions to head of table
 	foreach($custom_fields as $field) {
@@ -100,10 +98,8 @@ function ptcm_add_data_to_sheet($list, $custom_fields, $participants) {
 		$list->setCellValue($col++ . $row , $data[$prefix . 'firstname'][0]);
 		$list->setCellValue($col++ . $row , $data[$prefix . 'surname'][0]);
 		$list->setCellValue($col++ . $row , $data[$prefix . 'birthdate'][0]);
-		$list->setCellValue($col++ . $row , '');
-		$list->setCellValue($col++ . $row , '');
 
-		$fieldIndex = 1;
+		$fieldIndex = 0;
 		foreach($custom_fields as $field) {
 			$list->setCellValue($col++ . $row , $data[$prefix . 'custom_meta_' . sprintf("%02d", $fieldIndex++)][0]);
 		}
